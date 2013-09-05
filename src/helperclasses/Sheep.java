@@ -1,7 +1,7 @@
 package helperclass;
 
 public class Sheep {
-	private int id;
+	private final int id;
 	private String name;
 	private Farmer farmer;
 
