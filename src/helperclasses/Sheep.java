@@ -1,8 +1,14 @@
-package helperclass;
+package helperclasses;
+
+import java.util.ArrayList;
 
 public class Sheep {
 	private final int id;
-	private String name;
+	private boolean alive;
+	private int weight;
+	private String attack;
+	private String birth;
+	private ArrayList<> cordinates;
 	private Farmer farmer;
 
 	public Sheep(int id, String name, Farmer farmer) {
