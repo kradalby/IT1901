@@ -1,41 +1,68 @@
 package org.prosjekt.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
+import java.security.*;
 
 public class Server {
 
-	public int port;
-	public int maxCon;
+	private static int port = 4444, maxConnections = 0;
 
-	public Server(int port, int maxCon) {
-		this.port = port;
-		this.maxCon = maxCon;
-	}
-	
-	public static void main(String args[]) throws IOException {
-		System.out.println("merp derp lager server: ");
-		ServerSocket serverSocket = new ServerSocket(1234);
-		while(true) {
-			Socket socket = serverSocket.accept();
-			OutputStream os = socket.getOutputStream();
-			PrintWriter pw = new PrintWriter(os, true);
-			pw.println("merp?");
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			String str = br.readLine();
-			
-			pw.println("Syre, " + str);
-			pw.close();
-			socket.close();
-			
-			System.out.println("Derp: " + str);
+	// Listen for incoming connections and handle them
+	public static void main(String[] args) {
+		int i = 0;
+
+		try {
+			ServerSocket listener = new ServerSocket(port);
+			Socket server;
+
+			while ((i++ < maxConnections) || (maxConnections == 0)) {
+				//doComms connection;
+
+				server = listener.accept();
+				doComms conn_c = new doComms(server);
+				Thread t = new Thread(conn_c);
+				t.start();
+			}
+		} catch (IOException ioe) {
+			System.out.println("IOException on socket listen: " + ioe);
+			ioe.printStackTrace();
 		}
 	}
-	
+
+}
+
+class doComms implements Runnable {
+	private Socket server;
+	private String line, input;
+
+	doComms(Socket server) {
+		this.server = server;
+	}
+
+	public void run() {
+
+		input = "";
+
+		try {
+			// Get input from the client
+			DataInputStream in = new DataInputStream(server.getInputStream());
+			PrintStream out = new PrintStream(server.getOutputStream());
+
+			while ((line = in.readLine()) != null && !line.equals(".")) {
+				input = input + line;
+				out.println("I got:" + line);
+			}
+
+			// Now write to the client
+
+			System.out.println("Overall message is:" + input);
+			out.println("Overall message is:" + input);
+
+			server.close();
+		} catch (IOException ioe) {
+			System.out.println("IOException on socket listen: " + ioe);
+			ioe.printStackTrace();
+		}
+	}
 }
