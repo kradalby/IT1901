@@ -10,19 +10,20 @@ public class Server {
 
 	// Listen for incoming connections and handle them
 	public static void main(String[] args) {
-		int i = 0;
+		int connectionCounter= 0;
 
 		try {
 			ServerSocket listener = new ServerSocket(port);
 			Socket server;
 
-			while ((i++ < maxConnections) || (maxConnections == 0)) {
-				//doComms connection;
+			while ((connectionCounter++ < maxConnections) || (maxConnections == 0)) {
 
 				server = listener.accept();
 				doComms conn_c = new doComms(server);
 				Thread t = new Thread(conn_c);
 				t.start();
+				System.out.println("new connection started " + connectionCounter);
+				System.out.println(t.getState());
 			}
 		} catch (IOException ioe) {
 			System.out.println("IOException on socket listen: " + ioe);
