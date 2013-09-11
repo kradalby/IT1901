@@ -16,12 +16,7 @@ public class Main {
 	public static void init(){
 		gui = new Gui();
 		guiFrame = gui.getGui();
-		testServer = new TestServer();
+		testServer = new TestServer();	//Kontakt med serveren kan legges inn her, trenger kun å sende en liste med alle farmer-objekter for at det skal fungere 
 		
 	}
-	public static void getFarmerFromServer(int id){
-		
-	}
-	
-
 }
