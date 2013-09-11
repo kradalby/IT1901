@@ -10,9 +10,14 @@ public class Farmer {
 	private char[] password;
 	private String email;
 	private String phone;
-	private String helper; //derpderp
+	private String helperFirstName;
+	private String helperLastName;
+	private String helperEmail;
+	private String helperPhone;
 
-	public Farmer(String firstName, String lastName, String id, char[] password, String email, String phone) {
+
+	public Farmer(String firstName, String lastName, String id, char[] password, String email, String phone, String helperFirstName, String helperLastName,
+			String helperEmail, String helperPhone) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -20,6 +25,10 @@ public class Farmer {
 		this.password = password;
 		this.email = email;
 		this.phone = phone;
+		this.helperFirstName = helperFirstName;
+		this.helperLastName = helperLastName;
+		this.helperEmail = helperEmail;
+		this.helperPhone = helperPhone;
 	}
 
 	public String getFirstName() {
@@ -70,12 +79,37 @@ public class Farmer {
 		this.phone = phone;
 	}
 
-	public String getHelper() {
-		return helper;
+
+	public String getHelperFirstName() {
+		return helperFirstName;
 	}
 
-	public void setHelper(String helper) {
-		this.helper = helper;
+	public void setHelperFirstName(String helperFirstName) {
+		this.helperFirstName = helperFirstName;
+	}
+
+	public String getHelperLastName() {
+		return helperLastName;
+	}
+
+	public void setHelperLastName(String helperLastName) {
+		this.helperLastName = helperLastName;
+	}
+
+	public String getHelperEmail() {
+		return helperEmail;
+	}
+
+	public void setHelperEmail(String helperEmail) {
+		this.helperEmail = helperEmail;
+	}
+
+	public String getHelperPhone() {
+		return helperPhone;
+	}
+
+	public void setHelperPhone(String helperPhone) {
+		this.helperPhone = helperPhone;
 	}
 
 	public String getId() {
