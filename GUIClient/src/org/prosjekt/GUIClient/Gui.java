@@ -31,11 +31,11 @@ public class Gui implements ActionListener, ItemListener {
 	private JFrame farmerSettingsFrame;
 	protected static Farmer currentUser;
 	
-	public JFrame getGui(){
-		this.createGui();
-		return this.frame;
-	}
 	
+	
+
+	
+	//Lager GUI, praksis kun den GUI'en som vises når passordboksen er åpen, resten håndteres av passwordConfirmed
 	public void createGui(){
 		//initialize();
 		//Lager en JFrame
@@ -58,6 +58,16 @@ public class Gui implements ActionListener, ItemListener {
 		frame.setVisible(true);
 		
 	}
+	
+	
+	//Henter GUI
+	public JFrame getGui(){
+		this.createGui();
+		return this.frame;
+	}
+	
+	
+	//Denne tar seg i praksis av alt, initializer, etter passordet er bekreftet
 	protected void passwordConfirmed(Farmer user){
 		this.currentUser = user;
 		frame.remove(passwordBox);
@@ -69,6 +79,7 @@ public class Gui implements ActionListener, ItemListener {
 		menuBar.add(createFileMenu());
 		menuBar.add(createStatisticsMenu());
 		menuBar.add(createSettingsMenu());
+		menuBar.add(createHelpMenu());
 		//Legger til riktig user
 		
 		statPane = new StatisticsPane();
@@ -80,7 +91,10 @@ public class Gui implements ActionListener, ItemListener {
 		frame.setVisible(true);
 		//legg til en funksjon som nullstiller passordet i passwordbox
 	}
-	private void initialize(){
+	
+	
+	
+	private void initialize(){		//Foreløpig ikke i bruk
 		
 		//Denne kan være reduntant, da man i praksis først tenger framen nå passordet er godtatt,
 		//Hele denne metodens funksjon blir erstattet av passwordConfirmed
@@ -97,6 +111,14 @@ public class Gui implements ActionListener, ItemListener {
 	}
 
 
+
+	/*
+	 * 
+	 * Lager alle hovedmenyene, og legger til undermenyene i disse
+	 * 
+	 */
+
+	//Lager "File" menyen, og legger til undermenyer
 	private JMenu createFileMenu(){
 		JMenu file = new JMenu("File");
 		file.add(createNewMenuItem());
@@ -107,37 +129,94 @@ public class Gui implements ActionListener, ItemListener {
 		return file;
 		
 	}
+	
+	//Lager "statistics"-menyen, og legger til undermenyer
 	private JMenu createStatisticsMenu(){
 		JMenu statistics = new JMenu("Statistics");
 		statistics.add(createSheepListMenuItem());
+		statistics.add(createAttackListMenuItem());
 		
 		
 		
 		return statistics;
 	}
+	
+	//Lager "settings"-menyen, og legger til undermenyer
 	private JMenu createSettingsMenu(){
 		JMenu settings = new JMenu("Settings");
 		settings.add(createPersonalDataMenuItem());
+		settings.add(createChangePasswordMenuItem());
 		
 		return settings;
 		
 	}
 	
+	//Lager "help"-menyen og legger til undermenyer
+	private JMenu createHelpMenu(){
+		JMenu help = new JMenu("Help");
+		help.add(createUserManualMenuItem());
+		
+		return help;
+		
+	}
 	//Kan også legge til keyboardsnarveier til disse menyelementene
+	
 	
 	
 	/*
 	 * 
-	 * Menyelementer til "settings-menyen
+	 * Menyelementer til "settings"-menyen
 	 * 
 	 */
 	
+	//Lager elementet Personal Data til menyen
 	private JMenuItem createPersonalDataMenuItem(){
 		JMenuItem personalData = new JMenuItem("Personal data");
 		personalData.addActionListener(this);
 		personalData.setActionCommand("personalData");
 		return personalData;
 	}
+	
+	//Lager elementet change password til menyen
+	private JMenuItem createChangePasswordMenuItem(){
+		JMenuItem changePassword = new JMenuItem("Change Password");
+		changePassword.addActionListener(this);
+		changePassword.setActionCommand("changePassword");
+		return changePassword;
+	}
+
+	//lager hele "settings"-vinduet
+	private void createFarmerSettingsFrame(int chosenTab){
+		
+		farmerSettingsFrame = new JFrame("Settings");
+		JLabel emptyLabel3 = new JLabel("");
+		emptyLabel3.setPreferredSize(new Dimension(800, 600));
+		farmerSettingsFrame.getContentPane().add(emptyLabel3, BorderLayout.CENTER);
+		setPane = new FarmerSettingsPane(currentUser, farmerSettingsFrame);
+		setPane.tabbedPane.setSelectedIndex(chosenTab);
+		
+		farmerSettingsFrame.add(setPane);
+		farmerSettingsFrame.pack();
+		farmerSettingsFrame.setVisible(true);
+		
+	}
+
+	
+	
+	/*
+	 * 
+	 * Menyelementer til "help"-menyen
+	 * 
+	 */
+	
+	//Lager elementet User Manual til menyen
+	private JMenuItem createUserManualMenuItem(){
+		JMenuItem userManual = new JMenuItem("User Manual");
+		userManual.addActionListener(this);
+		userManual.setActionCommand("userManual");
+		return userManual;
+	}
+	
 	
 	
 	/*
@@ -146,12 +225,33 @@ public class Gui implements ActionListener, ItemListener {
 	 * 
 	 */
 	
+	//Lager elementet sheep list til menyen
 	private JMenuItem createSheepListMenuItem(){
 		JMenuItem sheepList = new JMenuItem("Sheep List");
 		sheepList.addActionListener(this);
 		sheepList.setActionCommand("sheepList");
 		return sheepList;
 	}
+	
+	//Lager elementet attack list til menyen
+	private JMenuItem createAttackListMenuItem(){
+		JMenuItem attackList = new JMenuItem("Attack List");
+		attackList.addActionListener(this);
+		attackList.setActionCommand("attackList");
+		return attackList;
+	}
+	//Lager hele statistikkvinduet
+	private void createStatFrame(int chosenTab){
+		statFrame = new JFrame("Statistics");
+		JLabel emptyLabel2 = new JLabel("");
+		emptyLabel2.setPreferredSize(new Dimension(800, 600));
+		statFrame.getContentPane().add(emptyLabel2, BorderLayout.CENTER);
+		statPane.tabbedPane.setSelectedIndex(chosenTab);
+		statFrame.add(statPane);
+		statFrame.pack();
+		statFrame.setVisible(true);
+	}
+	
 	
 	
 	/*
@@ -189,6 +289,13 @@ public class Gui implements ActionListener, ItemListener {
 		return quit;
 	}
 	
+	
+	/*
+	 * 
+	 * Event-håndtering
+	 * 
+	 */
+	
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		if (command == "quit"){
@@ -203,37 +310,29 @@ public class Gui implements ActionListener, ItemListener {
 			createStatFrame(0);
 			
 		}
+		else if(command == "attackList"){
+			createStatFrame(1);
+		}
 		else if(command == "personalData"){
 			createFarmerSettingsFrame(0);
+		}
+		else if(command == "changePassword"){
+			createFarmerSettingsFrame(1);
+		}
+		else if(command == "userManual"){
+			//Her må kode inn for å åpen bruksmanualen
 		}
 		
 		
 	}
-	private void createStatFrame(int chosenTab){
-		statFrame = new JFrame("Statistics");
-		JLabel emptyLabel2 = new JLabel("");
-		emptyLabel2.setPreferredSize(new Dimension(800, 600));
-		statFrame.getContentPane().add(emptyLabel2, BorderLayout.CENTER);
-		statPane.tabbedPane.setSelectedIndex(chosenTab);
-		statFrame.add(statPane);
-		statFrame.pack();
-		statFrame.setVisible(true);
-	}
-	private void createFarmerSettingsFrame(int chosenTab){
-		
-		farmerSettingsFrame = new JFrame("Settings");
-		JLabel emptyLabel3 = new JLabel("");
-		emptyLabel3.setPreferredSize(new Dimension(800, 600));
-		farmerSettingsFrame.getContentPane().add(emptyLabel3, BorderLayout.CENTER);
-		setPane = new FarmerSettingsPane(currentUser, farmerSettingsFrame);
-		setPane.tabbedPane.setSelectedIndex(chosenTab);
-		
-		farmerSettingsFrame.add(setPane);
-		farmerSettingsFrame.pack();
-		farmerSettingsFrame.setVisible(true);
-		
-	}
-
+	
+	
+	
+	/*
+	 * 
+	 * Logg ut metode
+	 * 
+	 */
 	
 	private void logOut(){
 		//clear username and password
@@ -241,6 +340,7 @@ public class Gui implements ActionListener, ItemListener {
 		this.frame.dispose();
 		this.createGui();
 	}
+	
 	
 	
 	@Override
