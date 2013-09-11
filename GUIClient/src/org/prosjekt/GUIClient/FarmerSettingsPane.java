@@ -64,7 +64,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 	
 	public FarmerSettingsPane(Farmer user, JFrame frame){
 		//super(new GridLayout(1 ,1));  Kan hende denne trengs for at fanene skal fungere optimalt
-		super.setPreferredSize(new Dimension(550, 550));
+		super.setPreferredSize(new Dimension(800, 600));
 		this.currentUser = user;
 		this.frame = frame;
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
@@ -86,6 +86,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		
 		//Lager et JPanel som skal holde alle elementene i dette vinduet
 		JPanel personalData = new JPanel(new SpringLayout());
+		
 		
 		
 		
@@ -201,17 +202,47 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		return personalData;
 	}
 	
+	//Lager "change password"-fanen
 	private JPanel createPasswordTab(){
 		//JPanel passwordTab = new JPanel(new BorderLayout());
 		//passwordTab.setPreferredSize(new Dimension(400,200));
-		JPanel passwordField = new JPanel(new GridLayout(5,3));
+		JPanel passwordField = new JPanel(new GridLayout(17,3));
 		
+		//Fill-labels laget for å få denne siden til å se ut som den gjør
 		JLabel fill1 = new JLabel("");
 		passwordField.add(fill1);
 		JLabel fill2 = new JLabel("");
 		passwordField.add(fill2);
 		JLabel fill3 = new JLabel("");
 		passwordField.add(fill3);
+		
+		JLabel fill7 = new JLabel("");
+		passwordField.add(fill7);
+		JLabel fill8 = new JLabel("");
+		passwordField.add(fill8);
+		JLabel fill9 = new JLabel("");
+		passwordField.add(fill9);
+		
+		JLabel fill22 = new JLabel("");
+		passwordField.add(fill22);
+		JLabel fill23 = new JLabel("");
+		passwordField.add(fill23);
+		JLabel fill24 = new JLabel("");
+		passwordField.add(fill24);
+		
+		JLabel fill31 = new JLabel("");
+		passwordField.add(fill31);
+		JLabel fill32 = new JLabel("");
+		passwordField.add(fill32);
+		JLabel fill33 = new JLabel("");
+		passwordField.add(fill33);
+		
+		JLabel fill34 = new JLabel("");
+		passwordField.add(fill34);
+		JLabel fill35 = new JLabel("");
+		passwordField.add(fill35);
+		JLabel fill36 = new JLabel("");
+		passwordField.add(fill36);
 		
 
 		//Lager boksen for old password
@@ -220,9 +251,15 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		JPasswordField oldPassword = new JPasswordField(10);
 		oldPasswordText.setLabelFor(oldPassword);
 		passwordField.add(oldPassword);
-		
 		JLabel emptyLabel1 = new JLabel("", JLabel.TRAILING);
 		passwordField.add(emptyLabel1);
+		
+		JLabel fill13 = new JLabel("");
+		passwordField.add(fill13);
+		JLabel fill14 = new JLabel("");
+		passwordField.add(fill14);
+		JLabel fill15 = new JLabel("");
+		passwordField.add(fill15);
 		
 		//Lager boksen for new password
 		JLabel newPasswordText = new JLabel("New Password: ", JLabel.TRAILING);
@@ -230,9 +267,15 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		JPasswordField newPassword = new JPasswordField(10);
 		newPasswordText.setLabelFor(newPassword);
 		passwordField.add(newPassword);
-		
 		JLabel emptyLabel2 = new JLabel("", JLabel.TRAILING);
 		passwordField.add(emptyLabel2);
+		
+		JLabel fill16 = new JLabel("");
+		passwordField.add(fill16);
+		JLabel fill17 = new JLabel("");
+		passwordField.add(fill17);
+		JLabel fill18 = new JLabel("");
+		passwordField.add(fill18);
 		
 		//Lager boksen for retype new password
 		JLabel retypePasswordText = new JLabel("Retype new password:", JLabel.TRAILING);
@@ -240,15 +283,59 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		JPasswordField retypeNewPassword = new JPasswordField(10);
 		retypePasswordText.setLabelFor(retypeNewPassword);
 		passwordField.add(retypeNewPassword);
-		
 		JLabel emptyLabel3 = new JLabel("", JLabel.TRAILING);
 		passwordField.add(emptyLabel3);
 		
+		JLabel fill19 = new JLabel("");
+		passwordField.add(fill19);
+		JLabel fill20 = new JLabel("");
+		passwordField.add(fill20);
+		JLabel fill21 = new JLabel("");
+		passwordField.add(fill21);
 		
 		//lager ok/cancel/apply bokser
 		JLabel emptyLabel4 = new JLabel("");
 		passwordField.add(emptyLabel4);
 		passwordField.add(createButtonsForChangePassword());
+		JLabel emptyLabel5 = new JLabel("");
+		passwordField.add(emptyLabel5);
+		
+		
+		
+		JLabel fill4 = new JLabel("");
+		passwordField.add(fill4);
+		JLabel fill5 = new JLabel("");
+		passwordField.add(fill5);
+		JLabel fill6 = new JLabel("");
+		passwordField.add(fill6);
+		
+		JLabel fill10 = new JLabel("");
+		passwordField.add(fill10);
+		JLabel fill11 = new JLabel("");
+		passwordField.add(fill11);
+		JLabel fill12 = new JLabel("");
+		passwordField.add(fill12);
+		
+		JLabel fill25 = new JLabel("");
+		passwordField.add(fill25);
+		JLabel fill26 = new JLabel("");
+		passwordField.add(fill26);
+		JLabel fill27 = new JLabel("");
+		passwordField.add(fill27);
+		
+		JLabel fill28 = new JLabel("");
+		passwordField.add(fill28);
+		JLabel fill29 = new JLabel("");
+		passwordField.add(fill29);
+		JLabel fill30 = new JLabel("");
+		passwordField.add(fill30);
+		
+		JLabel fill37 = new JLabel("");
+		passwordField.add(fill37);
+		JLabel fill38 = new JLabel("");
+		passwordField.add(fill38);
+		JLabel fill39 = new JLabel("");
+		passwordField.add(fill39);
 		
 		return passwordField;
 	}
@@ -308,7 +395,17 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		}
 		else if(command == "apply"){
 			saveData();
-		}	
+		}
+		else if(command == "okPassword"){
+			savePassword();
+			frame.dispose();
+		}
+		else if(command == "cancelPassword"){
+			frame.dispose();
+		}
+		else if(command == "applyPassword"){
+			savePassword();
+		}
 	}
 
 	//Lagrer data når ok/apply er trykket
@@ -321,6 +418,11 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		Gui.currentUser.setHelperLastName(textHelperLastName.getText());
 		Gui.currentUser.setHelperEmail(textHelperEmail.getText());
 		Gui.currentUser.setHelperPhone(textHelperPhone.getText());	
+		
+	}
+	
+	//Denne lagrer passordet til farmer-objektet dersom riktig gammelt passord er skrevet inn
+	private void savePassword(){
 		
 	}
 	
