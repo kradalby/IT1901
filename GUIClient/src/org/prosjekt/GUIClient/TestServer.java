@@ -7,8 +7,10 @@ public class TestServer {
 	private char[] password = {'1','2','3','4'};
 	
 	public TestServer(){
-		Farmer farmer1 = new Farmer("Ola", "Nordmann", "1000", password, "ola@nordmann.no", "81549300");
-		Farmer farmer2 = new Farmer("Kari", "Nordmann", "2000", password, "kari@nordmann.no", "81549300");
+		Farmer farmer1 = new Farmer("Ola", "Nordmann", "1000", password, "ola@nordmann.no", "81549300", 
+				"Kari", "Nordmann", "kari@nordmann.no", "81549300");
+		Farmer farmer2 = new Farmer("Kari", "Nordmann", "2000", password, "kari@nordmann.no", "81549300",
+				"Ola", "Nordmann", "ola@nordmann.no", "81549300");
 		farmer1.setSheeps(createSheeps(farmer1));
 		farmer2.setSheeps(createSheeps(farmer2));
 		farmers = new ArrayList();
