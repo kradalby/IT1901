@@ -88,6 +88,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		JPanel personalData = new JPanel(new SpringLayout());
 		
 		
+		
 		//Lager overskriften for Personal Information
 		JLabel emptyLabel1 = new JLabel("", JLabel.TRAILING);
 		personalData.add(emptyLabel1);
