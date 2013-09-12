@@ -30,6 +30,26 @@ public class Farmer {
 		this.sheeps = new ArrayList<Sheep>();
 	}
 
+	public boolean isPassword(String password) {
+		return PasswordHash.validatePassword(password, this.password);
+	}
+	
+	/*
+	 * Sets password if correct current password is submitted.
+	 * 
+	 * @params currentPassword, newPassword, to get new password, and to verify with the old.
+	 * @return returns true of the password verifies and ischanged and false if not.
+	 */
+	
+	public boolean setPassword(String currentPassword, String newPassword) {
+		if (this.isPassword(currentPassword)) {
+			this.password = PasswordHash.createHash(newPassword);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public String getEmail() {
 		return email;
 	}
