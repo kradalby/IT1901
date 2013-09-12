@@ -10,16 +10,22 @@ public class Farmer {
 	private String password;
 	private String email;
 	private String phone;
-	private String helper; //kontaktinfo til helper
+	//kontaktinfo til helper
+	private String helperName; 
+	private String helperPhone;
+	private String helperEmail;
 	private ArrayList<> cordinates; //koordinatene til gaaren/teigen
 	
-	public Farmer(int id, String firstName, String lastName, String password, String email, String phone) {
+	public Farmer(int id, String firstName, String lastName, String password, String email, String phone, String helperName, String helperPhone, String helperEmail) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = hashPassword(password); //dummy funksjon
 		this.email = email;
 		this.phone = phone;
+		this.helperName = helperName;
+		this.helperPhone = helperPhone;
+		this.helperEmail = helperEmail;
 		this.sheeps = new ArrayList<Sheep>();
 	}
 }
