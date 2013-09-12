@@ -37,7 +37,7 @@ public class Farmer {
 	/*
 	 * Sets password if correct current password is submitted.
 	 * 
-	 * @params currentPassword, newPassword, to get new password, and to verify with the old.
+	 * @param currentPassword, newPassword, to get new password, and to verify with the old.
 	 * @return returns true of the password verifies and ischanged and false if not.
 	 */
 	
