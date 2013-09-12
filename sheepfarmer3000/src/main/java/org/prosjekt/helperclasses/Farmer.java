@@ -13,9 +13,14 @@ public class Farmer {
 	private String helper; //kontaktinfo til helper
 	private ArrayList<> cordinates; //koordinatene til gaaren/teigen
 	
-	public Farmer(String name, int id) {
-		this.name = name;
+	public Farmer(int id, String firstName, String lastName, String password, String email, String phone) {
 		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.password = hashPassword(password); //dummy funksjon
+		this.email = email;
+		this.phone = phone;
 		this.sheeps = new ArrayList<Sheep>();
 	}
 }
+
