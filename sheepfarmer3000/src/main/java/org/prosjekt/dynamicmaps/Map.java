@@ -80,15 +80,14 @@ public class Map {
         map.removeAllMapPolygons();
         map.setMapMarkerList(markers);
         map.setMapPolygonList(paths);
-        //if (markers.isEmpty() && paths.isEmpty())
+//        if (markers.isEmpty() && paths.isEmpty())
             map.setDisplayPositionByLatLon(center.getLat(), center.getLon(), zoom);
-       //else
-            //map.setDisplayToFitMapElements(true, false, true);
+//       else
+//            map.setDisplayToFitMapElements(true, false, true);
         map.setSize(sizeX, sizeX);
     }
     
     public JPanel getJPanel(){
         return this.map;
     }
-    
 }
