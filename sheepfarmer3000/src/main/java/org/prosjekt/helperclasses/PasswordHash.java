@@ -1,9 +1,13 @@
+package org.prosjekt.helperclasses;
+
 import java.security.SecureRandom;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.SecretKeyFactory;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * PBKDF2 salted password hashing.
@@ -29,8 +33,7 @@ public class PasswordHash
      * @param   password    the password to hash
      * @return              a salted PBKDF2 hash of the password
      */
-    public static String createHash(String password)
-        throws NoSuchAlgorithmException, InvalidKeySpecException
+    public static String createHash(String password)   
     {
         return createHash(password.toCharArray());
     }
@@ -42,7 +45,6 @@ public class PasswordHash
      * @return              a salted PBKDF2 hash of the password
      */
     public static String createHash(char[] password)
-        throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         // Generate a random salt
         SecureRandom random = new SecureRandom();
@@ -50,9 +52,17 @@ public class PasswordHash
         random.nextBytes(salt);
 
         // Hash the password
-        byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
+        byte[] hash;
+        try {
+            hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
+            return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" +  toHex(hash);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(PasswordHash.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(PasswordHash.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // format iterations:salt:hash
-        return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" +  toHex(hash);
+        return null;
     }
 
     /**
@@ -63,10 +73,18 @@ public class PasswordHash
      * @return                  true if the password is correct, false if not
      */
     public static boolean validatePassword(String password, String correctHash)
-        throws NoSuchAlgorithmException, InvalidKeySpecException
     {
-        return validatePassword(password.toCharArray(), correctHash);
+        boolean correctHashBool = false;
+        try {
+            correctHashBool = validatePassword(password.toCharArray(), correctHash);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(PasswordHash.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(PasswordHash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return correctHashBool;
     }
+    
 
     /**
      * Validates a password using a hash.
