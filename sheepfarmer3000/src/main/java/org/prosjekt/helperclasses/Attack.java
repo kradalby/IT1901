@@ -1,4 +1,4 @@
-package helperclasses;
+package org.prosjekt.helperclasses;
 
 public class Attack {
 	private Sheep sheep;;
