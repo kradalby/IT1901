@@ -1,4 +1,4 @@
-package org.prosjekt.GUIClient;
+package org.prosjekt.client;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import org.prosjekt.helperclasses.Farmer;
 
 public class StatisticsPane extends JPanel{
 	protected JTabbedPane tabbedPane; //Burde ha en getter isteden

@@ -4,13 +4,14 @@ package org.prosjekt.dynamicmaps;
 import javax.swing.JPopupMenu;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
+//import org.openstreetmap.gui.jmapviewer.JMapViewer;
+//import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 
 /**
  *
  * @author Alfredo
  */
-public class CustomMapViewer extends JMapViewer{
-    
+   public class CustomMapViewer extends JMapViewer{
     private CustomMapController mapController;
     private Map ownerMap;
     
@@ -27,5 +28,4 @@ public class CustomMapViewer extends JMapViewer{
     public void rightClickPopup(int x, int y){
         JPopupMenu popup = new JPopupMenu("Options");
     }
-    
 }

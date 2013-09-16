@@ -1,4 +1,4 @@
-package org.prosjekt.GUIClient;
+package org.prosjekt.client;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,6 +18,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import org.prosjekt.helperclasses.Farmer;
 
 public class Gui implements ActionListener, ItemListener {
 	protected JFrame frame;

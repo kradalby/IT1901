@@ -1,4 +1,4 @@
-package org.prosjekt.GUIClient;
+package org.prosjekt.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,6 +26,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
+import org.prosjekt.GUIClient.SpringUtilities;
+import org.prosjekt.helperclasses.Farmer;
 
 public class FarmerSettingsPane extends JPanel implements ActionListener{
 	private Farmer currentUser;	//kan hende denne kan fjernes
@@ -162,7 +164,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		//Lager elementene for helper information
 		helperFirstName = new JLabel("First Name: ", JLabel.TRAILING);
 		personalData.add(helperFirstName);
-		textHelperFirstName = new JTextField(currentUser.getHelperFirstName());
+		textHelperFirstName = new JTextField(currentUser.getHelperFirstname());
 		helperFirstName.setLabelFor(textHelperFirstName);
 		personalData.add(textHelperFirstName);
 		
@@ -414,7 +416,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		Gui.currentUser.setLastName(textLastName.getText());
 		Gui.currentUser.setEmail(textEmail.getText());
 		Gui.currentUser.setPhone(textPhone.getText());
-		Gui.currentUser.setHelperFirstName(textHelperFirstName.getText());
+		Gui.currentUser.setHelperFirstname(textHelperFirstName.getText());
 		Gui.currentUser.setHelperLastName(textHelperLastName.getText());
 		Gui.currentUser.setHelperEmail(textHelperEmail.getText());
 		Gui.currentUser.setHelperPhone(textHelperPhone.getText());	
@@ -430,7 +432,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 	//Tester om inntastet gammeltpassord er korrekt
 	private boolean checkOldPasswor(char[] input){
 		boolean tester = false;
-		char[] oldPassword = Gui.currentUser.getPassword();
+		char[] oldPassword = Gui.currentUser.getPasshash().toCharArray();
 		if (input.length != oldPassword.length) {
 			tester = false;
 		}

@@ -10,7 +10,7 @@ public class Sheep {
 	private int weight;
 	private String attack;
 	private final DateTime birth;
-	private ArrayList<> cordinates;
+	private ArrayList<Coordinate> cordinates;
 	private Farmer farmer;
 
 	public Sheep(int id, int weight, DateTime birth, Farmer farmer) {
@@ -50,7 +50,8 @@ public class Sheep {
 	}
 	//Her må noe gjøres, jeg vet ikke hva Arraylisten skal inneholde
 	public ArrayList getCurrentCordinates() {
-		return this.cordinates.peek();
+            throw new UnsupportedOperationException("not yet implemented. ");
+//		return this.cordinates.peek();
 	}
 	
 	

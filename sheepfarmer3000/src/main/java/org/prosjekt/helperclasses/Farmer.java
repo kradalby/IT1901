@@ -7,7 +7,7 @@ public class Farmer {
     private String firstName;
     private String lastName;
     private ArrayList<Sheep> sheeps;
-    private String password;
+    private String passhash;
     private String email;
     private String phone;
     //kontaktinfo til helper
@@ -32,7 +32,7 @@ public class Farmer {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = PasswordHash.createHash(password);
+        this.passhash = PasswordHash.createHash(password);
         this.email = email;
         this.phone = phone;
         this.helperFirstname = helperFirstName;
@@ -43,7 +43,7 @@ public class Farmer {
     }
     
     public boolean isPassword(String password) {
-        return PasswordHash.validatePassword(password, this.password);
+        return PasswordHash.validatePassword(password, this.passhash);
     }
     
     /*
@@ -55,7 +55,7 @@ public class Farmer {
     
     public boolean setPassword(String currentPassword, String newPassword) {
         if (this.isPassword(currentPassword)) {
-            this.password = PasswordHash.createHash(newPassword);
+            this.passhash = PasswordHash.createHash(newPassword);
             return true;
         } else {
             return false;
@@ -78,20 +78,20 @@ public class Farmer {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getHelperFirstname() {
         return helperFirstname;
+    }
+
+    public void setHelperFirstname(String helperFirstname) {
+        this.helperFirstname = helperFirstname;
     }
 
     public String getHelperLastName() {
         return helperLastName;
     }
 
-    public ArrayList<Coordinate> getCordinates() {
-        return cordinates;
+    public void setHelperLastName(String helperLastName) {
+        this.helperLastName = helperLastName;
     }
     
     
@@ -140,17 +140,21 @@ public class Farmer {
         this.sheeps = sheeps;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getPasshash() {
+        return passhash;
     }
 
-    public void setCordinates(ArrayList<Coordinate> cordinates) {
-        this.cordinates = cordinates;
+    public void setPasshash(String passhash) {
+        this.passhash = passhash;
+    }
+
+    public void setCordinates(ArrayList<Coordinate> coordinates) {
+        this.cordinates = coordinates;
     }
 
     @Override
     public String toString() {
-        return "Farmer{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password + ", email=" + email + ", phone=" + phone + '}';
+        return "Farmer{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + passhash + ", email=" + email + ", phone=" + phone + '}';
     }
     
     

@@ -1,4 +1,4 @@
-package org.prosjekt.GUIClient;
+package org.prosjekt.client;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -19,6 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import org.prosjekt.helperclasses.Farmer;
 
 public class PasswordBox extends JPanel implements ActionListener {
 	
@@ -91,13 +92,13 @@ public class PasswordBox extends JPanel implements ActionListener {
 			char[] inputPassword = passwordField.getPassword();
 			String inputUsername = usernameField.getText();
 			boolean listContainsCurrentUserName = false;
-			for(Farmer f : main.testServer.getFarmerList()){
-				if(f.getId().equals(inputUsername)){
-					listContainsCurrentUserName = true;
-					currentUser=f;
-					break;
-				}
-			}
+//			for(Farmer f : main.testServer.getFarmerList()){
+//				if(f.getId().equals(inputUsername)){
+//					listContainsCurrentUserName = true;
+//					currentUser=f;
+//					break;
+//				}
+//			}
 			if(listContainsCurrentUserName){
 				if (isPasswordCorrect(inputPassword)){
 					//JOptionPane.showMessageDialog(controllingFrame, "Succes!");
@@ -120,10 +121,18 @@ public class PasswordBox extends JPanel implements ActionListener {
 		
 	}
 	
+        
+        /**
+         * Edit christbu: password bør være hasha i databasen.  
+         *  Inntil videre send inn plain text som String. 
+         *  
+         * @param input String passhash/password 
+         * @return true if password is correct.   
+         */
 	private boolean isPasswordCorrect(char[] input){
 		//boolean isCorrect = false;
-		//main.testServer.getFarme
-		char[] correctPassword = currentUser.getPassword();
+//		main.testServer.getFarme
+		char[] correctPassword = currentUser.getPasshash().toCharArray();
 		if (input.length != correctPassword.length) {
 			isCorrect = false;
 		}

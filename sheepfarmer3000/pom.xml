@@ -3,21 +3,53 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.prosjekt</groupId>
   <artifactId>sheepfarmer3000</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>sheepfarmer3000</name>
   <url>http://maven.apache.org</url>
+  
+  
+  
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+    <!-- Utilities Dependencies -->   
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>2.3</version>
     </dependency>
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>12.0</version>
+    </dependency>
+    
+    <!-- Database Dependencies -->   
+    <dependency>
+        <groupId>postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>9.1-901.jdbc3</version>
+    </dependency>
+    
+    <!-- Test Dependencies -->   
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+        <scope>test</scope>
+    </dependency>
+
+        
+    <!-- Map Dependencies 
+    Legg JMapViewer_29618.jar på c:\    finnes i zip fil som Alfredo la ut FB. 
+    C:\mvn install:install-file -Dfile=c:\JMapViewer_29618.jar -DgroupId=com -DartifactId=jmapviewer -Dversion=1.0 -Dpackaging=jar
+    -->
+    <dependency>
+        <groupId>com</groupId>
+        <artifactId>jmapviewer</artifactId>
+        <version>1.0</version>
+    </dependency>
   </dependencies>
+
+
+
 </project>

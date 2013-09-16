@@ -1,15 +1,16 @@
 
 package org.prosjekt.dynamicmaps;
 
-import java.awt.event.MouseEvent;
-import org.openstreetmap.gui.jmapviewer.DefaultMapController;
 
+import java.awt.event.MouseEvent;
+import org.openstreetmap.gui.jmapviewer.*;
 /**
  *
  * @author Alfredo
  */
+//public class CustomMapController {
 public class CustomMapController extends DefaultMapController{
-    
+   
     CustomMapViewer customMap;
     
     public CustomMapController(CustomMapViewer map){
@@ -26,5 +27,5 @@ public class CustomMapController extends DefaultMapController{
             customMap.rightClickPopup(e.getX(), e.getY());
         }
     }
-    
+  
 }
