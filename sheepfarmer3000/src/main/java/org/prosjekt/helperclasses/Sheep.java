@@ -1,10 +1,11 @@
 package org.prosjekt.helperclasses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
 
-public class Sheep {
+public class Sheep implements Serializable {
 	private final int id;
 	private boolean alive;
 	private int weight;
