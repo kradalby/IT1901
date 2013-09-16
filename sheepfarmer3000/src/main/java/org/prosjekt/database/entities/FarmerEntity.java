@@ -23,7 +23,7 @@ public class FarmerEntity {
     }
      
     public static Farmer toFarmer(FarmerEntity entity){
-        return new Farmer
+        return new Farmer(entity.id);
     }
     
     

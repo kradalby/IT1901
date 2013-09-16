@@ -20,22 +20,21 @@ import org.prosjekt.helperclasses.IFarmer;
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class FarmerRepository extends AbstractProperties{
-    
+public class FarmerRepository extends AbstractProperties {
+
     public FarmerRepository() {
     }
-    
-    public void printAllTables(Connection conn) throws SQLException{
+
+    public void printAllTables(Connection conn) throws SQLException {
         DatabaseMetaData dbmd = conn.getMetaData();
-            String[] types = {"TABLE"};
-            ResultSet rs = dbmd.getTables(null, null, "%", types);
-            while (rs.next()) {
-                System.out.println(rs.getString("TABLE_NAME"));
-            }
+        String[] types = {"TABLE"};
+        ResultSet rs = dbmd.getTables(null, null, "%", types);
+        while (rs.next()) {
+            System.out.println(rs.getString("TABLE_NAME"));
+        }
     }
-    
-    
-    public IFarmer getFarmer(int id) throws SQLException{
+
+    public IFarmer getFarmer(int id) throws SQLException {
 //        String selectTableSQL = "SELECT * FROM sheep";
         Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
         String selectTableSQL = "SELECT * FROM farmer where id=1";
@@ -50,25 +49,45 @@ public class FarmerRepository extends AbstractProperties{
         farmer.setFirstName(firstname);
         System.out.println(farmer);
         return farmer;
-        
+
     }
-    
-    
-    public void test(){
+
+    public void m() {
+        Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
+        conn.setAutoCommit(false);//commit trasaction manually
+
+        String insertTableSQL = "INSERT INTO DBUSER"
+                + "(USER_ID, USERNAME, CREATED_BY, CREATED_DATE) VALUES"
+                + "(?,?,?,?)";
+        PreparedStatement = conn.prepareStatement(insertTableSQL);
+
+        preparedStatement.setInt(1, 101);
+        preparedStatement.setString(2, "mkyong101");
+        preparedStatement.setString(3, "system");
+        preparedStatement.setTimestamp(4, getCurrentTimeStamp());
+        preparedStatement.addBatch();
+
+        preparedStatement.setInt(1, 102);
+        preparedStatement.setString(2, "mkyong102");
+        preparedStatement.setString(3, "system");
+        preparedStatement.setTimestamp(4, getCurrentTimeStamp());
+        preparedStatement.addBatch();
+        preparedStatement.executeBatch();
+
+        dbConnection.commit();
     }
-    
-    public void createFarmer(Connection con){
+
+    public void createFarmer(Connection con) {
         Statement statement = null;
         try {
             String insertTableSQL = "INSERT INTO farmer"
                     + "(id, firstname, lastname) " + "VALUES"
                     + "(1,'Ola','Nordmann')";
-            
+
             statement = con.createStatement();
             statement.executeQuery(insertTableSQL);
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, "Failed to create farmer. Farmer might exists.", ex);
         }
     }
-    
 }
