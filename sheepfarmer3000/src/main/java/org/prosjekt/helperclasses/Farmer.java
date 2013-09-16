@@ -23,6 +23,8 @@ public class Farmer implements IFarmer{
     public Farmer(int id) {
         this.id = id;
         
+        
+        
     }
     
     
