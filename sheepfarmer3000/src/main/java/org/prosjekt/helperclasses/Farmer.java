@@ -15,7 +15,7 @@ public class Farmer {
     private String helperLastName;
     private String helperPhone;
     private String helperEmail;
-    private ArrayList<Cordinate> cordinates; //koordinatene til gaaren/teigen
+    private ArrayList<Coordinate> cordinates; //koordinatene til gaaren/teigen
 
     /*
      *  Temporary constructor, used under db development. 
@@ -35,7 +35,7 @@ public class Farmer {
         this.password = PasswordHash.createHash(password);
         this.email = email;
         this.phone = phone;
-        this.helperFirstName = helperFirstName;
+        this.helperFirstname = helperFirstName;
         this.helperLastName = helperLastName;
         this.helperPhone = helperPhone;
         this.helperEmail = helperEmail;
@@ -77,14 +77,24 @@ public class Farmer {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
-    public String getHelperName() {
-        return helperName;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getHelperFirstname() {
+        return helperFirstname;
+    }
+
+    public String getHelperLastName() {
+        return helperLastName;
+    }
+
+    public ArrayList<Coordinate> getCordinates() {
+        return cordinates;
     }
     
-    public void setHelperName(String helperName) {
-        this.helperName = helperName;
-    }
+    
     
     public String getHelperPhone() {
         return helperPhone;
@@ -134,7 +144,7 @@ public class Farmer {
         this.password = password;
     }
 
-    public void setCordinates(ArrayList<Sheep> cordinates) {
+    public void setCordinates(ArrayList<Coordinate> cordinates) {
         this.cordinates = cordinates;
     }
 
