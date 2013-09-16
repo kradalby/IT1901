@@ -56,7 +56,7 @@ public class FarmerRepository extends AbstractProperties{
     public void test(){
     }
     
-    public void createFarmer(Connection con){
+    public void createFarmer(Connection con){ 
         Statement statement = null;
         try {
             String insertTableSQL = "INSERT INTO farmer"
