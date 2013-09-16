@@ -20,6 +20,7 @@ import org.prosjekt.helperclasses.IFarmer;
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
+
 public class FarmerRepository extends AbstractProperties {
 
     public FarmerRepository() {
