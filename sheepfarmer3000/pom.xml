@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.prosjekt</groupId>
   <artifactId>sheepfarmer3000</artifactId>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>sheepfarmer3000</name>
   <url>http://maven.apache.org</url>
@@ -38,18 +38,21 @@
         <scope>test</scope>
     </dependency>
 
+
         
     <!-- Map Dependencies 
     Legg JMapViewer_29618.jar på c:\    finnes i zip fil som Alfredo la ut FB. 
-    C:\mvn install:install-file -Dfile=c:\JMapViewer_29618.jar -DgroupId=com -DartifactId=jmapviewer -Dversion=1.0 -Dpackaging=jar
+    D:\mvn install:install-file -Dfile=c:\JMapViewer_29618.jar -DgroupId=com -DartifactId=jmapviewer -Dversion=1.0 -Dpackaging=jar
+    
+    mvn install:install-file -Dfile=d:\JMapViewer_29618.jar -DgroupId=jmapviewer -DartifactId=jmapviewer -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
     -->
     <dependency>
-        <groupId>com</groupId>
+        <groupId>jmapviewer</groupId>
         <artifactId>jmapviewer</artifactId>
         <version>1.0</version>
     </dependency>
+
   </dependencies>
-
-
-
 </project>
+
+

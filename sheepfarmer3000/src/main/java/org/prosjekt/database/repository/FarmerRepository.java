@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.IFarmer;
 
 /**
  *
@@ -34,7 +35,7 @@ public class FarmerRepository extends AbstractProperties{
     }
     
     
-    public Farmer getFarmer(int id) throws SQLException{
+    public IFarmer getFarmer(int id) throws SQLException{
 //        String selectTableSQL = "SELECT * FROM sheep";
         Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
         String selectTableSQL = "SELECT * FROM farmer where id=1";

@@ -2,7 +2,7 @@ package org.prosjekt.helperclasses;
 
 import java.util.ArrayList;
 
-public class Farmer {
+public class Farmer implements IFarmer{
     private final int id; //brukes som brukernavn
     private String firstName;
     private String lastName;
