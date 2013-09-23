@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.joda.time.DateTime;
 import org.prosjekt.database.entities.CoordinateEntity;
 
 /**
@@ -32,7 +33,7 @@ public class CoordinateRepository  extends AbstractProperties{
         deleteEntity(id, "coordinate");
     }
     
-    public void updateFarmerEntity(CoordinateEntity entity){
+    public void updateEntity(CoordinateEntity entity){
         try {
             //        conn.setAutoCommit(false);//commit trasaction manually
             String sql = "UPDATE coordinate set sheepid=?, latitude=?, longitude=?, dateevent=?, attack=? where id=?";
@@ -41,7 +42,7 @@ public class CoordinateRepository  extends AbstractProperties{
             preparedStatement.setInt(1, entity.getSheepid());
             preparedStatement.setString(2, entity.getLatitude());
             preparedStatement.setString(3, entity.getLongitude());
-            preparedStatement.setDate(4, entity.getDate());
+            preparedStatement.setTimestamp(4, entity.getTimestamp());
             preparedStatement.setBoolean(5, entity.isAttack());
             preparedStatement.executeQuery();
         } catch (SQLException ex) {
@@ -61,7 +62,7 @@ public class CoordinateRepository  extends AbstractProperties{
             preparedStatement.setInt(2, entity.getSheepid());
             preparedStatement.setString(3, entity.getLatitude());
             preparedStatement.setString(4, entity.getLongitude());
-            preparedStatement.setDate(5, entity.getDate());
+            preparedStatement.setTimestamp(5, entity.getTimestamp());
             preparedStatement.setBoolean(6, entity.isAttack());
             preparedStatement.execute();
         } catch (SQLException ex) {
@@ -76,20 +77,14 @@ public class CoordinateRepository  extends AbstractProperties{
          CoordinateEntity entity = null;
          List<CoordinateEntity> list = null;
          try {
-                String sql = "SELECT * FROM coordinate where sheepid = ? order by dateevent desc";
+            String sql = "SELECT * FROM coordinate where sheepid = ? order by dateevent desc";
             Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, sheepid);
              ResultSet rs = preparedStatement.executeQuery();
              list = Lists.newArrayList();
              while (rs.next()){
-                    int id = rs.getInt("id");
-                    String latitude = rs.getString("latitude");
-                    String longitude = rs.getString("longitude");
-                    Boolean attack = rs.getBoolean("attack");
-                    Date date = rs.getDate("dateevent");
-                    list.add(new CoordinateEntity(id, sheepid, latitude, longitude, attack, date));
-                    
+                    list.add(getCoordinateEntityFromResultSet(rs, list, sheepid));
              }
         } catch (SQLException ex) {
             Logger.getLogger(CoordinateRepository.class.getName()).log(Level.SEVERE, null, ex);
@@ -98,6 +93,15 @@ public class CoordinateRepository  extends AbstractProperties{
     }
     
     //GetFarmer with sheeps and last coordinate. do join. Hent ut fra coordinates.  
+
+    private CoordinateEntity getCoordinateEntityFromResultSet(ResultSet rs, List<CoordinateEntity> list, int sheepid) throws SQLException {
+        int id = rs.getInt("id");
+        String latitude = rs.getString("latitude");
+        String longitude = rs.getString("longitude");
+        Boolean attack = rs.getBoolean("attack");
+        Date date = rs.getDate("dateevent");
+        return new CoordinateEntity(id, sheepid, latitude, longitude, attack, new DateTime(date.getTime()));
+    }
     
     
 }
