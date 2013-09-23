@@ -3,6 +3,8 @@ package org.prosjekt.client;
 import java.io.*;
 import java.net.*;
 
+import org.prosjekt.helperclasses.Sheep;
+
 public class Client {
 	private String host;
 	private int port;
@@ -16,13 +18,12 @@ public class Client {
 		Client session = new Client("localhost", 4444);
 		
 		Socket sessionSocket = null;
-		PrintWriter out = null;
+		ObjectOutputStream out = null;
 		BufferedReader in = null;
 		
 		try {
 			sessionSocket = new Socket(session.host, session.port);
-			out = new PrintWriter(sessionSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(sessionSocket.getInputStream()));
+			out = new ObjectOutputStream(sessionSocket.getOutputStream());
 		} catch (UnknownHostException e) {
             System.err.println("Don't know about host: " + session.host);
             System.exit(1);
@@ -32,18 +33,12 @@ public class Client {
             System.exit(1);
         }
 		
-		BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-		
-		String userInput;
-		
-		while ((userInput = stdin.readLine()) != null) {
-			out.println(userInput);
-			System.out.println("echo: " + in.readLine());
-		}
+		Sheep sheep = new Sheep(1,56, null, null);
+		out.writeObject(sheep);
+
 		
 		out.close();
 		in.close();
-		stdin.close();
 		sessionSocket.close();
 		
 	}
