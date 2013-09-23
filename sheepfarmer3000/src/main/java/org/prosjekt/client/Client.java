@@ -33,12 +33,15 @@ public class Client {
             System.exit(1);
         }
 		
-		Sheep sheep = new Sheep(1,56, null, null);
-		out.writeObject(sheep);
+		for (int i = 0; i < 56; i++) {
+			Sheep sheep = new Sheep(1,56, null, null);
+			out.writeObject(sheep);
+			out.flush();
+		}
+
 
 		
 		out.close();
-		in.close();
 		sessionSocket.close();
 		
 	}
