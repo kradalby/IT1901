@@ -42,6 +42,8 @@ public enum NetPkgEnum {
 	 */
 	GETFARMER,
 	
+	
+	//Usikker paa om disse skal brukes enda.
 	GETSHEEPS,
 	ADDSHEEPS,
 	RMSHEEPS,
