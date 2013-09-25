@@ -3,8 +3,8 @@ package org.prosjekt.helperclasses;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Farmer implements Serializable {
-	private final int id; //brukes som brukernavn
+public class Farmer implements Serializable,IFarmer {
+    private final int id; //brukes som brukernavn
     private String firstName;
     private String lastName;
     private ArrayList<Sheep> sheeps;
@@ -23,6 +23,8 @@ public class Farmer implements Serializable {
      */
     public Farmer(int id) {
         this.id = id;
+        
+        
         
     }
     
