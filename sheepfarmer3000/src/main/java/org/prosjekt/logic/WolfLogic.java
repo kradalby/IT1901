@@ -2,6 +2,7 @@ package org.prosjekt.logic;
 
 import java.util.ArrayList;
 
+import org.prosjekt.helperclasses.Attack;
 import org.prosjekt.helperclasses.Sheep;
 
 public class WolfLogic {
@@ -20,7 +21,9 @@ public class WolfLogic {
 		// 70% sjanse for at sauen doer.
 		if (chance > 30) {
 			sheep.setAlive(false);
+			// jeg antar at denne maa dyttes inn i databasen paa en eller annen maate.
 			Attack attack = new Attack(sheep, sheep.getCurrentCordinates().getLatitude(), sheep.getCurrentCordinates().getLongitude());
+			// Det maa ogsaa legges til et kall mot alert funksjonen naar den eksisterer.
 		} 
 	}
 }
