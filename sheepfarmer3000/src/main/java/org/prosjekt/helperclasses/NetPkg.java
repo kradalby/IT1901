@@ -1,5 +1,11 @@
 package org.prosjekt.helperclasses;
 
-public class NetPkg {
+import java.io.Serializable;
+import java.util.ArrayList;
 
+public class NetPkg<T> implements Serializable {
+
+	NetPkgEnum operaton;
+	ArrayList<T> data;
+	
 }
