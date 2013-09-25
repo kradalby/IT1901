@@ -16,9 +16,11 @@ public class WolfLogic {
 	
 	public static void wolfAttack(Sheep sheep) {
 		int chance = (int)(Math.random() * (((100-1) - 0) + 1));
+		
+		// 70% sjanse for at sauen doer.
 		if (chance > 30) {
 			sheep.setAlive(false);
-			
-		}
+			Attack attack = new Attack(sheep, sheep.getCurrentCordinates().getLatitude(), sheep.getCurrentCordinates().getLongitude());
+		} 
 	}
 }
