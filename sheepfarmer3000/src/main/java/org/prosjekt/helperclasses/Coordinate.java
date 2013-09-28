@@ -62,6 +62,11 @@ public class Coordinate {
         this.attack = attack;
     }
 
-   
+    @Override
+    public String toString() {
+        return "Coordinate{" + "id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", date=" + date + ", attack=" + attack + '}';
+    }
+
+    
     
 }
