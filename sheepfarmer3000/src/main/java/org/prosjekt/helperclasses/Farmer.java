@@ -35,7 +35,7 @@ public class Farmer implements Serializable,IFarmer {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.passhash = PasswordHash.createHash(password);
+        this.passhash = password;
         this.email = email;
         this.phone = phone;
         this.helperFirstname = helperFirstName;
@@ -45,25 +45,7 @@ public class Farmer implements Serializable,IFarmer {
         this.sheeps = new ArrayList<Sheep>();
     }
     
-    public boolean isPassword(String password) {
-        return PasswordHash.validatePassword(password, this.passhash);
-    }
-    
-    /*
-     * Sets password if correct current password is submitted.
-     *
-     * @param currentPassword, newPassword, to get new password, and to verify with the old.
-     * @return returns true of the password verifies and ischanged and false if not.
-     */
-    
-    public boolean setPassword(String currentPassword, String newPassword) {
-        if (this.isPassword(currentPassword)) {
-            this.passhash = PasswordHash.createHash(newPassword);
-            return true;
-        } else {
-            return false;
-        }
-    }
+ 
     
     public String getEmail() {
         return email;
