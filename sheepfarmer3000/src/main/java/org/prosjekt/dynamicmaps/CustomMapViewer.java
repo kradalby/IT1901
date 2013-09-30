@@ -1,4 +1,3 @@
-
 package org.prosjekt.dynamicmaps;
 
 import java.awt.event.MouseEvent;
