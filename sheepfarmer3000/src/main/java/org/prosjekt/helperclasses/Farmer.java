@@ -1,8 +1,9 @@
 package org.prosjekt.helperclasses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Farmer implements IFarmer{
+public class Farmer implements Serializable,IFarmer {
     private final int id; //brukes som brukernavn
     private String firstName;
     private String lastName;

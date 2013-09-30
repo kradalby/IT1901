@@ -1,10 +1,11 @@
 package org.prosjekt.helperclasses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
 
-public class Sheep {
+public class Sheep implements Serializable {
 	private final int id;
 	private boolean alive;
 	private int weight;
@@ -48,10 +49,10 @@ public class Sheep {
 	public ArrayList getAllCordinates() { 
 		return this.cordinates;
 	}
-	//Her må noe gjøres, jeg vet ikke hva Arraylisten skal inneholde
-	public ArrayList getCurrentCordinates() {
-            throw new UnsupportedOperationException("not yet implemented. ");
-//		return this.cordinates.peek();
+	//Returnerer siste elementet i cordinates listen fra denne sauen.
+	public Coordinate getCurrentCordinates() {
+            //throw new UnsupportedOperationException("not yet implemented. ");
+		return this.cordinates.get(this.cordinates.size() - 1 );
 	}
 	
 	

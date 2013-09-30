@@ -4,16 +4,18 @@
  */
 package org.prosjekt.helperclasses;
 
-import java.util.Date;
+import java.io.Serializable;
+
 import org.joda.time.DateTime;
+
 import sun.util.calendar.Gregorian;
 
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class Coordinate {
-    private Integer id;
+public class Coordinate implements Serializable {
+	private Integer id;
     private String longitude;
     private String latitude;
     private DateTime date;
@@ -62,11 +64,6 @@ public class Coordinate {
         this.attack = attack;
     }
 
-    @Override
-    public String toString() {
-        return "Coordinate{" + "id=" + id + ", longitude=" + longitude + ", latitude=" + latitude + ", date=" + date + ", attack=" + attack + '}';
-    }
-
-    
+   
     
 }
