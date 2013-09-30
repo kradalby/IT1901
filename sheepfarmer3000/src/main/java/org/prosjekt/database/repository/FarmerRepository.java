@@ -110,6 +110,7 @@ public class FarmerRepository extends AbstractProperties {
     public Farmer getFarmerSheepsMostRecentGPS(int id) {
         List<Coordinate> farmerArea = null;
         List<Sheep> sheeps = null;
+        Farmer f = null;
         try (Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd())) {
             String sql = "SELECT f.id as fid, f.email as f_email, f.firstname as f_firstname, f.lastname as f_lastname, f.hashpass as f_hashpass,"
                     + "f.helperfirstname as f_hfn, f.helperlastname as f_hln,"
@@ -122,7 +123,7 @@ public class FarmerRepository extends AbstractProperties {
                     + "group by sheepid)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            Farmer f = new Farmer(id);
+            f = new Farmer(id);
             sheeps = Lists.newArrayList();
             farmerArea = Lists.newArrayList();
             while (rs.next()){
@@ -159,7 +160,7 @@ public class FarmerRepository extends AbstractProperties {
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return f;
     }
     
 }
