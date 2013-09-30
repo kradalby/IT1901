@@ -161,11 +161,5 @@ public class FarmerRepository extends AbstractProperties {
         }
         return null;
     }
-    //GetFarmer with sheeps and last coordinate. do join. Hent ut fra coordinates.  
-    //    SELECT *
-    //  FROM coordinate c 
-    //  join sheep s on c.sheepid = s.id
-    //  join farmer f on s.farmerid = f.id where c.id=1
-    //group by s.id, c.id,f.id 
-    //order by c.dateevent desc limit 1
+    
 }
