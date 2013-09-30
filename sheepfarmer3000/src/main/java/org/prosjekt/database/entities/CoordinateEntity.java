@@ -4,30 +4,44 @@
  */
 package org.prosjekt.database.entities;
 
+import com.google.common.base.Preconditions;
 import java.sql.Date;
+import java.sql.Timestamp;
+import org.joda.time.DateTime;
 
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class CoordinateEntity {
-    private Integer id;
+    private final int id;
+    private final int sheepid;
     private String latitude;
     private String longitude;
     private boolean attack;
-    private Date date; 
+    private Timestamp date; 
 
-    public CoordinateEntity(Integer id, String latitude, String longitude, boolean attack, Date date) {
+    public CoordinateEntity(int id, int sheepid, String latitude, String longitude, boolean attack, DateTime date) {
+        Preconditions.checkNotNull(id, "id must be set");
+        Preconditions.checkNotNull(sheepid, "sheepid must be set");
         this.id = id;
+        this.sheepid = sheepid;
         this.latitude = latitude;
         this.longitude = longitude;
         this.attack = attack;
-        this.date = date;
+        if (date == null) this.date = new Timestamp(new DateTime().getMillis());
+        else this.date = new Timestamp(new DateTime().getMillis());
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
+
+    public int getSheepid() {
+        return sheepid;
+    }
+    
+    
 
     public String getLatitude() {
         return latitude;
@@ -41,8 +55,15 @@ public class CoordinateEntity {
         return attack;
     }
 
-    public Date getDate() {
+    public Timestamp getTimestamp() {
         return date;
+    }
+    
+    
+
+    @Override
+    public String toString() {
+        return "CoordinateEntity{" + "id=" + id + ", sheepid=" + sheepid + ", latitude=" + latitude + ", longitude=" + longitude + ", attack=" + attack + ", date=" + date.toString()+ '}';
     }
     
     
