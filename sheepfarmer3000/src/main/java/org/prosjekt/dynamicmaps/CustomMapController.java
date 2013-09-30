@@ -10,21 +10,18 @@ import org.openstreetmap.gui.jmapviewer.DefaultMapController;
  */
 public class CustomMapController extends DefaultMapController{
     
-    CustomMapViewer customMap;
+    CustomMapViewer parentMap;
     
     public CustomMapController(CustomMapViewer map){
         super(map);
-        customMap = map;
+        parentMap = map;
         setMovementMouseButton(MouseEvent.BUTTON1);
     }
     
     @Override
     public void mouseClicked(MouseEvent e){
         super.mouseClicked(e);
-        
-        if (e.getButton() == MouseEvent.BUTTON3){
-            customMap.rightClickPopup(e.getX(), e.getY());
-        }
+        parentMap.mouseEventRegistered(e);
     }
     
 }
