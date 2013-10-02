@@ -26,7 +26,7 @@ public class CustomMapController extends DefaultMapController{
     public void mouseReleased(MouseEvent e){
         super.mouseReleased(e);
         if (e.getButton() == this.PopoupMouseButton){
-            gui.createPopup();
+            gui.createPopup(e.getX(), e.getY());
         }
     }
   

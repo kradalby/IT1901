@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import static org.prosjekt.client.Gui.currentUser;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
 
@@ -30,6 +32,8 @@ public class Gui implements ActionListener, ItemListener {
 	private JFrame farmerSettingsFrame;
 	protected static Farmer currentUser;
         private static Client client;
+        private int POPUP_X;
+        private int POPUP_Y;
 	
 	
 	
@@ -42,6 +46,8 @@ public class Gui implements ActionListener, ItemListener {
 		frame = new JFrame("Sheep system 3000");
 		emptyLabel = new JLabel("");
 		emptyLabel.setPreferredSize(new Dimension(800, 600));
+                POPUP_X = 800/2;
+                POPUP_Y = 600/2;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
 		
@@ -87,7 +93,7 @@ public class Gui implements ActionListener, ItemListener {
 	
 	
 	//Henter GUI
-	public JFrame getGui(Client client){
+	public JFrame getGui(){
 		this.createGui();
 		return this.frame;
 	}
@@ -294,6 +300,7 @@ public class Gui implements ActionListener, ItemListener {
 		newSubmenu.addActionListener(this);
 		JMenuItem newSheep = new JMenuItem("New Sheep");
 		newSheep.addActionListener(this);
+                newSheep.setActionCommand("newSheep");
 		newSubmenu.add(newSheep);
 		return newSubmenu;
 	}
@@ -322,10 +329,9 @@ public class Gui implements ActionListener, ItemListener {
          * PopupMeny 
          */
         
-        public JPanel createPopup(){
+        public void createPopup(int x, int y){
             //Må endres, gjør ingenting.
-            JPanel popup = new JPanel();
-            return popup;
+            System.out.print(x + " " + y);
         }
 	
 	
@@ -360,6 +366,9 @@ public class Gui implements ActionListener, ItemListener {
 		}
 		else if(command == "userManual"){
 			//Her m� kode inn for � �pen bruksmanualen
+		}
+                else if(command == "newSheep"){
+			createPopup(POPUP_X, POPUP_Y);
 		}
 		
 		
