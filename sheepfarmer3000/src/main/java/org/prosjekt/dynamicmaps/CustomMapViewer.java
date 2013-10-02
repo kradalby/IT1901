@@ -1,6 +1,5 @@
 package org.prosjekt.dynamicmaps;
 
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
@@ -10,7 +9,6 @@ import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
-import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.client.Gui;
 
 /**
