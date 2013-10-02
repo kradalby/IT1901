@@ -1,5 +1,6 @@
 package org.prosjekt.dynamicmaps;
 
+import org.prosjekt.client.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
