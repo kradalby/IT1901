@@ -8,23 +8,20 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.dynamicmaps.CustomMapViewer;
 
 
 public class Gui implements ActionListener, ItemListener {
 	protected JFrame frame;
-	private JLabel emptyLabel;
-	private JLabel kart;
+	private CustomMapViewer kart;
+        private JLabel emptyLabel;
 	private JMenuBar menuBar;
 	private PasswordBox passwordBox;
 	private StatisticsPane statPane;
@@ -94,14 +91,17 @@ public class Gui implements ActionListener, ItemListener {
 		this.createGui();
 		return this.frame;
 	}
+        
+        public final Client getClient(){
+            return this.client;
+        }
 	
 	
 	//Denne tar seg i praksis av alt, initializer, etter passordet er bekreftet
 	protected void passwordConfirmed(Farmer user){
 		this.currentUser = user;
 		frame.remove(passwordBox);
-		kart = new JLabel("Kart");
-		kart.setPreferredSize(new Dimension(800, 600));
+		kart = new CustomMapViewer(this);
 		frame.add(kart);
 		//Lager en meny og legger til elementer i menyen
 		menuBar = new JMenuBar();
@@ -317,6 +317,16 @@ public class Gui implements ActionListener, ItemListener {
 		quit.setActionCommand("quit");
 		return quit;
 	}
+        
+        /*
+         * PopupMeny 
+         */
+        
+        public JPanel createPopup(){
+            //Må endres, gjør ingenting.
+            JPanel popup = new JPanel();
+            return popup;
+        }
 	
 	
 	/*
@@ -377,7 +387,6 @@ public class Gui implements ActionListener, ItemListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 
 }
