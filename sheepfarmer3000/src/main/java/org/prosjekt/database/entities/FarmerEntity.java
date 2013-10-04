@@ -4,7 +4,7 @@
  */
 package org.prosjekt.database.entities;
 
-import org.prosjekt.helperclasses.impl.FarmerImpl;
+import org.prosjekt.helperclasses.Farmer;
 
 /**
  *
@@ -24,7 +24,7 @@ public class FarmerEntity {
         this.id = id;
     }
 
-    public static FarmerEntity farmerToFarmerEntity(FarmerImpl farmer){
+    public static FarmerEntity farmerToFarmerEntity(Farmer farmer){
         return new Builder(farmer.getId())
                 .setFirstname(farmer.getFirstName())
                 .setLastname(farmer.getLastName())
@@ -32,8 +32,8 @@ public class FarmerEntity {
                 .build;
     }
     
-    public static FarmerImpl farmerEntityToFarmer(FarmerEntity entity){
-        return new FarmerImpl(entity.getId(), entity.getFirstname(), entity.getLastname(), entity.getEmail()
+    public static Farmer farmerEntityToFarmer(FarmerEntity entity){
+        return new Farmer(entity.getId(), entity.getFirstname(), entity.getLastname(), entity.getEmail()
                 , null, entity.getHelperfirstname(), entity.getHelperfirstlastname(), null, null);
     }
     

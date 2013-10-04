@@ -13,12 +13,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
+import org.prosjekt.database.SheepFarmerConnection;
 
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-class AbstractProperties {
+public class AbstractProperties {
     private final String url;
     private final String user;
     private final String passwd;
@@ -52,10 +53,8 @@ class AbstractProperties {
     }
 
     void deleteEntity(int id, String tablename) {
-        try {
-            Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
-            PreparedStatement preparedStatement = null;
-            preparedStatement = conn.prepareStatement("DELETE FROM "+tablename+" where id =?");
+        String sql = "DELETE FROM "+tablename+" where id =?";
+      try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeQuery();
         } catch (SQLException ex) {
