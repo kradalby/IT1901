@@ -4,7 +4,6 @@
  */
 package org.prosjekt.database.repository;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.database.entities.FarmerEntity;
 import org.prosjekt.database.entities.SheepEntity;
 import org.prosjekt.helperclasses.Farmer;
@@ -25,31 +25,25 @@ import org.prosjekt.helperclasses.Sheep;
 public class SheepRepository extends AbstractProperties {
     private FarmerRepository fr;
     /**
-     *  Klassen tilbyr CRUD for server. Create, read, update and delete. 
-     *  
+     *  Klassen tilbyr CRUD for server. Create, read, update and delete.
+     *
      */
     public SheepRepository() {
         fr = new FarmerRepository();
     }
-   
+    
     public void deleteEntity(int id) {
-        try {
-            Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
-            PreparedStatement  preparedStatement = null;
-             preparedStatement = conn.prepareStatement("DELETE FROM sheep where id =" + id);
-             preparedStatement.executeQuery();
+        String sql = "DELETE FROM sheep where id =" + id;
+        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            preparedStatement.executeQuery();
         } catch (SQLException ex) {
-//            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void updateEntity(SheepEntity entity){
-        try {
-            //        conn.setAutoCommit(false);//commit trasaction manually
-            String sql = "UPDATE sheep set farmerid=?, weight=?, birth=?, alive=? where id=?";
-            Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            
+        String sql = "UPDATE sheep set farmerid=?, weight=?, birth=?, alive=? where id=?";
+        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             preparedStatement.setInt(1, entity.getFarmerid());
             
             if (entity.getWeight() == null) preparedStatement.setNull(2, Types.NULL);
@@ -60,56 +54,50 @@ public class SheepRepository extends AbstractProperties {
             preparedStatement.setInt(5, entity.getId());
             preparedStatement.executeQuery();
         } catch (SQLException ex) {
-//            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+            //            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public void insertEntity(SheepEntity entity)  {
-        System.out.println(entity);
-        try {
-            //        conn.setAutoCommit(false);//commit trasaction manually
-             String sql = "INSERT INTO sheep"
-                    + "(id, farmerid, weight, birth, alive) VALUES"
-                    + "(?,?,?,?,?)";
-            Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        String sql = "INSERT INTO sheep"
+                + "(id, farmerid, weight, birth, alive) VALUES"
+                + "(?,?,?,?,?)";
+        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.setInt(2, entity.getFarmerid());
             
             if (entity.getWeight() == null) preparedStatement.setNull(3, Types.NULL);
             else preparedStatement.setInt(3, entity.getWeight());
-//            
+            //
             preparedStatement.setDate(4, entity.getBirth());
             preparedStatement.setBoolean(5, entity.isAlive());
             preparedStatement.execute();
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
-
-   /*
-    *  READ
-    */
+    }
+    
+    /*
+     *  READ
+     */
     public SheepEntity getSheep(int id){
-           SheepEntity entity = null;
-           try {
-               String sql = "SELECT * FROM sheep where id = ?";
-               Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd());
-               PreparedStatement preparedStatement = conn.prepareStatement(sql);
-               preparedStatement.setInt(1, id);
-               ResultSet rs = preparedStatement.executeQuery();
-               while (rs.next()){
-                   int farmerid = rs.getInt("farmerid");
-                   Integer weight = rs.getInt("weight");
-                   Boolean attack = rs.getBoolean("alive");
-                   Date date = rs.getDate("birth");
-                   entity = new SheepEntity(id, farmerid, weight, date, attack);
-               }
+        SheepEntity entity = null;
+        String sql = "SELECT * FROM sheep where id = ?";
+        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                int farmerid = rs.getInt("farmerid");
+                Integer weight = rs.getInt("weight");
+                Boolean attack = rs.getBoolean("alive");
+                Date date = rs.getDate("birth");
+                entity = new SheepEntity(id, farmerid, weight, date, attack);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(org.prosjekt.database.repository.FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return entity;
     }
-
-
+    
+    
 }

@@ -2,13 +2,20 @@ package org.prosjekt.helperclasses;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.prosjekt.helperclasses.Coordinate;
+import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.Passhash;
+import org.prosjekt.helperclasses.Sheep;
 
-public class Farmer implements Serializable,IFarmer {
+public class Farmer implements Serializable {
     private final int id; //brukes som brukernavn
+    private Passhash passhash;
     private String firstName;
     private String lastName;
-    private ArrayList<Sheep> sheeps;
-    private String passhash;
+    private List<Sheep> sheeps;
+   
     private String email;
     private String phone;
     //kontaktinfo til helper
@@ -16,7 +23,7 @@ public class Farmer implements Serializable,IFarmer {
     private String helperLastName;
     private String helperPhone;
     private String helperEmail;
-    private ArrayList<Coordinate> cordinates; //koordinatene til gaaren/teigen
+    private List<Coordinate> cordinates; //koordinatene til gaaren/teigen
 
     /*
      *  Temporary constructor, used under db development. 
@@ -30,23 +37,29 @@ public class Farmer implements Serializable,IFarmer {
     
     
     
-    public Farmer(int id, String firstName, String lastName, String password, String email, String phone, String helperFirstName, String helperLastName, String helperPhone, String helperEmail) {
+    public Farmer(int id, String firstName, String lastName, String email, String phone, String helperFirstName, String helperLastName, String helperPhone, String helperEmail) {
         
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.passhash = password;
         this.email = email;
         this.phone = phone;
         this.helperFirstname = helperFirstName;
         this.helperLastName = helperLastName;
         this.helperPhone = helperPhone;
         this.helperEmail = helperEmail;
-        this.sheeps = new ArrayList<Sheep>();
+        this.sheeps = Collections.unmodifiableList(new ArrayList<Sheep>());
+    }
+    
+   public Passhash getPasshash(){
+        return passhash;
+     }
+   
+    public void setPasshash(Passhash passhash){
+        this.passhash = passhash;
     }
     
  
-    
     public String getEmail() {
         return email;
     }
@@ -106,8 +119,8 @@ public class Farmer implements Serializable,IFarmer {
     public String getLastName() {
         return lastName;
     }
-    
-    public ArrayList<Sheep> getSheeps() {
+
+    public List<Sheep> getSheeps() {
         return sheeps;
     }
 
@@ -119,27 +132,84 @@ public class Farmer implements Serializable,IFarmer {
         this.lastName = lastName;
     }
 
-    public void setSheeps(ArrayList<Sheep> sheeps) {
+    public void addSheep(Sheep sheep) {
         this.sheeps = sheeps;
     }
 
-    public String getPasshash() {
-        return passhash;
-    }
-
-    public void setPasshash(String passhash) {
-        this.passhash = passhash;
-    }
 
     
 
-    public void setCordinates(ArrayList<Coordinate> coordinates) {
+    public void setCordinates(List<Coordinate> coordinates) {
         this.cordinates = coordinates;
     }
 
     @Override
     public String toString() {
-        return "Farmer{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + passhash + ", email=" + email + ", phone=" + phone + '}';
+        return "Farmer{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + email + ", phone=" + phone + '}';
+    }
+
+  
+
+    public static class Builder {
+
+        public Builder(int id) {
+            this.item = new Farmer(id);
+        }
+        private Farmer item;
+
+        public Builder withFirstName(final String firstName) {
+            this.item.firstName = firstName;
+            return this;
+        }
+
+        public Builder withLastName(final String lastName) {
+            this.item.lastName = lastName;
+            return this;
+        }
+
+        public Builder withSheeps(final List<Sheep> sheeps) {
+            this.item.sheeps = sheeps;
+            return this;
+        }
+
+        public Builder withEmail(final String email) {
+            this.item.email = email;
+            return this;
+        }
+
+        public Builder withPhone(final String phone) {
+            this.item.phone = phone;
+            return this;
+        }
+
+        public Builder withHelperFirstname(final String helperFirstname) {
+            this.item.helperFirstname = helperFirstname;
+            return this;
+        }
+
+        public Builder withHelperLastName(final String helperLastName) {
+            this.item.helperLastName = helperLastName;
+            return this;
+        }
+
+        public Builder withHelperPhone(final String helperPhone) {
+            this.item.helperPhone = helperPhone;
+            return this;
+        }
+
+        public Builder withHelperEmail(final String helperEmail) {
+            this.item.helperEmail = helperEmail;
+            return this;
+        }
+
+        public Builder withCordinates(final List<Coordinate> cordinates) {
+            this.item.cordinates = cordinates;
+            return this;
+        }
+
+        public Farmer build() {
+            return this.item;
+        }
     }
     
     

@@ -29,12 +29,11 @@ public class FarmerEntity {
                 .setFirstname(farmer.getFirstName())
                 .setLastname(farmer.getLastName())
                 .setEmail(farmer.getEmail())
-                .setHashpass(farmer.getPasshash())
                 .build;
     }
     
     public static Farmer farmerEntityToFarmer(FarmerEntity entity){
-        return new Farmer(entity.getId(), entity.getFirstname(), entity.getLastname(), entity.getHashpass(), entity.getEmail()
+        return new Farmer(entity.getId(), entity.getFirstname(), entity.getLastname(), entity.getEmail()
                 , null, entity.getHelperfirstname(), entity.getHelperfirstlastname(), null, null);
     }
     
