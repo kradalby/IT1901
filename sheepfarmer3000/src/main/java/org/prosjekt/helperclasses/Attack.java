@@ -3,21 +3,22 @@ package org.prosjekt.helperclasses;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
+import org.prosjekt.helperclasses.impl.SheepImpl;
 
 public class Attack implements Serializable {
-	private Sheep sheep;
+	private SheepImpl sheep;
 	private String latitude;
 	private String longitude;
 	private DateTime timestamp;
 	
-	public Attack(Sheep sheep, String latitude, String longitude) {
+	public Attack(SheepImpl sheep, String latitude, String longitude) {
 		this.sheep = sheep;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.timestamp = DateTime.now();
 	}
 
-	public Sheep getSheep() {
+	public SheepImpl getSheep() {
 		return sheep;
 	}
 
