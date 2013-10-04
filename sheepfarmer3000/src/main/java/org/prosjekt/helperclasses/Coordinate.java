@@ -4,24 +4,72 @@
  */
 package org.prosjekt.helperclasses;
 
+import java.io.Serializable;
+
 import org.joda.time.DateTime;
+import org.prosjekt.helperclasses.Coordinate;
+
+import sun.util.calendar.Gregorian;
 
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public interface Coordinate {
-    public Integer getId();
+public class Coordinate implements Serializable {
+    private final Integer id;
+    private String longitude;
+    private String latitude;
+    private DateTime date;
+    private boolean attack;
 
-    public String getLongitude();
-    public void setLongitude(String longitude);
+    public Coordinate(Integer id, String longitude, String latitude, DateTime date, boolean attack) {
+        this.id = id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.date = date;
+        this.attack = attack;
+    }
     
-    public String getLatitude();
-    public void setLatitude(String latitude);
+    
 
-    public DateTime getDate();
-    public void setDate(DateTime date);
+    public Integer getId() {
+        return id;
+    }
 
-    public boolean isAttack();
-    public void setAttack(boolean attack);
+   
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public DateTime getDate() {
+        return date;
+    }
+
+    public void setDate(DateTime date) {
+        this.date = date;
+    }
+
+    public boolean isAttack() {
+        return attack;
+    }
+
+    public void setAttack(boolean attack) {
+        this.attack = attack;
+    }
+
+    
+    
 }
