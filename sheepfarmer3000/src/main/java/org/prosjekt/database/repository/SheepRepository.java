@@ -15,8 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.prosjekt.database.entities.FarmerEntity;
 import org.prosjekt.database.entities.SheepEntity;
-import org.prosjekt.helperclasses.Farmer;
-import org.prosjekt.helperclasses.Sheep;
+import org.prosjekt.helperclasses.impl.FarmerImpl;
+import org.prosjekt.helperclasses.impl.SheepImpl;
 
 /**
  *

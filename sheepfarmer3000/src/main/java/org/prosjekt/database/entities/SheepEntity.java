@@ -7,7 +7,7 @@ package org.prosjekt.database.entities;
 import com.google.common.base.Preconditions;
 import java.sql.Date;
 import org.joda.time.DateTime;
-import org.prosjekt.helperclasses.Sheep;
+import org.prosjekt.helperclasses.impl.SheepImpl;
 
 /**
  *

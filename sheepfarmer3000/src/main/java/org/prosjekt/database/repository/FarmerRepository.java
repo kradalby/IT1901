@@ -18,9 +18,13 @@ import java.util.logging.Logger;
 import org.joda.time.DateTime;
 import org.prosjekt.database.entities.FarmerEntity;
 import org.prosjekt.helperclasses.Coordinate;
+import org.prosjekt.helperclasses.impl.CoordinateImpl;
+import org.prosjekt.helperclasses.impl.FarmerImpl;
 import org.prosjekt.helperclasses.Farmer;
-import org.prosjekt.helperclasses.IFarmer;
+import org.prosjekt.helperclasses.Passhash;
 import org.prosjekt.helperclasses.Sheep;
+import org.prosjekt.helperclasses.impl.PassHashImpl;
+import org.prosjekt.helperclasses.impl.SheepImpl;
 import sun.font.SunFontManager;
 
 /**
@@ -86,7 +90,7 @@ public class FarmerRepository extends AbstractProperties {
     /*
      *  READ
      */
-    public Farmer getFarmer(int id) {
+    public FarmerImpl getFarmer(int id) {
         FarmerEntity entity = new FarmerEntity(id);
         try (Connection conn = DriverManager.getConnection(getUrl(), getUser(), getPasswd())) {
             String sql = "SELECT * FROM farmer where id = ?";
@@ -123,35 +127,37 @@ public class FarmerRepository extends AbstractProperties {
                     + "group by sheepid)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            f = new Farmer(id);
-            sheeps = Lists.newArrayList();
+            f = new FarmerImpl(id);
             farmerArea = Lists.newArrayList();
             while (rs.next()){
                 f.setEmail(rs.getString("f_email"));
                 f.setFirstName(rs.getString("f_firstname"));
                 f.setLastName(rs.getString("f_lastname"));
-                f.setPasshash(rs.getString("f_hashpass"));   
+                Passhash pass = new PassHashImpl(f.getId()); 
+                pass.setPasshash(f.getId(), rs.getString("f_hashpass"));
+                f.setPasshash(pass);
                 f.setPhone("f_phone");
                 f.setHelperFirstname(rs.getString("f_hfn"));
                 f.setHelperLastName(rs.getString("f_hln"));
 //                f.setHelperEmail(rs.getString("f_hemail")); ikke lagt inn i db. 
 //                f.setHelperPhone(rs.getString("f_hphone"));
                 
-                Coordinate c = new Coordinate();
-                c.setId(rs.getInt("cid"));
-                c.setAttack(rs.getBoolean("c_attack"));
-                c.setDate(new DateTime(rs.getTimestamp("c_date")));
-                c.setLatitude(rs.getString("c_latitude"));
-                c.setLongitude(rs.getString("c_longitude"));
+                Integer cid = rs.getInt("cid");
+                Boolean attack = rs.getBoolean("c_attack");
+                DateTime c_date = new DateTime(rs.getTimestamp("c_date"));
+                String lat = rs.getString("c_latitude");
+                String longi = rs.getString("c_longitude");
+                Coordinate c = new CoordinateImpl(cid, longi, lat, c_date, attack);
 //                f.set(rs.getInt("fid"));
 //                f.setF;
                 if (rs.getInt("fid") > 0){
                     farmerArea.add(c);
                 }
                 else {
-                    Sheep sheep = new Sheep(rs.getInt("sid"), rs.getInt("s_weight"), new DateTime(rs.getTimestamp("s_date")), f);
-//                    sheep.addMostRecentGps();
-                    sheeps.add(sheep);
+                    SheepImpl sheep = new SheepImpl(rs.getInt("sid"), new DateTime(rs.getTimestamp("s_date")), f);
+                  sheep.setWeigth(rs.getInt("s_weight"));
+                  sheep.setMostCurrentCoordinate(c);
+                  f.addSheep(sheep);
                  }
                 
                 System.out.println(c);
