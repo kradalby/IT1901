@@ -16,7 +16,8 @@ public class SheepLogic {
                 		sheeps[i].cordinates.setLatitude(koordinater[1]+1): //Jeg vet ikke hva slags form koordinatene er på, øker med 1 hittil
                 		int randomIndex = generator.nextInt( 100 );
                 		if (randomIndex<=2){
-                			sheeps[i].alive=False;
+                			//Sauen dør med 2% sannsynlighet
+                			sheeps[i].alive=False; //sende en alarm av noe slag?
                 		}
                 	}
                 }
