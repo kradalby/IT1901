@@ -12,12 +12,12 @@ public class SheepLogic {
                 	for(int i=0; i<sheeps.size()-1; i++)
                 	{
                 		ArrayList<Coordinate> koordinater=sheeps[i].getCurrentCordinates();
-                		sheeps[i].cordinates.setLongitude(koordinater[0]+1): //Jeg vet ikke hva slags form koordinatene er på, øker med 1 hittil
-                		sheeps[i].cordinates.setLatitude(koordinater[1]+1): //Jeg vet ikke hva slags form koordinatene er på, øker med 1 hittil
+                		sheeps[i].cordinates.setLongitude(koordinater[0]+1); //Jeg vet ikke hva slags form koordinatene er på, øker med 1 hittil
+                		sheeps[i].cordinates.setLatitude(koordinater[1]+1); //Jeg vet ikke hva slags form koordinatene er på, øker med 1 hittil
                 		int randomIndex = generator.nextInt( 100 );
                 		if (randomIndex<=2){
                 			//Sauen dør med 2% sannsynlighet
-                			sheeps[i].alive=False; //sende en alarm av noe slag?
+                			sheeps[i].setAlive(False); //sende en alarm av noe slag?
                 		}
                 	}
                 }
