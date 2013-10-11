@@ -6,64 +6,33 @@ package org.prosjekt.helperclasses;
 
 import java.io.Serializable;
 
-import org.joda.time.DateTime;
 
-import sun.util.calendar.Gregorian;
 
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Coordinate implements Serializable {
-	private Integer id;
-    private String longitude;
-    private String latitude;
-    private DateTime date;
-    private boolean attack;
+    private float longitude;
+    private float latitude;
     
     public Coordinate() {
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLongitude() {
+    
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
-
-    public DateTime getDate() {
-        return date;
-    }
-
-    public void setDate(DateTime date) {
-        this.date = date;
-    }
-
-    public boolean isAttack() {
-        return attack;
-    }
-
-    public void setAttack(boolean attack) {
-        this.attack = attack;
-    }
-
-   
     
 }
