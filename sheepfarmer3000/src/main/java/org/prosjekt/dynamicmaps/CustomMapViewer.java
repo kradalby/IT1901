@@ -1,8 +1,6 @@
 package org.prosjekt.dynamicmaps;
 
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
@@ -11,6 +9,7 @@ import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
+import org.prosjekt.client.Gui;
 
 /**
  *
@@ -18,19 +17,21 @@ import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
  */
 public class CustomMapViewer extends JMapViewer{
     
-    private final int DEFAULT_SIZE = 500;
-    
+    private final int DEFAULT_SIZE_X = 800;
+    private final int DEFAULT_SIZE_Y = 600;
+    private static Gui gui;
     private CustomMapController mapController;
     
-    public CustomMapViewer(){
+    public CustomMapViewer(Gui gui){
         super(new MemoryTileCache(), 8);
+        this.gui = gui;
         mapController = new CustomMapController(this);
-        setSize(DEFAULT_SIZE, DEFAULT_SIZE);
+        setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
         setDisplayToFitMapElements(false, false, true);
     }
     
-    public void mouseEventRegistered(MouseEvent e){
-        MapKit.mouseEventRegistered(e);
+    public final Gui getGui(){
+        return this.gui;
     }
     
     public void addMarker(Coordinate coord){
