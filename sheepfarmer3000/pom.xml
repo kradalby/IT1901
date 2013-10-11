@@ -37,6 +37,20 @@
         <version>4.11</version>
         <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>1.8.0.7</version>
+        <scope>test</scope>
+        
+    </dependency>
+    <dependency>
+	<groupId>com.googlecode.flyway</groupId>
+	<artifactId>flyway-core</artifactId>
+	<version>2.2.1</version>
+        <scope>test</scope>
+    </dependency>
+            
 
 
         
@@ -44,19 +58,19 @@
     Legg JMapViewer_29618.jar på c:\    finnes i zip fil som Alfredo la ut FB. 
     D:\mvn install:install-file -Dfile=c:\JMapViewer_29618.jar -DgroupId=com -DartifactId=jmapviewer -Dversion=1.0 -Dpackaging=jar
     
-    mvn install:install-file -Dfile=d:\JMapViewer_29618.jar -DgroupId=jmapviewer -DartifactId=jmapviewer -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
-    -->
-    <dependency>
-        <groupId>jmapviewer</groupId>
-        <artifactId>jmapviewer</artifactId>
-        <version>1.0</version>
-    </dependency>
+        mvn install:install-file -Dfile=d:\JMapViewer_29618.jar -DgroupId=jmapviewer -DartifactId=jmapviewer -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
+        -->
+        <dependency>
+            <groupId>jmapviewer</groupId>
+            <artifactId>jmapviewer</artifactId>
+            <version>1.0</version>
+        </dependency>
 
-  </dependencies>
+    </dependencies>
   
-  <build>
-      <plugins>
-                      <plugin>
+    <build>
+        <plugins>
+            <plugin>
                 <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -69,8 +83,38 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
-      </plugins>
-  </build>
+            
+            
+            <plugin>
+                <groupId>com.googlecode.flyway</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5432/SheepFarmer3000</url>
+                    <driver>org.postgresql.Driver</driver>
+                    <user>prosjekt</user>
+                    <password>gruppe3</password>
+                    <schemas>
+                        <schema>public</schema>
+                    </schemas>
+                    <table>schema_history</table>
+                    <initVersion>1.0</initVersion>
+                    <initDescription>Base Migration</initDescription>
+                    <skip>false</skip>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>9.1-901.jdbc3</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>
+
+
+
 
 
