@@ -7,6 +7,7 @@ package org.prosjekt.helperclasses;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
+import org.prosjekt.helperclasses.Coordinate;
 
 import sun.util.calendar.Gregorian;
 
@@ -15,22 +16,27 @@ import sun.util.calendar.Gregorian;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Coordinate implements Serializable {
-	private Integer id;
+    private final Integer id;
     private String longitude;
     private String latitude;
     private DateTime date;
     private boolean attack;
-    
-    public Coordinate() {
+
+    public Coordinate(Integer id, String longitude, String latitude, DateTime date, boolean attack) {
+        this.id = id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.date = date;
+        this.attack = attack;
     }
+    
+    
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+   
 
     public String getLongitude() {
         return longitude;
@@ -64,6 +70,6 @@ public class Coordinate implements Serializable {
         this.attack = attack;
     }
 
-   
+    
     
 }
