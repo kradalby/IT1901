@@ -1,9 +1,7 @@
-
-
 CREATE TABLE coordinate (
     id integer NOT NULL,
-    latitude character varying(255),
-    longitude character varying(255),
+    latitude double,
+    longitude double,
     attack boolean,
     dateevent timestamp,
     sheepid integer NOT NULL,
@@ -25,7 +23,6 @@ CREATE TABLE farmer (
 CREATE TABLE sheep (
     id integer NOT NULL,
     farmerid integer NOT NULL,
-    weight integer,
     birth date,
     alive boolean
 );
