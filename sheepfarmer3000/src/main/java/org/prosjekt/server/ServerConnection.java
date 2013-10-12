@@ -11,7 +11,7 @@ public class ServerConnection extends Thread{
 	public void run() {
 		running = true;
 		try {
-			ServerSocket serverSocket = new ServerSocket();
+			ServerSocket serverSocket = new ServerSocket(port);
 			int sessionId = 0;
 			while(running) {
 				Socket socket;
@@ -19,11 +19,12 @@ public class ServerConnection extends Thread{
 				
 				
 				sessionId++;
-				System.out.println("New server session started with id: " + sessionId);
 				ServerSession serverSession;
 				serverSession = new ServerSession(socket, sessionId);
 				
-			}
+			} 
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
