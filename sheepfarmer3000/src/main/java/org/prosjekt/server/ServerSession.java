@@ -26,7 +26,7 @@ public class ServerSession extends Thread {
 			System.out.println("Session opened with ID: " + id);
 			
 			while(running) {
-				Request request = ServerWorker.doshiat(recivePackage()); //Doshiat er en placeholder til en ordentligmetode blir laget.
+				Request request = ServerWorker.doshiat(receivePackage()); //Doshiat er en placeholder til en ordentligmetode blir laget.
 				sendPackage(request);
 			}
 			
@@ -36,7 +36,7 @@ public class ServerSession extends Thread {
 		}
 	}
 	
-	public Request recivePackage() {
+	public Request receivePackage() {
 		try {
 			System.out.println("Session " + id + " waiting for object");
 			in = new ObjectInputStream(socket.getInputStream());
@@ -52,6 +52,7 @@ public class ServerSession extends Thread {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			out.writeObject(request);
 			out.flush();
+			System.out.println("Package has been sent.");
 			return true;
 			
 		} catch (Exception e) {
