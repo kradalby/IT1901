@@ -26,8 +26,8 @@ public class ServerSession extends Thread {
 			System.out.println("Session opened with ID: " + id);
 			
 			while(running) {
-				Request request = ServerWorker.doshiat(reciveObject()); //Doshiat er en placeholder til en ordentligmetode blir laget.
-				sendObject(request);
+				Request request = ServerWorker.doshiat(recivePackage()); //Doshiat er en placeholder til en ordentligmetode blir laget.
+				sendPackage(request);
 			}
 			
 			System.out.println("Connection with session id: " + id + " closed.");
@@ -36,11 +36,18 @@ public class ServerSession extends Thread {
 		}
 	}
 	
-	public Request reciveObject() {
-		
+	public Request recivePackage() {
+		try {
+			System.out.println("Session " + id + " waiting for object");
+			in = new ObjectInputStream(socket.getInputStream());
+			return (Request) in.readObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
-	public boolean sendObject() {
+	public boolean sendPackage() {
 		
 	}
 	
