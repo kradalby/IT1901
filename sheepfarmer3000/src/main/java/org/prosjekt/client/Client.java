@@ -1,5 +1,6 @@
 package org.prosjekt.client;
 
+import org.prosjekt.helperclasses.Farmer;
 import java.io.*;
 import java.net.*;
 
@@ -8,11 +9,16 @@ import org.prosjekt.helperclasses.Sheep;
 public class Client {
 	private String host;
 	private int port;
+        private static Farmer farmer;
 	
 	public Client(String host, int port) {
 		this.host = host;
 		this.port = port;
 	}
+        
+        public Farmer getFarmer(){
+            return this.farmer;
+        }
 	
 	public static void main(String args[]) throws IOException {
 		Client session = new Client("localhost", 4444);

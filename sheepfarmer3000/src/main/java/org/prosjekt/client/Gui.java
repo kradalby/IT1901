@@ -6,24 +6,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import static org.prosjekt.client.Gui.currentUser;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.dynamicmaps.CustomMapViewer;
+
 
 public class Gui implements ActionListener, ItemListener {
 	protected JFrame frame;
-	private JLabel emptyLabel;
-	private JLabel kart;
+	private CustomMapViewer kart;
+        private JLabel emptyLabel;
 	private JMenuBar menuBar;
 	private PasswordBox passwordBox;
 	private StatisticsPane statPane;
@@ -31,13 +31,41 @@ public class Gui implements ActionListener, ItemListener {
 	protected JFrame statFrame;
 	private JFrame farmerSettingsFrame;
 	protected static Farmer currentUser;
+        private static Client client;
+        private int POPUP_X;
+        private int POPUP_Y;
 	
 	
 	
 
 	
-	//Lager GUI, praksis kun den GUI'en som vises når passordboksen er åpen, resten håndteres av passwordConfirmed
+	//Lager GUI, praksis kun den GUI'en som vises nï¿½r passordboksen er ï¿½pen, resten hï¿½ndteres av passwordConfirmed
 	public void createGui(){
+		//initialize();
+		//Lager en JFrame
+		frame = new JFrame("Sheep system 3000");
+		emptyLabel = new JLabel("");
+		emptyLabel.setPreferredSize(new Dimension(800, 600));
+                POPUP_X = 800/2;
+                POPUP_Y = 600/2;
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
+		
+		//ï¿½pner passordboksen
+		passwordBox = new PasswordBox(this);
+		//boolean test = passwordBox.getCorrect(); //trengs denne?
+		frame.add(passwordBox);
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowActivated(WindowEvent e){
+				passwordBox.resetFocus();
+			}
+		});
+		frame.pack();
+		frame.setVisible(true);
+		
+	}
+        
+        public void createGui(Client client){
 		//initialize();
 		//Lager en JFrame
 		frame = new JFrame("Sheep system 3000");
@@ -46,7 +74,10 @@ public class Gui implements ActionListener, ItemListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
 		
-		//åpner passordboksen
+                //Lagrer en refenranse til clientet som lager GUI-en
+                this.client = client;
+                
+		//ï¿½pner passordboksen
 		passwordBox = new PasswordBox(this);
 		//boolean test = passwordBox.getCorrect(); //trengs denne?
 		frame.add(passwordBox);
@@ -66,14 +97,17 @@ public class Gui implements ActionListener, ItemListener {
 		this.createGui();
 		return this.frame;
 	}
+        
+        public final Client getClient(){
+            return this.client;
+        }
 	
 	
 	//Denne tar seg i praksis av alt, initializer, etter passordet er bekreftet
 	protected void passwordConfirmed(Farmer user){
 		this.currentUser = user;
 		frame.remove(passwordBox);
-		kart = new JLabel("Kart");
-		kart.setPreferredSize(new Dimension(800, 600));
+		kart = new CustomMapViewer(this);
 		frame.add(kart);
 		//Lager en meny og legger til elementer i menyen
 		menuBar = new JMenuBar();
@@ -86,7 +120,7 @@ public class Gui implements ActionListener, ItemListener {
 		statPane = new StatisticsPane();
 		//setPane = new FarmerSettingsPane(currentUser);
 		
-		//Legger menyen til JFrame og gjør JFrame klar til å vises
+		//Legger menyen til JFrame og gjï¿½r JFrame klar til ï¿½ vises
 		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
@@ -95,13 +129,13 @@ public class Gui implements ActionListener, ItemListener {
 	
 	
 	
-	private void initialize(){		//Foreløpig ikke i bruk
+	private void initialize(){		//Forelï¿½pig ikke i bruk
 		
-		//Denne kan være reduntant, da man i praksis først tenger framen nå passordet er godtatt,
+		//Denne kan vï¿½re reduntant, da man i praksis fï¿½rst tenger framen nï¿½ passordet er godtatt,
 		//Hele denne metodens funksjon blir erstattet av passwordConfirmed
 		
-		//Denne metoden skal brukes til å hente all info fra server
-		/*Kan hente og sende data til riktig sted på denne måte;
+		//Denne metoden skal brukes til ï¿½ hente all info fra server
+		/*Kan hente og sende data til riktig sted pï¿½ denne mï¿½te;
 		 * statPane.initialize(server.getFarmer);
 		 * setPane.initialize(server.getFarmer);
 		 */
@@ -160,7 +194,7 @@ public class Gui implements ActionListener, ItemListener {
 		return help;
 		
 	}
-	//Kan også legge til keyboardsnarveier til disse menyelementene
+	//Kan ogsï¿½ legge til keyboardsnarveier til disse menyelementene
 	
 	
 	
@@ -266,6 +300,7 @@ public class Gui implements ActionListener, ItemListener {
 		newSubmenu.addActionListener(this);
 		JMenuItem newSheep = new JMenuItem("New Sheep");
 		newSheep.addActionListener(this);
+                newSheep.setActionCommand("newSheep");
 		newSubmenu.add(newSheep);
 		return newSubmenu;
 	}
@@ -289,11 +324,20 @@ public class Gui implements ActionListener, ItemListener {
 		quit.setActionCommand("quit");
 		return quit;
 	}
+        
+        /*
+         * PopupMeny 
+         */
+        
+        public void createPopup(int x, int y){
+            //MÃ¥ endres, gjÃ¸r ingenting.
+            System.out.print(x + " " + y);
+        }
 	
 	
 	/*
 	 * 
-	 * Event-håndtering
+	 * Event-hï¿½ndtering
 	 * 
 	 */
 	
@@ -321,7 +365,10 @@ public class Gui implements ActionListener, ItemListener {
 			createFarmerSettingsFrame(1);
 		}
 		else if(command == "userManual"){
-			//Her må kode inn for å åpen bruksmanualen
+			//Her mï¿½ kode inn for ï¿½ ï¿½pen bruksmanualen
+		}
+                else if(command == "newSheep"){
+			createPopup(POPUP_X, POPUP_Y);
 		}
 		
 		
@@ -349,7 +396,6 @@ public class Gui implements ActionListener, ItemListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 
 }
