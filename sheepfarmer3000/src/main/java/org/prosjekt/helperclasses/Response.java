@@ -36,5 +36,8 @@ public class Response implements Serializable {
 		return this.items.get(key);
 	}
 	
+	public boolean isErrorInResponse() {
+		return this.items.containsKey("error");
+	}
 	
 }
