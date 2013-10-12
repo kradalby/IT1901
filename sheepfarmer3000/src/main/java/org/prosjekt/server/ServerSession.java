@@ -47,12 +47,30 @@ public class ServerSession extends Thread {
 		}
 	}
 	
-	public boolean sendPackage() {
-		
+	public boolean sendPackage(Request request) {
+		try {
+			out = new ObjectOutputStream(socket.getOutputStream());
+			out.writeObject(request);
+			out.flush();
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
-	public void close() {
-		
+	public void closeNetworkConnection() {
+		try {
+			if(in != null)
+				in.close();
+			if(out != null)
+				out.close();
+			if(socket != null)
+				socket.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
