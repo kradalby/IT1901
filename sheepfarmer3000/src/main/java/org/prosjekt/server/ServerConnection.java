@@ -23,6 +23,8 @@ public class ServerConnection extends Thread{
 				serverSession = new ServerSession(socket, sessionId);
 				serverSession.start();
 			} 
+			
+			serverSocket.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
