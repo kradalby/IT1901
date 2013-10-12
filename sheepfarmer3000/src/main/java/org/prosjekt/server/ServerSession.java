@@ -4,7 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ServerSession {
+public class ServerSession extends Thread {
 
 	private Socket socket;
 	private int id;
@@ -18,6 +18,20 @@ public class ServerSession {
 	ObjectOutputStream out;
 	ObjectInputStream in;
 	
+	public void run() {
+		
+	}
 	
+	public void recieveObject() {
+		
+	}
+	
+	public void sendObject() {
+		
+	}
+	
+	public void close() {
+		
+	}
 	
 }
