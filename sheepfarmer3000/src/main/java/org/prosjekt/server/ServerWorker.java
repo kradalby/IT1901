@@ -1,4 +1,4 @@
-package server;
+package org.prosjekt.server;
 
 public class ServerWorker {
 
