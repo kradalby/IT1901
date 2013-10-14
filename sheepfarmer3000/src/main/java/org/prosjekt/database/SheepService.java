@@ -18,7 +18,8 @@ public interface SheepService {
      * @return sheep with all coordinates 
      */
     public Sheep getSheepAllCordinates(Sheep sheep);
-    public void updateSheep();
+    public void addSheep(Sheep sheep);
+    public void removeSheep(Sheep sheep);
     
     
     

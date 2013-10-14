@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.joda.time.DateTime;
+import org.prosjekt.database.FarmerService;
 import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.database.entities.FarmerEntity;
 import org.prosjekt.helperclasses.Coordinate;
@@ -24,7 +25,7 @@ import org.prosjekt.helperclasses.Sheep;
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class FarmerRepository extends AbstractProperties {
+public class FarmerRepository extends AbstractProperties implements FarmerService {
 
     /*
      *  Klassen tilbyr CRUD for server. Create, read, update and delete. 
@@ -52,7 +53,7 @@ public class FarmerRepository extends AbstractProperties {
             preparedStatement.setInt(6, entity.getId());
             preparedStatement.executeQuery();
         } catch (SQLException ex) {
-//            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -78,7 +79,7 @@ public class FarmerRepository extends AbstractProperties {
     /*
      *  READ
      */
-    public Farmer getFarmer(int id) {
+    public Farmer getFarmerPlain(int id) {
         Farmer ret = null;
         String sql = "SELECT * FROM farmer where id = ?";
         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
@@ -100,7 +101,8 @@ public class FarmerRepository extends AbstractProperties {
         return ret;
     }
 
-    public Farmer getFarmerSheepsMostRecentGPS(int id) {
+    @Override
+    public Farmer getFarmer(int id) {
         List<Coordinate> farmerArea = null;
         List<Sheep> sheeps = null;
         Farmer f = null;
@@ -123,7 +125,7 @@ public class FarmerRepository extends AbstractProperties {
                 f.setFirstName(rs.getString("f_firstname"));
                 f.setLastName(rs.getString("f_lastname"));
                 Passhash pass = new Passhash(f.getId()); 
-                pass.setPasshash(f.getId(), rs.getString("f_hashpass"));
+//                pass.setPasshash(f.getId(), rs.getString("f_hashpass"));
                 f.setPasshash(pass);
                 f.setPhone("f_phone");
                 f.setHelperFirstname(rs.getString("f_hfn"));
@@ -155,6 +157,33 @@ public class FarmerRepository extends AbstractProperties {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return f;
+    }
+
+    @Override
+    public void setPasshash(Passhash passhash) {
+        
+         String sql = "UPDATE farmer set firstname=?, lastname=?, hashpass=?, email=?, helperfirstname=? where id=?";
+         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            preparedStatement.setString(1, passhash.getPasshash());
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public Passhash getPasshash(int farmerid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateFarmer(Farmer farmer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addSheep(int farmerid, Sheep sheep) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
