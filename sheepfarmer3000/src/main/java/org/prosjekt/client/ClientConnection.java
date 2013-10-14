@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 
 import org.prosjekt.helperclasses.Request;
+import org.prosjekt.helperclasses.Response;
 
 public class ClientConnection {
 
@@ -37,10 +38,10 @@ public class ClientConnection {
 	}
 	
 	
-	public Request receivePackage() {
+	public Response receivePackage() {
 		try {
 			in = new ObjectInputStream(socket.getInputStream());
-			return (Request) in.readObject();
+			return (Response) in.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
