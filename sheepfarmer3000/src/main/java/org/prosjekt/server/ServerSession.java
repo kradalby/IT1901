@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import org.prosjekt.helperclasses.Request;
+import org.prosjekt.helperclasses.Response;
 
 public class ServerSession extends Thread {
 
@@ -26,8 +27,8 @@ public class ServerSession extends Thread {
 			System.out.println("Session opened with ID: " + id);
 			
 			while(running) {
-				Request request = ServerWorker.doshiat(receivePackage()); //Doshiat er en placeholder til en ordentligmetode blir laget.
-				sendPackage(request);
+				Response response = ServerWorker.handlePackage(receivePackage()); 
+				sendPackage(response);
 			}
 			
 			System.out.println("Connection with session id: " + id + " closed.");
@@ -47,10 +48,10 @@ public class ServerSession extends Thread {
 		}
 	}
 	
-	public boolean sendPackage(Request request) {
+	public boolean sendPackage(Response response) {
 		try {
 			out = new ObjectOutputStream(socket.getOutputStream());
-			out.writeObject(request);
+			out.writeObject(response);
 			out.flush();
 			System.out.println("Package has been sent.");
 			return true;
