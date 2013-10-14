@@ -7,7 +7,7 @@ import org.prosjekt.helperclasses.Sheep;
 
 public class ClientExample {
 
-	static ClientConnection connection = new ClientConnection("localhost", 4455);
+	static ClientConnection connection = new ClientConnection("192.168.10.15", 4455);
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
