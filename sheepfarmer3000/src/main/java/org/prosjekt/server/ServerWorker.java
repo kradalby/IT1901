@@ -2,6 +2,7 @@ package org.prosjekt.server;
 
 import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.Response;
+import org.prosjekt.helperclasses.Sheep;
 
 public class ServerWorker {
 	
@@ -19,6 +20,7 @@ public class ServerWorker {
 				//getonesheep
 				break;
 			case GETALLSHEEPS:
+				getAllSheeps(response);
 				break;
 			case GETALLUSERSSHEEPS:
 				break;
@@ -42,4 +44,14 @@ public class ServerWorker {
 		
 		return response;
 	}
+	
+	public static void getAllSheeps(Response response) {
+		Sheep sheep1 = new Sheep(0, null, null);
+		Sheep sheep2 = new Sheep(1, null, null);
+		Sheep[] sheeps = new Sheep[2];
+		sheeps[0] = sheep1;
+		sheeps[1] = sheep2;
+		response.addSheeps(sheeps);
+	}
+	
 }
