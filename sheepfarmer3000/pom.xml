@@ -64,6 +64,9 @@
             <groupId>jmapviewer</groupId>
             <artifactId>jmapviewer</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../jmapviewer.jar</systemPath>
         </dependency>
 
     </dependencies>
