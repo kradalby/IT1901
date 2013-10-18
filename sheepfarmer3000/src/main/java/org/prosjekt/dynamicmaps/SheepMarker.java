@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -28,8 +29,9 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
     private int id;
     private double lon;
     private double lat;
-    private final int SIZE_X = 10;
-    private final int SIZE_Y = 10;
+    private final int SIZE_X = 20;
+    private final int SIZE_Y = 20;
+    private final String fileLocation = "resources\\sheep.png";
     private Point lastPainted;
     
     SheepMarker(){
@@ -41,7 +43,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
     SheepMarker(double lon, double lat, int id){
         super("");
         try{
-            img = ImageIO.read(getClass().getResource("resources/sheep.bmp"));
+            img = ImageIO.read(new File(fileLocation));
         }
         catch(IOException e){
             img = null;
@@ -54,9 +56,10 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
     SheepMarker(Coordinate coord, int id){
         super("");
         try{
-            img = ImageIO.read(getClass().getResource("resources/sheep.bmp"));
+            img = ImageIO.read(new File(fileLocation));
         }
         catch(IOException e){
+            System.out.println(e.getMessage());
             img = null;
         }
         this.lon = coord.getLon();
