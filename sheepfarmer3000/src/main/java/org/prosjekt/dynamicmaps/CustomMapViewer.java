@@ -1,5 +1,6 @@
 package org.prosjekt.dynamicmaps;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
@@ -74,12 +75,22 @@ public class CustomMapViewer extends JMapViewer{
         removeAllMapPolygons();
     }
     
+    public int getClickedSheep(Point p){
+        for (MapMarker marker : mapMarkerList){
+            SheepMarker sheep = (SheepMarker) marker;
+            if (sheep.containsPoint(p))
+                    return sheep.getId();
+        }
+        return -1;
+    }
+    
     public void addSheep(Coordinate coord, int id){
         addMapMarker(new SheepMarker(coord, id));
     }
     
     public void removeSheep(int id){
-        for (SheepMarker sheep : mapMarkerList){
+        for (MapMarker marker : mapMarkerList){
+            SheepMarker sheep = (SheepMarker) marker;
             if (sheep.getId() == id){
                 removeMapMarker(sheep);
             }

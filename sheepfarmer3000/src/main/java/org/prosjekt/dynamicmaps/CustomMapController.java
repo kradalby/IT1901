@@ -26,7 +26,11 @@ public class CustomMapController extends DefaultMapController{
     public void mouseReleased(MouseEvent e){
         super.mouseReleased(e);
         if (e.getButton() == this.PopoupMouseButton){
-            gui.createPopup(e.getX(), e.getY());
+            int currentId = parentMap.getClickedSheep(e.getPoint());
+            if (currentId == -1)
+                gui.createPopup(e.getX(), e.getY());
+            else
+                gui.createPopup(e.getX(), e.getY(), currentId);
         }
     }
   
