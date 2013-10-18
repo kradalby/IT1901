@@ -74,4 +74,16 @@ public class CustomMapViewer extends JMapViewer{
         removeAllMapPolygons();
     }
     
+    public void addSheep(Coordinate coord, int id){
+        addMapMarker(new SheepMarker(coord, id));
+    }
+    
+    public void removeSheep(int id){
+        for (SheepMarker sheep : mapMarkerList){
+            if (sheep.getId() == id){
+                removeMapMarker(sheep);
+            }
+        }
+    }
+    
 }
