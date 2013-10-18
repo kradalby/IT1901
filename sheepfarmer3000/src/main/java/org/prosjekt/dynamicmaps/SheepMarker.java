@@ -50,6 +50,20 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
         this.lat = lat;
         this.id = id;
     }
+    
+    SheepMarker(Coordinate coord, int id){
+        super("");
+        try{
+            img = ImageIO.read(getClass().getResource("resources/sheep.bmp"));
+        }
+        catch(IOException e){
+            img = null;
+        }
+        this.lon = coord.getLon();
+        this.lat = coord.getLat();
+        this.id = id;
+    }
+    
     @Override
     public double getLon(){
         return this.lon;
