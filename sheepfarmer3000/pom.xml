@@ -70,7 +70,16 @@
             <version>1.0</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../jmapviewer.jar</systemPath>
+            <systemPath>${project.basedir}/lib/jmapviewer.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>clockwork</groupId>
+            <artifactId>clockwork</artifactId>
+            <version>1.2.0</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/clockwork-1.2.0.jar</systemPath>
         </dependency>
 
     </dependencies>
