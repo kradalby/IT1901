@@ -1,5 +1,6 @@
 package org.prosjekt.client;
 
+import org.prosjekt.helperclasses.Mail;
 import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.RequestEnum;
 import org.prosjekt.helperclasses.Response;
@@ -11,10 +12,13 @@ public class ClientExample {
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
-		Sheep[] sheeps = getAllSheeps();
-		for (int i = 0; i < sheeps.length; i++) {
-			System.out.println(sheeps[i].getId());
-		}
+//		Sheep[] sheeps = getAllSheeps();
+//		for (int i = 0; i < sheeps.length; i++) {
+//			System.out.println(sheeps[i].getId());
+//		}
+		
+		Mail mail = new Mail("kradalby@kradalby.no", "test", "dette er en test lol");
+		mail.sendMail();
 	}
 	
 	public static Sheep[] getAllSheeps() {
