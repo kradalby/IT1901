@@ -9,6 +9,14 @@ import java.net.SocketAddress;
 import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.Response;
 
+/**
+ * ClientConnection
+ * 
+ * Dette er klassen som håndterer kommunikasjonen fra Klient til Server.
+ * 
+ * @author Kristoffer Dalby <kradalby@kradalby.no>
+ *
+ */
 public class ClientConnection {
 
 	private static int TIMEOUT = 3000;
@@ -24,6 +32,10 @@ public class ClientConnection {
 		this.port = port;
 	}
 	
+	/**
+	 * Denne funksjonen åpner tilkoblingen til serveren.
+	 * @return  returnerer true hvis tilkoblingen blir åpnet uten feil.
+	 */
 	public boolean openServerConnection() {
 		try {
 			SocketAddress address = new InetSocketAddress(host,port);
@@ -38,6 +50,11 @@ public class ClientConnection {
 	}
 	
 	
+	/**
+	 * Denne metoden gjør at klienten gjør seg klar til å ta imot
+	 * et respons objekt fra serveren.
+	 * @return  returnerer response objektet som mottas eller null om det feiler.
+	 */
 	public Response receivePackage() {
 		try {
 			in = new ObjectInputStream(socket.getInputStream());
@@ -48,6 +65,11 @@ public class ClientConnection {
 		}
 	}
 	
+	/**
+	 * Denne metoden sender en request pakke fra klienten til serveren.
+	 * @param request objektet som skal sendes.
+	 * @return  returnerer true om det blir sent korrekt, og false om noe feiler.
+	 */
 	public boolean sendPackage(Request request) {
 		try {
 			out = new ObjectOutputStream(socket.getOutputStream());
@@ -62,6 +84,9 @@ public class ClientConnection {
 		}
 	}
 	
+	/**
+	 * Lukker tilkoblingen til serveren.
+	 */
 	public void closeNetworkConnection() {
 		try {
 			if(in != null)

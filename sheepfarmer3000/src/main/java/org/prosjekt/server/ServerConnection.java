@@ -3,6 +3,15 @@ package org.prosjekt.server;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * ServerConnection
+ * 
+ * Denne klassen kjører hovedtråden for serveren som håndterer innkommende
+ * tilkoblinger og lager sesjoner av dem.
+ * 
+ * @author Kristoffer Dalby <kradalby@kradalby.no>
+ *
+ */
 public class ServerConnection extends Thread{
 
 	private final int port = 4455;
