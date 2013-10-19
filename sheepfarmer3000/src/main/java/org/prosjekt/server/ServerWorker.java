@@ -4,8 +4,25 @@ import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.Response;
 import org.prosjekt.helperclasses.Sheep;
 
+/**
+ * ServerWorker
+ * 
+ * Denne metoden inneholder all logikken serveren ordner. Den vil håndtere
+ * alle pakkene som kommer inn fra klienter og annet.
+ * 
+ * @author Kristoffer Dalby <kradalby@kradalby.no>
+ *
+ */
 public class ServerWorker {
 	
+	/**
+	 * Denne metoden er kjernen for nettverks kommunikasjonen med klient.
+	 * Den får alle request objektene og håndterer dem basert på Enum
+	 * kommandoen som ble lagt ved.
+	 * 
+	 * @param tar inn en request pakke som skal utføres
+	 * @return returnerer et responsobjekt som skal sendes tilbake.
+	 */
 	public static Response handlePackage(Request request) {
 		Response response = new Response();
 		
@@ -45,6 +62,9 @@ public class ServerWorker {
 		return response;
 	}
 	
+	/**
+	 * @param returnerer alle sauene i hele systemet.
+	 */
 	public static void getAllSheeps(Response response) {
 		Sheep sheep1 = new Sheep(0, null, null);
 		Sheep sheep2 = new Sheep(1, null, null);

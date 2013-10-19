@@ -7,6 +7,15 @@ import java.net.Socket;
 import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.Response;
 
+/**
+ * ServerSession
+ * 
+ * Dette er klassen hvor de individuelle klient sesjonene håndteres
+ * mot serveren.
+ * 
+ * @author Kristoffer Dalby <kradalby@kradalby.no>
+ *
+ */
 public class ServerSession extends Thread {
 
 	private Socket socket;
@@ -37,6 +46,11 @@ public class ServerSession extends Thread {
 		}
 	}
 	
+	/**
+	 * Mottar en request pakke fra klienten for denne sesjonen
+	 * og returnerer den om alt gikk bra.
+	 * @return returnerer true for OK eller false for ikke OK.
+	 */
 	public Request receivePackage() {
 		try {
 			System.out.println("Session " + id + " waiting for object");
@@ -48,6 +62,11 @@ public class ServerSession extends Thread {
 		}
 	}
 	
+	/**
+	 * Sender responsepakke tilbake til klienten for sesjonen.
+	 * @param tar inn ett respons objekt.
+	 * @return returnerer true for OK og false for ikke OK.
+	 */
 	public boolean sendPackage(Response response) {
 		try {
 			out = new ObjectOutputStream(socket.getOutputStream());

@@ -1,6 +1,5 @@
 package org.prosjekt.helperclasses;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -8,10 +7,18 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Mail
+ * 
+ * Dette er klassen som håndterer epostutsending. Den holder konfigurasjonen,
+ * samt klassene for å håndtere utsending.
+ * 
+ * @author Kristoffer Dalby <kradalby@kradalby.no>
+ *
+ */
 public class Mail {
 	
 	private final String username = "sheepwatcher3000@kradalby.no";
@@ -29,6 +36,10 @@ public class Mail {
 		this.message = message;
 	}
 	
+	/**
+	 * Denne funksjonen sender eposten som blir laget når objektet opprettes.
+	 * @param None
+	 */
 	public void sendMail() {
 		
 		Properties props = System.getProperties();
