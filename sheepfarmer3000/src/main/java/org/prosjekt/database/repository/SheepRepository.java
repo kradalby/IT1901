@@ -13,6 +13,7 @@ import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.prosjekt.database.SheepFarmerConnection;
+import org.prosjekt.database.SheepService;
 import org.prosjekt.database.entities.FarmerEntity;
 import org.prosjekt.database.entities.SheepEntity;
 import org.prosjekt.helperclasses.Farmer;
@@ -22,7 +23,7 @@ import org.prosjekt.helperclasses.Sheep;
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class SheepRepository extends AbstractProperties {
+public class SheepRepository extends AbstractProperties implements SheepService{
     private FarmerRepository fr;
     /**
      *  Klassen tilbyr CRUD for server. Create, read, update and delete.
@@ -42,13 +43,9 @@ public class SheepRepository extends AbstractProperties {
     }
     
     public void updateEntity(SheepEntity entity){
-        String sql = "UPDATE sheep set farmerid=?, weight=?, birth=?, alive=? where id=?";
+        String sql = "UPDATE sheep set farmerid=?, birth=?, alive=? where id=?";
         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             preparedStatement.setInt(1, entity.getFarmerid());
-            
-            if (entity.getWeight() == null) preparedStatement.setNull(2, Types.NULL);
-            else preparedStatement.setInt(2, entity.getWeight());
-            
             preparedStatement.setDate(3, entity.getBirth());
             preparedStatement.setBoolean(4, entity.isAlive());
             preparedStatement.setInt(5, entity.getId());
@@ -60,8 +57,8 @@ public class SheepRepository extends AbstractProperties {
     
     public void insertEntity(SheepEntity entity)  {
         String sql = "INSERT INTO sheep"
-                + "(id, farmerid, weight, birth, alive) VALUES"
-                + "(?,?,?,?,?)";
+                + "(id, farmerid, birth, alive) VALUES"
+                + "(?,?,?,?)";
         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.setInt(2, entity.getFarmerid());
@@ -97,6 +94,23 @@ public class SheepRepository extends AbstractProperties {
             Logger.getLogger(org.prosjekt.database.repository.FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return entity;
+    }
+
+    @Override
+    public Sheep getSheepAllCordinates(Sheep sheep) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public void addSheep(Sheep sheep) {
+//        SheepEntity e = new SheepEntity
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeSheep(Sheep sheep) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
