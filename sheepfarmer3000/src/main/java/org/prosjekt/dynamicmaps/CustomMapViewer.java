@@ -28,7 +28,7 @@ public class CustomMapViewer extends JMapViewer{
         this.gui = gui;
         mapController = new CustomMapController(this);
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
-        setDisplayToFitMapElements(false, false, true);
+        //setDisplayToFitMapElements(false, false, true);
     }
     
     public final Gui getGui(){

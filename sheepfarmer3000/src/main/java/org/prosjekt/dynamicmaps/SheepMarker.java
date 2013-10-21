@@ -31,7 +31,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
     private double lat;
     private final int SIZE_X = 20;
     private final int SIZE_Y = 20;
-    private final String fileLocation = "resources\\sheep.png";
+    private final String fileLocation = "C:\\Users\\Alfredo\\Documents\\NetBeansProjects\\New Folder\\TestProject\\sheep.png";
     private Point lastPainted;
     
     SheepMarker(){
