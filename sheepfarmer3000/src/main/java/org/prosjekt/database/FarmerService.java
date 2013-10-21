@@ -15,7 +15,7 @@ import org.prosjekt.helperclasses.Sheep;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public interface FarmerService {
-    public void setPasshash(Passhash passhash);
+    public void setPasshash(String passhash);
     public Passhash getPasshash(int farmerid);
     
     public void updateFarmer(Farmer farmer);
