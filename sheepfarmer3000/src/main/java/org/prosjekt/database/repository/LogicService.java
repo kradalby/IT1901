@@ -12,6 +12,7 @@ import org.prosjekt.helperclasses.Sheep;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public interface LogicService {
+    
     public void addSheepMovement(Coordinate coordiante);
     public void updateSheepAttack(Sheep sheep, Coordinate coordinate);
     
