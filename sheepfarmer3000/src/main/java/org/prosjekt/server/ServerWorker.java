@@ -30,8 +30,9 @@ public class ServerWorker {
 			response.addItem("error", "Request was null");
 		} else {
 			switch (request.getCommand()) {
-			case LOGIN:
-				//loginmethod
+			case SETPASSHASH:
+				break;
+			case GETPASSHASH:
 				break;
 			case GETSHEEPBYID:
 				//getonesheep
@@ -45,14 +46,15 @@ public class ServerWorker {
 				break;
 			case GETALLUSERSSHEEPSDEAD:
 				break;
-			case ALTERSHEEP:
+			case REMOVESHEEP:
 				break;
-			case ALTERUSER:
+			case UPDATEUSER:
 				break;
-			case GETUSERINFO:
+			case GETUSER:
 				break;
 			case ADDSHEEP:
 				break;
+			
 			default:
 				response.addItem("error", "Unknown request");
 				break;
