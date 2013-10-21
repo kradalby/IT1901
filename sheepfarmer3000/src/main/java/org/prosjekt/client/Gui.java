@@ -108,6 +108,7 @@ public class Gui implements ActionListener, ItemListener {
 		this.currentUser = user;
 		frame.remove(passwordBox);
 		kart = new CustomMapViewer(this);
+                kart.addSheep(new Coordinate(63.419446,10.402676), 00001);
 		frame.add(kart);
 		//Lager en meny og legger til elementer i menyen
 		menuBar = new JMenuBar();
@@ -331,7 +332,12 @@ public class Gui implements ActionListener, ItemListener {
         
         public void createPopup(int x, int y){
             //Må endres, gjør ingenting.
-            System.out.print(x + " " + y);
+            System.out.print("Clicked at x:" + x +" y: " + y + "");
+        }
+        
+        public void createPopup(int x, int y, int id){
+            //Må endres, gjør ingenting.
+            System.out.print("Clicked at x:" + x +" y: " + y + ". Id = " + id +".");
         }
 	
 	

@@ -26,7 +26,25 @@ public class CustomMapController extends DefaultMapController{
     public void mouseReleased(MouseEvent e){
         super.mouseReleased(e);
         if (e.getButton() == this.PopoupMouseButton){
-            gui.createPopup(e.getX(), e.getY());
+            int currentId = parentMap.getClickedSheep(e.getPoint());
+            if (currentId == -1)
+                gui.createPopup(e.getX(), e.getY());
+            else
+                gui.createPopup(e.getX(), e.getY(), currentId);
+        }          
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e){
+        if (isDoubleClickZoomEnabled() && e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1){
+            int clickedSheepId = parentMap.getClickedSheep(e.getPoint());
+            if (clickedSheepId == -1)
+                parentMap.zoomIn(e.getPoint());
+            else if(clickedSheepId >= 0){
+                parentMap.zoomIn(e.getPoint());
+                parentMap.zoomIn(e.getPoint());
+                parentMap.zoomIn(e.getPoint());
+            }
         }
     }
   
