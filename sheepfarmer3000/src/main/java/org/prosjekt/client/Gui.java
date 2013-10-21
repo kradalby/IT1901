@@ -1,5 +1,6 @@
 package org.prosjekt.client;
 
+import com.sun.security.ntlm.Client;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,15 +10,18 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 import static org.prosjekt.client.Gui.currentUser;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
+import org.prosjekt.helperclasses.Sheep;
 
 
 public class Gui implements ActionListener, ItemListener {
@@ -108,7 +112,7 @@ public class Gui implements ActionListener, ItemListener {
 		this.currentUser = user;
 		frame.remove(passwordBox);
 		kart = new CustomMapViewer(this);
-                kart.addSheep(new Coordinate(63.419446,10.402676), 00001);
+                initializeMap(kart);
 		frame.add(kart);
 		//Lager en meny og legger til elementer i menyen
 		menuBar = new JMenuBar();
@@ -379,6 +383,13 @@ public class Gui implements ActionListener, ItemListener {
 		
 		
 	}
+        
+        private void initializeMap(CustomMapViewer map){
+            for (Sheep sheep : currentUser.getSheeps()){
+                map.addSheep(sheep);
+            }
+            map.addPath((ArrayList<Coordinate>)currentUser.getCoordinates());
+        }
 	
 	
 	

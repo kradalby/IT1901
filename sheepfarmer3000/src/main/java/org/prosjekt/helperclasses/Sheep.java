@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.prosjekt.helperclasses.Coordinate;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 
 public class Sheep implements Serializable {

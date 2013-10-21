@@ -11,6 +11,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import org.prosjekt.client.Gui;
+import org.prosjekt.helperclasses.Sheep;
 
 /**
  *
@@ -84,8 +85,8 @@ public class CustomMapViewer extends JMapViewer{
         return -1;
     }
     
-    public void addSheep(Coordinate coord, int id){
-        addMapMarker(new SheepMarker(coord, id));
+    public void addSheep(Sheep sheep){
+        addMapMarker(new SheepMarker(sheep));
     }
     
     public void removeSheep(int id){
