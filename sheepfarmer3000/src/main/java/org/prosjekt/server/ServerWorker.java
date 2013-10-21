@@ -1,5 +1,10 @@
 package org.prosjekt.server;
 
+import org.prosjekt.database.FarmerService;
+import org.prosjekt.database.SheepService;
+import org.prosjekt.database.repository.FarmerRepository;
+import org.prosjekt.database.repository.SheepRepository;
+import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.Response;
 import org.prosjekt.helperclasses.Sheep;
@@ -31,11 +36,13 @@ public class ServerWorker {
 		} else {
 			switch (request.getCommand()) {
 			case SETPASSHASH:
+				setPasshash(response, request);
 				break;
 			case GETPASSHASH:
+				getPasshash(response, request);
 				break;
 			case GETSHEEPBYID:
-				//getonesheep
+				getSheepById(response, request);
 				break;
 			case GETALLSHEEPS:
 				getAllSheeps(response);
@@ -47,12 +54,16 @@ public class ServerWorker {
 			case GETALLUSERSSHEEPSDEAD:
 				break;
 			case REMOVESHEEP:
+				removeSheep(response, request);
 				break;
 			case UPDATEUSER:
+				updateUser(response, request);
 				break;
 			case GETUSER:
+				getUser(response, request);
 				break;
 			case ADDSHEEP:
+				addSheep(response, request);
 				break;
 			
 			default:
@@ -74,6 +85,53 @@ public class ServerWorker {
 		sheeps[0] = sheep1;
 		sheeps[1] = sheep2;
 		response.addSheeps(sheeps);
+	}
+	
+	public static void getSheepById(Response response, Request request) {
+		SheepService ss = new SheepRepository();
+		int id = (int) request.getItem("sheepid");
+		response.setSheep(ss.getSheepAllCordinates(id));		
+	}
+	
+	public static void addSheep(Response response, Request request) {
+		SheepService ss = new SheepRepository();
+		Sheep sheep = (Sheep) request.getItem("sheep");
+		ss.addSheep(sheep);
+		response.addItem("success", "success");
+	}
+	
+	public static void removeSheep(Response response, Request request) {
+		SheepService ss = new SheepRepository();
+		Sheep sheep = (Sheep) request.getItem("sheep");
+		ss.removeSheep(sheep);
+		response.addItem("success", "success");
+	}
+	
+	public static void getUser(Response response, Request request) {
+		FarmerService fs = new FarmerRepository();
+		int id = (int) request.getItem("farmerid");
+		response.setFarmer(fs.getFarmer(id));
+	}
+	
+	public static void updateUser(Response response, Request request) {
+		FarmerService fs = new FarmerRepository();
+		Farmer farmer = (Farmer) request.getItem("farmer");
+		fs.updateFarmer(farmer);
+		response.addItem("success", "success");
+	}
+	
+	public static void setPasshash(Response response, Request request) {
+		FarmerService fs = new FarmerRepository();
+		String passhash = (String) request.getItem("passhash");
+		int id = (int) request.getItem("farmerid");
+		fs.setPasshash(passhash, id);
+		response.addItem("success", "success");
+	}
+	
+	public static void getPasshash(Response response, Request request) {
+		FarmerService fs = new FarmerRepository();
+		int id = (int) request.getItem("farmerid");
+		response.addItem("passhash", fs.getPasshash(id));
 	}
 	
 }
