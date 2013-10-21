@@ -17,7 +17,7 @@ public interface SheepService {
      * @param sheep
      * @return sheep with all coordinates 
      */
-    public Sheep getSheepAllCordinates(Sheep sheep);
+    public Sheep getSheepAllCordinates(int id);
     public void addSheep(Sheep sheep);
     public void removeSheep(Sheep sheep);
     

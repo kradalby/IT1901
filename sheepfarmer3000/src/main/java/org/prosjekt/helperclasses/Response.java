@@ -17,6 +17,7 @@ public class Response implements Serializable {
 	private static final long serialVersionUID = 11231235234L;
 	private Sheep sheep;
 	private Sheep[] sheeps;
+	private Farmer farmer;
 	/**
 	 * Dette er et hashmap som gjør det mulig å sende objekter av annen type en de
 	 * predefinerte. Bruker f.eks. til login funksjonalitet.
@@ -37,6 +38,13 @@ public class Response implements Serializable {
 		this.sheeps = sheeps;
 	}
 	
+	public void setFarmer(Farmer farmer) {
+		this.farmer = farmer;
+	}
+	
+	public Farmer getFarmer() {
+		return this.farmer;
+	}
 	
 	/**
 	 * Metode som lar deg legge objekter til hashmappet med en nøkkel, nøkkelen vil
