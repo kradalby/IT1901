@@ -16,18 +16,18 @@ import sun.util.calendar.Gregorian;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Coordinate implements Serializable {
-    private final Integer id;
-    private String longitude;
-    private String latitude;
+    //private final Integer id;
+    private double longitude;
+    private double latitude;
     private DateTime date;
     private boolean attack;
 
-    public Coordinate(Integer id, String longitude, String latitude, DateTime date, boolean attack) {
-        this.id = id;
+    public Coordinate(double longitude, double latitude) {
+        //Vi trenger en generell maate aa fikse ider til ting.
+    	//this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.date = date;
-        this.attack = attack;
+        this.date = DateTime.now();
     }
     
     
@@ -38,19 +38,19 @@ public class Coordinate implements Serializable {
 
    
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
