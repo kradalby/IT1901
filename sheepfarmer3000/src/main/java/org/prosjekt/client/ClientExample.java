@@ -40,6 +40,12 @@ public class ClientExample {
 //		
 //	}
 	
+	/**
+	 * 
+	 * Henter en sau med alle dens kordinater.
+	 * @param id 	paa sauen
+	 * @return 		en sau og alle dens kordinater
+	 */
 	public static Sheep getSheepById(int id) {
 		if (connected) {
 			Request request = new Request();
@@ -53,6 +59,11 @@ public class ClientExample {
 		}
 	}
 	
+	/**
+	 * Legge til en sau.
+	 * @param sheep		Tar inn et saueobjekt som skal legges til
+	 * @return 			returnerer true hvis det er suksess og false om ikke
+	 */
 	public static boolean addSheep(Sheep sheep) {
 		if (connected) {
 			Request request = new Request();
@@ -66,6 +77,11 @@ public class ClientExample {
 		}
 	}
 	
+	/**
+	 * Fjerne en sau.
+	 * @param sheeo 	tar inn et saueobjekt som skal fjernes.
+	 * @return			returnerer true hvis det er suksess og false om ikke.
+	 */
 	public static boolean removeSheep(Sheep sheep) {
 		if (connected) {
 			Request request = new Request();
@@ -79,6 +95,11 @@ public class ClientExample {
 		}
 	}
 	
+	/**
+	 * Hent ut farmer fra server
+	 * @param id		id paa farmer som skal hentes ut
+	 * @return			returnerer farmeren eller null
+	 */
 	public static Farmer getUser(int id) {
 		if (connected) {
 			Request request = new Request();
@@ -92,6 +113,11 @@ public class ClientExample {
 		}
 	}
 	
+	/**
+	 * Oppdater en farmers informasjon paa serveren.
+	 * @param farmer	farmer objektet som skal oppdateres.
+	 * @return			returnerer true hvis det er suksess og false om ikke.
+	 */
 	public static boolean updateUser(Farmer farmer) {
 		if (connected) {
 			Request request = new Request();
@@ -105,6 +131,12 @@ public class ClientExample {
 		}
 	}
 	
+	/**
+	 * Setter passhashen til en bruker.
+	 * @param farmerid	id paa brukeren som skal oppdateres
+	 * @param passhash	hashet string av passordet.
+	 * @return			returnerer true hvis det er suksess og false om ikke.
+	 */
 	public static boolean setPasshash(int farmerid, String passhash) {
 		if (connected) {
 			Request request = new Request();
@@ -119,6 +151,11 @@ public class ClientExample {
 		}
 	}
 	
+	/**
+	 * Faa passhash for verifisering av bruker.
+	 * @param farmerid	id paa brukeren som skal autentiseres.
+	 * @return			returnerer passhash objekt eller null.
+	 */
 	public static Passhash getPasshash(int farmerid) {
 		if (connected) {
 			Request request = new Request();
