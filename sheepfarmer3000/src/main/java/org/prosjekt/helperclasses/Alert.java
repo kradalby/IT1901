@@ -17,6 +17,9 @@ public class Alert {
 		this.sheep = sheep;
 	}
 	
+	/**
+	 * Metode som genererer mottaker lister basert paa sauen alarmen gjelder.
+	 */
 	public void getRecipients() {
 		//Denne metoden vil trenge noen endringer naar vi endrer helper.
 		emailRecipient.add(this.sheep.getFarmer().getEmail());
@@ -25,6 +28,10 @@ public class Alert {
 		smsRecipient.add(this.sheep.getFarmer().getHelperPhone());
 	}
 	
+	
+	/**
+	 * Metode som sender en alarm paa epost og sms til listen med mottakere
+	 */
 	public void sendAttackAlarm() {
 		
 		subject = "En av dine sauer er under angrep!";
@@ -35,6 +42,8 @@ public class Alert {
 				+ "\n du kan ogsaa logge inn paa sheepwatcher aa sjekke der.\n"
 				+ "mvh Sheepwatcher";
 		
+		//generate recipients lists.
+		this.getRecipients();
 		if (mail) {
 			for (int i = 0; i < emailRecipient.size(); i++) {
 				Mail mail = new Mail(emailRecipient.get(i), subject, message);
