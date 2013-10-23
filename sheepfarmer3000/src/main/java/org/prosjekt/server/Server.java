@@ -14,5 +14,9 @@ public class Server {
 		ServerConnection serverConnection;
 		serverConnection = new ServerConnection();
 		serverConnection.start();
+		
+		Simulator simulator;
+		simulator = new Simulator();
+		simulator.start();
 	}
 }
