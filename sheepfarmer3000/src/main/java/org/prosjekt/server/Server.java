@@ -10,6 +10,11 @@ package org.prosjekt.server;
  */
 public class Server {
 	
+	/**
+	 * Mainmetode for aa starte serveren og simulatoren.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		ServerConnection serverConnection;
 		serverConnection = new ServerConnection();

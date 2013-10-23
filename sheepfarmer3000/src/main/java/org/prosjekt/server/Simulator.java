@@ -10,12 +10,18 @@ import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.logic.SheepLogic;
 import org.prosjekt.logic.WolfLogic;
 
+/**
+ * Klasse som kjorer opp prosessene som flytter paa sauer og dreper dem.
+ * 
+ * @author Kristoffer Dalby <kradalby@kradalby.no>
+ *
+ */
 public class Simulator extends Thread {
 	
 	private boolean running;
 	SheepService ss = new SheepRepository();
-	private int timeBetweenMoves = 600000;
-	private int timeBetweenAttacks = 172800000;
+	private int timeBetweenMoves = 600000; //10 min
+	private int timeBetweenAttacks = 172800000; // 48 timer
 	
 	public void run() {
 		running = true;
@@ -25,6 +31,13 @@ public class Simulator extends Thread {
 		killer.start();
 	}
 	
+	/**
+	 * Klasse som kjorer opp en traad for aa flytte sauer paa et intervall.
+	 * 
+	 * @author Kristoffer Dalby <kradalby@kradalby.no>
+	 * 
+	 *
+	 */
 	public class Move extends Thread {
 		
 		public void run() {
@@ -39,6 +52,12 @@ public class Simulator extends Thread {
 		}
 	}
 	
+	/**
+	 * Klasse som kjorer opp en traad for aa ta liv av sauer paa et intervall.
+	 * 
+	 * @author Kristoffer Dalby <kradalby@kradalby.no>
+	 *
+	 */
 	public class Kill extends Thread {
 		
 		public void run() {
