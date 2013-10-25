@@ -23,6 +23,8 @@ public enum RequestEnum {
 	GETUSER,
 	ADDSHEEP,
         UpdateFarmerArea,
+        AddHelper,
+        RemoveHelper,
 	
 
 }

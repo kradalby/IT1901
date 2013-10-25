@@ -12,7 +12,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
  *
  * @author Alfredo
  */
-public class Coordinate implements ICoordinate, Serializable{
+public class Coordinate implements ICoordinate, Serializable, Comparable<Coordinate>{
     
     private double latitude;
     private double longitude;
@@ -55,9 +55,16 @@ public class Coordinate implements ICoordinate, Serializable{
         return date;
     }
 
+    
+    
     @Override
     public String toString() {
         return "Coordinate{" + "latitude=" + latitude + ", longitude=" + longitude + ", date=" + date + '}';
+    }
+
+    @Override
+    public int compareTo(Coordinate o) {
+        return o.date.compareTo(this.date); 
     }
     
     

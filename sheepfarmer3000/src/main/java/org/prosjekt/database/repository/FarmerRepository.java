@@ -21,6 +21,7 @@ import org.prosjekt.database.FarmerService;
 import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Passhash;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -223,6 +224,18 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
         return ph;
     }
+
+    @Override
+    public void removeHelper(int farmerid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addHelper(Helper helper, int farmerid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+  
     
 
 

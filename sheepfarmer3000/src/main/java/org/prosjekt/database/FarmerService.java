@@ -7,6 +7,7 @@ package org.prosjekt.database;
 import java.util.List;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Passhash;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -36,5 +37,7 @@ public interface FarmerService {
    
     public void updateFarmerArea(List<Coordinate> farmerArea, int farmerid);
     
+    public void removeHelper(int farmerid);
+    public void addHelper(Helper helper, int farmerid);
     
 }

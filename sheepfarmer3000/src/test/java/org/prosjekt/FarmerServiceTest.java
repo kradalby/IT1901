@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,11 +69,14 @@ public class FarmerServiceTest {
     }
   
     int farmerid = -99;
+    int farmerid2 = -98;
     private String insertFarmer1 = "INSERT INTO users (id,firstname,lastname, email, phone) VALUES ('test_uuid_farmer1', 'Ole', 'Olsen', 'ole.olsen@bondelaget.no', '12345678');  INSERT INTO farmer VALUES("+farmerid+", 'test_uuid_farmer1', 'pass1');";
-    private String deleteFarmer1 = "delete from users where id = 'test_uuid_farmer1'; delete from farmer where id = "+farmerid+";";
+    private String insertFarmer2 = "INSERT INTO users (id,firstname,lastname, email, phone) VALUES ('test_uuid_farmer2', 'Hans', 'Hansen', 'hans.hansen@bondelaget.no', '12345678');  INSERT INTO farmer VALUES("+farmerid2+", 'test_uuid_farmer1', 'pass2');";
+    private String deleteFarmer1 = "delete from users where id = 'test_uuid_farmer1';";
+    private String deleteFarmer2 = "delete from users where id = 'test_uuid_farmer2';";
 
     @Test
-    public void setPashHash() throws SQLException {
+    public void testPashHash() throws SQLException {
         populateDB();
         setup();
         String hashpass = null;
@@ -99,6 +103,7 @@ public class FarmerServiceTest {
         setup();
         try {
             conn.createStatement().executeUpdate(insertFarmer1);
+            conn.createStatement().executeUpdate(insertFarmer2);
             conn.createStatement().executeUpdate(
                       "INSERT INTO coordinate (id, dateevent, latitude, longitude) VALUES "
                      + "('test_sheep1coordinate1',TIMESTAMP '2011-05-16 15:00:00' ,62.00000,9.00000),"
@@ -119,6 +124,7 @@ public class FarmerServiceTest {
             Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conn.createStatement().executeUpdate(deleteFarmer1);
+            conn.createStatement().executeUpdate(deleteFarmer2);
             conn.createStatement().executeUpdate(
                       "delete from sheepcoordinate where id = 'test_sheep1coordinate1';" 
                     + "delete from sheepcoordinate where id = 'test_sheep1coordinate2';" 
@@ -141,52 +147,73 @@ public class FarmerServiceTest {
         org.junit.Assert.assertEquals(62.0, c.getLat(), 0.1);
         org.junit.Assert.assertEquals(9.0, c.getLon(), 0.1);
     }
-        
-    public static String addFarmerCoordinates =  "INSERT INTO coordinate (id, dateevent, latitude, longitude) VALUES "
-                     + "('test_farmer1coordinate1',TIMESTAMP '2013-10-1 08:00:00' ,62.00000,9.00000),"
-                     + "('test_farmer1coordinate2',TIMESTAMP '2013-10-1 08:00:00' ,61.00000,8.00000),"
-                     + "('test_farmer1coordinate3',TIMESTAMP '2013-10-1 08:00:00' ,63.00000,9.00000),"
-                     + "('test_farmer1coordinate4',TIMESTAMP '2013-10-1 08:00:00' ,64.00000,9.00000);"
-                     + "INSERT INTO farmercoordinate (id, coordinate_id, sheep_id) VALUES "
-                     + "('test_farmercoordinate1', 'test_farmer1coordinate1', 'test_uuid_farmer1'),"
-                     + "('test_farmercoordinate2', 'test_farmer1coordinate2', 'test_uuid_farmer1'),"
-                     + "('test_farmercoordinate3', 'test_farmer1coordinate3', 'test_uuid_farmer1'),"
-                     + "('test_farmercoordinate4', 'test_farmer1coordinate4', 'test_uuid_farmer1');"
-                    + "";
-    
-    public static String deleteFarmerCoordinates =     
-                      "delete from coordinate where id = 'test_sheep1coordinate1';" 
-                    + "delete from coordinate where id = 'test_sheep1coordinate2';" 
-                    + "delete from coordinate where id = 'test_sheep1coordinate3';"
-                    + "delete from sheepcoordinate where id = 'test_sheep1coordinate1';" 
-                    + "delete from sheepcoordinate where id = 'test_sheep1coordinate2';" 
-                    + "delete from sheepcoordinate where id = 'test_sheep1coordinate3';"
-                    + "delete from sheep where id='test_sheep1';";
-//                     + "INSERT INTO sheep (id, farmerid, birth, alive, lastcoordinateid) VALUES ('test_sheep1', "+farmerid+", '2013-01-01', true, 'test_sheep1coordinate1');");
-                    
     
     @Test
-    public void getFarmerAreaTest(){
+    public void farmerAreaTest(){
+        List<Coordinate> area = Lists.newArrayList();
+        area.add(new Coordinate(5.0044, 2.111, new DateTime(2013, 10, 1, 12, 0, 0, 13)));
+        area.add(new Coordinate(5.004, 2.222, new DateTime(2013, 10, 1, 12, 0, 0, 14)));
+        area.add(new Coordinate(5.0011, 2.333, new DateTime(2013, 10, 1, 12, 0, 0, 15)));
         
+        org.junit.Assert.assertEquals(0, fr.getFarmerArea(farmerid).size());  //testing initial state. no farmerarea coordinates should exist.
+        
+        List<Coordinate> areaAct = Lists.newArrayList();
+        List<Coordinate> areaAfterCleanup = Lists.newArrayList();
+        try {
+            fr.updateFarmerArea(area, farmerid);
+            areaAct = fr.getFarmerArea(farmerid);
+        } catch (Exception e){
+            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, e);
+        } finally{
+            //cleanup
+            fr.deleteAllCoordinatesByFarmer(farmerid);
+            areaAfterCleanup = fr.getFarmerArea(farmerid);
+        }
+        Collections.sort(area);
+//        for (Coordinate c : areaAct) System.out.println(c);
+        org.junit.Assert.assertEquals(3, areaAct.size());
+        
+        //testing first coordinate. 
+        org.junit.Assert.assertEquals(5.0044, areaAct.get(0).getLat(), 0.01);
+        org.junit.Assert.assertEquals(2.111, areaAct.get(0).getLon(), 0.01);
+        org.junit.Assert.assertEquals(13, areaAct.get(0).getDate().getMillisOfSecond());
+        
+        //testing last coordinate. 
+        org.junit.Assert.assertEquals(5.0011, areaAct.get(2).getLat(), 0.01);
+        org.junit.Assert.assertEquals(2.333, areaAct.get(2).getLon(), 0.01);
+        org.junit.Assert.assertEquals(15, areaAct.get(2).getDate().getMillisOfSecond());
+        
+        org.junit.Assert.assertEquals(0, areaAfterCleanup.size());
     }
     
     
-//    @Test 
+    @Test 
     public void getFarmer() throws SQLException{
         setup();
         Farmer farmer = null;
+        Farmer farmerNoArea = null;
+        List<Coordinate> area = Lists.newArrayList();
+        area.add(new Coordinate(5.0044, 2.111, new DateTime(2013, 10, 1, 12, 0, 0, 13)));
         try {
             conn.createStatement().executeUpdate(insertFarmer1);
-            conn.createStatement().executeUpdate(addFarmerCoordinates);
+            farmerNoArea = fr.getFarmer(farmerid);
+            fr.updateFarmerArea(area, farmerid);
             farmer = fr.getFarmer(farmerid);
         } catch (SQLException ex) {
             Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conn.createStatement().executeUpdate(deleteFarmer1);
-            conn.createStatement().executeUpdate(deleteFarmerCoordinates);
+            fr.deleteAllCoordinatesByFarmer(farmerid);
                     
         }
-        System.out.println(farmer);
+        org.junit.Assert.assertEquals("Ole", farmer.getFirstName());
+        org.junit.Assert.assertEquals("Olsen", farmer.getLastName());
+        org.junit.Assert.assertEquals("ole.olsen@bondelaget.no", farmer.getEmail());
+        org.junit.Assert.assertEquals("12345678", farmer.getPhone());
+        org.junit.Assert.assertEquals("pass1", farmer.getPasshash().getPasshash());
+        
+        org.junit.Assert.assertEquals(0, farmerNoArea.getCoordinates().size());
+        org.junit.Assert.assertEquals(1, farmer.getCoordinates().size());
         
     }
     

@@ -1,9 +1,9 @@
 --Add farmer 1
 INSERT INTO users (id,firstname,lastname,email, phone) VALUES ('uuid_farmer1', 'Ole', 'Olsen', 'ole.olsen@bondelaget.no', '12345678');
-INSERT INTO farmer VALUES(1, 'uuid_farmer1');
+INSERT INTO farmer VALUES(1, 'uuid_farmer1, "pass1');
 --Add farmer 2
 INSERT INTO users (id,firstname,lastname, email, phone) VALUES ('uuid_farmer2', 'Hans', 'Hansen',  'hans.hansen@bondelaget.no', '52345678');
-INSERT INTO farmer VALUES(2, 'uuid_farmer2', 'pass1');
+INSERT INTO farmer VALUES(2, 'uuid_farmer2', 'pass2');
 
 --Add sheepscoordinates
 INSERT INTO coordinate (id, dateevent, latitude, longitude) VALUES 
