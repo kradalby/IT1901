@@ -26,56 +26,11 @@ import org.prosjekt.helperclasses.Sheep;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class FarmerRepository extends AbstractProperties implements FarmerService {
-
-    /*
-     *  Klassen tilbyr CRUD for server. Create, read, update and delete. 
-     */
+    
+    
     public FarmerRepository() {
     }
-
-    public void deleteFarmerEntity(int id) {
-        String sql = "DELETE FROM farmer where id =" + id;
-         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void updateFarmerEntity(FarmerEntity entity) {
-        String sql = "UPDATE farmer set firstname=?, lastname=?, hashpass=?, email=?, helperfirstname=? where id=?";
-         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
-            preparedStatement.setString(1, entity.getFirstname());
-            preparedStatement.setString(2, entity.getLastname());
-            preparedStatement.setString(3, entity.getHashpass());
-            preparedStatement.setString(4, entity.getEmail());
-            preparedStatement.setString(5, entity.getHelperfirstname());
-            preparedStatement.setInt(6, entity.getId());
-            preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public int insertFarmerEntity(FarmerEntity entity) {
-        int ret = 0;
-        String sql = "INSERT INTO farmer"
-                    + "(id, firstname, lastname, hashpass, email, helperfirstname) VALUES"
-                    + "(?,?,?,?,?,?)";
-        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
-            preparedStatement.setInt(1, entity.getId());
-            preparedStatement.setString(2, entity.getFirstname());
-            preparedStatement.setString(3, entity.getLastname());
-            preparedStatement.setString(4, entity.getHashpass());
-            preparedStatement.setString(5, entity.getEmail());
-            preparedStatement.setString(6, entity.getHelperfirstname());
-            ret = preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
-
+    
     /*
      *  READ
      */
@@ -100,9 +55,13 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
         return ret;
     }
-
-    @Override
-    public Farmer getFarmer(int id) {
+    
+    
+    
+    
+    
+    
+    public Farmer getFarmer2(int id) {
         List<Coordinate> farmerArea = null;
         List<Sheep> sheeps = null;
         Farmer f = null;
@@ -116,7 +75,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                 + "select sheepid, max(dateevent) as date from coordinate "
                 + "group by sheepid)";
         
-         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             ResultSet rs = ps.executeQuery();
             f = new Farmer(id);
             farmerArea = Lists.newArrayList();
@@ -124,14 +83,14 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                 f.setEmail(rs.getString("f_email"));
                 f.setFirstName(rs.getString("f_firstname"));
                 f.setLastName(rs.getString("f_lastname"));
-                Passhash pass = new Passhash(f.getId()); 
-//                pass.setPasshash(f.getId(), rs.getString("f_hashpass"));
+                Passhash pass = new Passhash(f.getId());
+                //                pass.setPasshash(f.getId(), rs.getString("f_hashpass"));
                 f.setPasshash(pass);
                 f.setPhone("f_phone");
                 f.setHelperFirstname(rs.getString("f_hfn"));
                 f.setHelperLastName(rs.getString("f_hln"));
-//                f.setHelperEmail(rs.getString("f_hemail")); ikke lagt inn i db. 
-//                f.setHelperPhone(rs.getString("f_hphone"));
+                //                f.setHelperEmail(rs.getString("f_hemail")); ikke lagt inn i db.
+                //                f.setHelperPhone(rs.getString("f_hphone"));
                 
                 Integer cid = rs.getInt("cid");
                 Boolean attack = rs.getBoolean("c_attack");
@@ -139,17 +98,16 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                 String lat = rs.getString("c_latitude");
                 String longi = rs.getString("c_longitude");
                 Coordinate c = new Coordinate(cid, longi, lat, c_date, attack);
-//                f.set(rs.getInt("fid"));
-//                f.setF;
+                //                f.set(rs.getInt("fid"));
+                //                f.setF;
                 if (rs.getInt("fid") > 0){
                     farmerArea.add(c);
                 }
                 else {
-                    Sheep sheep = new Sheep(rs.getInt("sid"), new DateTime(rs.getTimestamp("s_date")), f);
-                  sheep.setWeigth(rs.getInt("s_weight"));
-                  sheep.setMostCurrentCoordinate(c);
-                  f.addSheep(sheep);
-                 }
+                    Sheep sheep = new Sheep(rs.getString("sid"), new DateTime(rs.getTimestamp("s_date")), f);
+                    sheep.setMostCurrentCoordinate(c);
+                    f.addSheep(sheep);
+                }
                 
                 System.out.println(c);
             }
@@ -158,32 +116,113 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
         return f;
     }
-
+    
+    
     @Override
-    public void setPasshash(Passhash passhash) {
+    public Farmer getFarmer(int id){
         
-         String sql = "UPDATE farmer set firstname=?, lastname=?, hashpass=?, email=?, helperfirstname=? where id=?";
-         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
-            preparedStatement.setString(1, passhash.getPasshash());
+        return null;
+        
+    }
+    
+    /*
+     *  Helper method to extract all sheeps with last coordinate.
+     *  A farmer object has to execute 2 queries. 1 for getting last coordinates of farmer-area, 1 for getting last coordinate of all sheeps.
+     */
+    public List<Sheep> getAllSheepWithLastCoordinate(Farmer farmer){
+        List<Sheep> sheeps = Lists.newArrayList();
+        String sql = "select s.id as s_id, s.birth as s_birth, s.alive as s_alive from sheepcoordinate sc "
+                +"join sheep s on sc.sheep_id = s.id "
+                +"join farmer f on f.id = s.farmerid "
+                +"joikn users u on u.id = f.users_id "
+                +"where s.lastcoordinateid = sc.id and f.id = ?";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setInt(1, farmer.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Sheep sheep = new Sheep(rs.getString("s_id"), new DateTime(rs.getDate("s_birth").getTime()), farmer);
+                sheep.setAlive(rs.getBoolean("s_alive"));
+                sheeps.add(sheep);
+                
+                //                sheep.setMostCurrentCoordinate(new Coordinate());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sheeps;
+    }
+    
+    
+    @Override
+    public void updateFarmer(Farmer farmer) {
+        String sql = "update users set firstname=?, lastname=?, hashpass=?, email=?, phone=? from farmer where farmer.id = ? and farmer.users_id = users.id";
+        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            preparedStatement.setString(1, farmer.getFirstName());
+            preparedStatement.setString(2, farmer.getLastName());
+            preparedStatement.setString(3, farmer.getPasshash().getPasshash());
+            preparedStatement.setString(4, farmer.getEmail());
+            preparedStatement.setString(5, farmer.getPhone());
             preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    @Override
+    public void setPasshash(String passhash, int farmerid) {
+        String sql = "update users set hashpass = ? from farmer where farmer.id = ? and farmer.users_id = users.id";
+        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            preparedStatement.setString(1, passhash);
+            preparedStatement.setInt(2, farmerid);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public Passhash getPasshash(int farmerid) {
+        Passhash ph = null;
+        ph = new Passhash(farmerid);
+        String sql = "select * from users "
+                + "join farmer on farmer.users_id = users.id where farmer.id=?";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setInt(1, farmerid);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                //                 System.out.println(rs.getString("id") + "hashpass: " + rs.getString("hashpass"));
+                ph.setPasshash(rs.getString("hashpass"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ph;
+    }
+    
+    
+    public void test() {
+        Passhash ph = null;
+        String sql = "select * from users where id = 1";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getString("firstname"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public Passhash getPasshash(int farmerid) {
+    public List<Coordinate> getFarmerAreaCoordinates() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void updateFarmer(Farmer farmer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addSheep(int farmerid, Sheep sheep) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     
 }
