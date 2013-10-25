@@ -57,9 +57,9 @@ public class FarmerServiceTest {
             initTestSql = Files.toString(initTest, Charsets.UTF_8);
             conn.createStatement().executeUpdate(initTestSql);
         } catch (IOException ex) {
-            Logger.getLogger(DatabaseTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException se){
-            Logger.getLogger(DatabaseTest.class.getName()).log(Level.SEVERE, null, se);
+            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, se);
         }
         
         
@@ -78,7 +78,7 @@ public class FarmerServiceTest {
             fr.setPasshash("newpass", farmerid);
             Assert.assertEquals("newpass", fr.getPasshash(farmerid));
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conn.createStatement().executeUpdate(deleteFarmer1);
             
@@ -116,7 +116,7 @@ public class FarmerServiceTest {
             Assert.assertEquals(new DateTime(2013, 1, 1, 0,0,0), sheep1.getBirth());
           
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conn.createStatement().executeUpdate(deleteFarmer1);
             conn.createStatement().executeUpdate(""
