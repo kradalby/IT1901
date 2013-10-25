@@ -5,71 +5,54 @@
 package org.prosjekt.helperclasses;
 
 import java.io.Serializable;
-
 import org.joda.time.DateTime;
-import org.prosjekt.helperclasses.Coordinate;
-
-import sun.util.calendar.Gregorian;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 
 /**
  *
- * @author Christoffer <christofferbuvik@gmail.com>
+ * @author Alfredo
  */
-public class Coordinate implements Serializable {
-    private final Integer id;
-    private String longitude;
-    private String latitude;
+public class Coordinate implements ICoordinate, Serializable{
+    
+    private double latitude;
+    private double longitude;
     private DateTime date;
-    private boolean attack;
-
-    public Coordinate(Integer id, String longitude, String latitude, DateTime date, boolean attack) {
-        this.id = id;
-        this.longitude = longitude;
+    
+    public Coordinate(){
+        latitude = -1;
+        longitude = -1;
+        date = null;        
+    }
+    
+    public Coordinate(double latitude, double longitude, DateTime date){
         this.latitude = latitude;
-        this.date = date;
-        this.attack = attack;
-    }
-    
-    
-
-    public Integer getId() {
-        return id;
-    }
-
-   
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
         this.longitude = longitude;
+        this.date = date;
     }
-
-    public String getLatitude() {
+    
+    @Override
+    public double getLat(){
         return latitude;
     }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+    @Override
+    public void setLat(double lat){
+        this.latitude = lat;
     }
-
-    public DateTime getDate() {
-        return date;
+    @Override
+    public double getLon(){
+        return longitude;
     }
-
-    public void setDate(DateTime date) {
+    @Override
+    public void setLon(double lon){
+        this.longitude = lon;
+    }
+    
+    public void setTime(DateTime date){
         this.date = date;
     }
-
-    public boolean isAttack() {
-        return attack;
-    }
-
-    public void setAttack(boolean attack) {
-        this.attack = attack;
-    }
-
     
+    public DateTime getDate(){
+        return date;
+    }
     
 }
