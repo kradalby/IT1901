@@ -19,7 +19,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.prosjekt.database.FarmerService;
 import org.prosjekt.database.SheepFarmerConnection;
-import org.prosjekt.database.entities.FarmerEntity;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Passhash;
@@ -36,13 +35,12 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     }
     
 
+    //test ok. 
     /*
      *  Helper method to extract all sheeps with last coordinate.
      *  A farmer object has to execute 2 queries. 1 for getting last coordinates of farmer-area, 1 for getting last coordinate of all sheeps.
      */
     public List<Sheep> getAllSheepWithLastCoordinate(Farmer farmer){
-        System.out.println("farmer id: " + farmer.getId());
-        System.out.println("inside repo");
         List<Sheep> sheeps = Lists.newArrayList();
         String sql = "select s.id as s_id, s.birth as s_birth, s.alive as s_alive "
                 + ", s.lastcoordinateid as lastcoordinate "
@@ -57,9 +55,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             ps.setInt(1, farmer.getId());
             ResultSet rs = ps.executeQuery();
-            System.out.println("inside rs: " + rs.getFetchSize());
             while (rs.next()){
-                System.out.println("prcoessing rs row" + rs.getString("lastcoordinate"));
                 Sheep sheep = new Sheep(rs.getString("s_id"), new DateTime(rs.getDate("s_birth").getTime()), farmer);
                 sheep.setAlive(rs.getBoolean("s_alive"));
                 java.sql.Timestamp d = rs.getTimestamp("dateevent");
@@ -76,35 +72,58 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     
     @Override
     public Farmer getFarmer(int id){
+        Farmer farmer = new Farmer(id);
+        String sql = "select f.hashpass as hasspass, u.email as email, u.phone as phone, u.firstname as fn, u.lastname as ln from farmer f"
+                + " join users u on u.id = f.users_id"
+                + " where f.id = ?";
+          try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                farmer.setFirstName(rs.getString("fn"));
+                farmer.setLastName(rs.getString("ln"));
+                farmer.setEmail(rs.getString("email"));
+                farmer.setPhone(rs.getString("phone"));
+
+                Passhash ph = new Passhash(id);
+                ph.setPasshash(rs.getString("hasspass"));
+                farmer.setPasshash(ph);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return null;
-        
+        farmer.setSheeps(getAllSheepWithLastCoordinate(farmer));
+        farmer.setCoordinates(getFarmerArea(id));
+        return farmer; 
     }
     
     String deleteAllCoordinatesByFarmerid = 
             "delete from coordinate where id in (" +
                 "select c.id " +
                 "from farmercoordinate fc " +
-                "right join coordinate c on fc.coordinate_id = c.id" +
+                "right join coordinate c on c.id = fc.coordinate_id " +
                 "where fc.farmerid = ?)";
     
-    private void deleteAllCoordinatesByFarmer(int farmerid){
+    //test ok
+    public void deleteAllCoordinatesByFarmer(int farmerid){
            //CLEANUP coordinates. 
-         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(deleteAllCoordinatesByFarmerid);) {
-             preparedStatement.setInt(1, farmerid);
-            preparedStatement.executeUpdate();
+         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(deleteAllCoordinatesByFarmerid);) {
+            ps.setInt(1, farmerid);
+            ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     
+    //test ok
     @Override
     public void updateFarmerArea(List<Coordinate> farmerArea, int farmerid) {
         //INSERT NEW COORDINATES. 
         deleteAllCoordinatesByFarmer(farmerid);
         Map<String, Coordinate> map = Maps.newHashMap();
-        String sql = "insert into coordinate (id, longitude, latitude, dateevent) values (?,?,?,?) ";
+        String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             SheepFarmerConnection.getInstance().setAutoCommit(false);
             for (Coordinate c : farmerArea){
@@ -112,7 +131,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                ps.setString(1, id);
                ps.setDouble(2,c.getLat());
                ps.setDouble(3, c.getLon());
-               ps.setDate(4, new java.sql.Date(c.getDate().getMillis()));
+               ps.setTimestamp(4, new java.sql.Timestamp(c.getDate().getMillis()));
                ps.addBatch();
                map.put(id, c);
             }
@@ -138,15 +157,17 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
     }
     
+    //test ok
     public List<Coordinate> getFarmerArea(int farmerid){
         List<Coordinate> area = Lists.newArrayList();
         String sql = "select c.longitude as lon, c.latitude as lat, c.dateevent as dateevent from farmercoordinate fc " +
                      "join coordinate c on c.id = fc.coordinate_id " +
-                     "where fc.farmerid = 1;";
+                     "where fc.farmerid = ?;";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setInt(1, farmerid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                area.add(new Coordinate(rs.getDouble("lat"), rs.getDouble("lon"), new DateTime(rs.getDate("dateevent").getTime())));
+                area.add(new Coordinate(rs.getDouble("lat"), rs.getDouble("lon"), new DateTime(rs.getTimestamp("dateevent").getTime())));
             }
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,8 +189,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
+        updateFarmerArea(farmer.getCoordinates(), farmer.getId());
+        //@todo update helpers
     } 
 
+    //test ok
     @Override
     public void setPasshash(String passhash, int farmerid) {
         String sql = "update farmer set hashpass = ? where id = ?";
@@ -182,6 +206,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
     }
     
+    //test ok
     @Override
     public Passhash getPasshash(int farmerid) {
         Passhash ph = null;
