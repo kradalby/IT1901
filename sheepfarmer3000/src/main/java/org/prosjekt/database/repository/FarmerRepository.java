@@ -97,19 +97,19 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                 DateTime c_date = new DateTime(rs.getTimestamp("c_date"));
                 String lat = rs.getString("c_latitude");
                 String longi = rs.getString("c_longitude");
-                Coordinate c = new Coordinate(cid, longi, lat, c_date, attack);
+//                Coordinate c = new Coordinate(longi, lat, c_date);
                 //                f.set(rs.getInt("fid"));
                 //                f.setF;
                 if (rs.getInt("fid") > 0){
-                    farmerArea.add(c);
+//                    farmerArea.add(c);
                 }
                 else {
-                    Sheep sheep = new Sheep(rs.getString("sid"), new DateTime(rs.getTimestamp("s_date")), f);
-                    sheep.setMostCurrentCoordinate(c);
-                    f.addSheep(sheep);
+//                    Sheep sheep = new Sheep(rs.getString("sid"), new DateTime(rs.getTimestamp("s_date")), f);
+//                    sheep.setMostCurrentCoordinate(c);
+//                    f.addSheep(sheep);
                 }
                 
-                System.out.println(c);
+//                System.out.println(c);
             }
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
