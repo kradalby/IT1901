@@ -37,7 +37,7 @@ SET default_with_oids = false;
 
 -- id is set by admin
 CREATE TABLE users (
-    id integer NOT NULL,
+    id character varying(255) NOT NULL,
     firstname character varying(255),
     lastname character varying(255),
     hashpass character varying(255),
@@ -56,7 +56,7 @@ ALTER TABLE ONLY users
 --farmer  id is same as userid
 CREATE TABLE farmer (
     id integer NOT NULL,
-    users_id integer NOT NULL
+    users_id character varying(255) NOT NULL
 );
 
 ALTER TABLE public.farmer OWNER TO prosjekt;
@@ -71,7 +71,7 @@ ALTER TABLE ONLY farmer
 --helper id is same as userid
 CREATE TABLE helper (
     id integer NOT NULL,
-    users_id integer NOT NULL,
+    users_id character varying(255) NOT NULL,
     farmer_id integer NOT NULL
 );
 ALTER TABLE public.helper OWNER TO prosjekt;
@@ -82,11 +82,11 @@ ALTER TABLE ONLY helper
 
 
 CREATE TABLE coordinate(
-  coordinate_id character varying(255) NOT NULL,
+  id character varying(255) NOT NULL,
   longitude double precision,
   latitude double precision,
   dateevent timestamp without time zone,
-  CONSTRAINT pk_coordinate PRIMARY KEY (coordinate_id)
+  CONSTRAINT pk_coordinate PRIMARY KEY (id)
 );
 ALTER TABLE coordinate
   OWNER TO prosjekt;
@@ -94,13 +94,13 @@ ALTER TABLE coordinate
 
 
 CREATE TABLE sheepcoordinate (
-    sheepcoordinate_id character varying(255) NOT NULL,
+    id character varying(255) NOT NULL,
     coordinate_id character varying(255) NOT NULL,
-    sheep_id integer NOT NULL,
+    sheep_id character varying(255) NOT NULL,
     attack_id character varying(255),
-    CONSTRAINT pk_sheepcoordinate PRIMARY KEY (sheepcoordinate_id),
+    CONSTRAINT pk_sheepcoordinate PRIMARY KEY (id),
     CONSTRAINT fk_sheepcoordinate FOREIGN KEY (coordinate_id)
-      REFERENCES coordinate (coordinate_id) MATCH SIMPLE
+      REFERENCES coordinate (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -109,12 +109,12 @@ ALTER TABLE public.sheepcoordinate OWNER TO prosjekt;
 
 
 CREATE TABLE farmercoordinate (
-    farmercoordinate_id character varying(255) NOT NULL,
+    id character varying(255) NOT NULL,
     coordinate_id character varying(255) NOT NULL,
     farmerid integer NOT NULL,
-    CONSTRAINT pk_farmercoordinate PRIMARY KEY (farmercoordinate_id),
+    CONSTRAINT pk_farmercoordinate PRIMARY KEY (id),
     CONSTRAINT fk_farmercoordinate FOREIGN KEY (coordinate_id)
-      REFERENCES coordinate (coordinate_id) MATCH SIMPLE
+      REFERENCES coordinate (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 ALTER TABLE public.farmercoordinate OWNER TO prosjekt;
@@ -123,21 +123,15 @@ ALTER TABLE public.farmercoordinate OWNER TO prosjekt;
 
 
 CREATE TABLE attack (
-    attack_id character varying(255) NOT NULL,
+    id character varying(255) NOT NULL,
     coordinate_id character varying(255) NOT NULL,
-    CONSTRAINT pk_attack PRIMARY KEY (attack_id),
+    CONSTRAINT pk_attack PRIMARY KEY (id),
     CONSTRAINT fk_attack FOREIGN KEY (coordinate_id)
-      REFERENCES coordinate (coordinate_id) MATCH SIMPLE
+      REFERENCES coordinate (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
     
 );
 ALTER TABLE public.attack OWNER TO prosjekt;
-
-
-
-
-
-
 
 
 
