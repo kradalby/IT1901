@@ -84,13 +84,13 @@ public class CustomMapViewer extends JMapViewer{
         removeAllMapPolygons();
     }
     
-    public int getClickedSheep(Point p){
-        for (MapMarker marker : mapMarkerList){
-            SheepMarker sheep = (SheepMarker) marker;
+    public SheepMarker getClickedSheep(Point p){
+        for (SheepMarker sheepMarker : sheepMarkerList){
+            SheepMarker sheep = sheepMarker;
             if (sheep.containsPoint(p))
-                    return sheep.getId();
+                    return sheep;
         }
-        return -1;
+        return null;
     }
     
     public void addSheep(Sheep sheep){
