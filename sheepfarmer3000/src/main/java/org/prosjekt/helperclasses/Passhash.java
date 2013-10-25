@@ -27,4 +27,8 @@ public class Passhash implements Serializable{
         this.passhash = passhash;
     }
     
+    public char[] toCharArray(){
+        return passhash.toCharArray();
+    }
+    
 }
