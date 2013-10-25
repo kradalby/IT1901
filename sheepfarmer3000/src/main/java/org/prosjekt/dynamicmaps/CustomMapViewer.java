@@ -2,15 +2,14 @@ package org.prosjekt.dynamicmaps;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
-import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import org.prosjekt.client.Gui;
+import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
@@ -34,15 +33,6 @@ public class CustomMapViewer extends JMapViewer{
     
     public final Gui getGui(){
         return this.gui;
-    }
-    
-    public void addMarker(Coordinate coord){
-        addMapMarker(new MapMarkerDot(coord));
-    }
-    
-    public void addMarkers(ArrayList<Coordinate> coords){
-        for (Coordinate coord : coords)
-            addMarker(coord);
     }
     
     public void removeMarker(Coordinate coord){

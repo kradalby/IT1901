@@ -17,10 +17,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
 import static org.prosjekt.client.Gui.currentUser;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
+import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Sheep;
 
 
