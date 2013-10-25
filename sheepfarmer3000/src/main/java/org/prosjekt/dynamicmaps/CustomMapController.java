@@ -1,6 +1,7 @@
 
 package org.prosjekt.dynamicmaps;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import org.openstreetmap.gui.jmapviewer.DefaultMapController;
 import org.prosjekt.client.Gui;
@@ -31,7 +32,7 @@ public class CustomMapController extends DefaultMapController{
                 gui.createPopup(e.getX(), e.getY());
             else
                 gui.createPopup(e.getX(), e.getY(), currentId);
-        }          
+        }
     }
     
     @Override
@@ -41,9 +42,10 @@ public class CustomMapController extends DefaultMapController{
             if (clickedSheepId == -1)
                 parentMap.zoomIn(e.getPoint());
             else if(clickedSheepId >= 0){
-                parentMap.zoomIn(e.getPoint());
-                parentMap.zoomIn(e.getPoint());
-                parentMap.zoomIn(e.getPoint());
+                Point p = e.getPoint();
+                System.out.print(p);
+                System.out.print(parentMap.getWidth() + " " + parentMap.getHeight());
+                parentMap.moveMap((int)p.getX() - parentMap.getWidth(), (int)p.getY() - parentMap.getHeight());
             }
         }
     }

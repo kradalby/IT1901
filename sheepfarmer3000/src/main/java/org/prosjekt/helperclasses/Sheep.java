@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 
 public class Sheep implements Serializable {
@@ -25,6 +24,14 @@ public class Sheep implements Serializable {
 		this.birth = birth;
 		this.farmer = farmer;
                 cordinates = Collections.unmodifiableList(new ArrayList());
+	}
+        
+        public Sheep(int id, DateTime birth, Farmer farmer, Coordinate coordinate) {
+		this.id = id;
+		this.birth = birth;
+		this.farmer = farmer;
+                cordinates = Collections.unmodifiableList(new ArrayList());
+                this.mostRecentCoordinate = coordinate;
 	}
 
 	public String getId() {

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Passhash;
 import org.prosjekt.helperclasses.Sheep;

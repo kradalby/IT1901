@@ -35,13 +35,13 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
     private final String fileLocation = "C:\\Users\\Alfredo\\Documents\\NetBeansProjects\\New Folder\\TestProject\\sheep.png";
     private Point lastPainted;
     
-    SheepMarker(){
+    public SheepMarker(){
         super("");
         this.img = null;
         this.id = -1;
     }
     
-    SheepMarker(Sheep sheep){
+    public SheepMarker(Sheep sheep){
         super("");
         try{
             img = ImageIO.read(new File(fileLocation));
@@ -54,7 +54,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
         this.id = sheep.getId();
     }
     
-    SheepMarker(double lon, double lat, int id){
+    public SheepMarker(double lon, double lat, int id){
         super("");
         try{
             img = ImageIO.read(new File(fileLocation));
@@ -67,7 +67,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
         this.id = id;
     }
     
-    SheepMarker(Coordinate coord, int id){
+    public SheepMarker(Coordinate coord, int id){
         super("");
         try{
             img = ImageIO.read(new File(fileLocation));
