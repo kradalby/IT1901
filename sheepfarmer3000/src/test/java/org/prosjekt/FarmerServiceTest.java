@@ -50,7 +50,7 @@ public class FarmerServiceTest {
     }
     
     private void populateDB() {
-        File initTest = new File("./src/main/resources/db/initTestDb.sql");
+        File initTest = new File("./src/main/resources/db/initDb.sql");
         String initTestSql;
         try {
             setup();
