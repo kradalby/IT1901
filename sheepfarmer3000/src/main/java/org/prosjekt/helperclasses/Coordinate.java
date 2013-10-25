@@ -54,5 +54,12 @@ public class Coordinate implements ICoordinate, Serializable{
     public DateTime getDate(){
         return date;
     }
+
+    @Override
+    public String toString() {
+        return "Coordinate{" + "latitude=" + latitude + ", longitude=" + longitude + ", date=" + date + '}';
+    }
+    
+    
     
 }

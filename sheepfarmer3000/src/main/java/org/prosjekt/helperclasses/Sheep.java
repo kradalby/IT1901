@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 
 public class Sheep implements Serializable {
@@ -69,7 +68,12 @@ public class Sheep implements Serializable {
     public void setMostCurrentCoordinate(Coordinate coordinate) {
         this.mostRecentCoordinate = coordinate;
     }
+
+    public Coordinate getMostRecentCoordinate() {
+        return mostRecentCoordinate;
+    }
 	
+    
         
 	
 	//Trenger vi en setFarmer? bytte av eierskap?

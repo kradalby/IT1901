@@ -18,16 +18,23 @@ public interface FarmerService {
     public void setPasshash(String passhash, int farmerid);
     public Passhash getPasshash(int farmerid);
     
+    
+    /**
+     * Updates farmer, overwrites current farmer area coordinates if any. 
+     * NOTE Sheeps is not updated by this method. 
+     * @param farmer 
+     */
     public void updateFarmer(Farmer farmer);
     
     /**
-     * 
+     *   
      * @param farmerid
-     * @return Farmer object with all sheeps, only last coordinate of each sheep.  
+     * @return Farmer object with all sheeps, only last coordinate of each sheep. 
      */
     public Farmer getFarmer(int farmerid);
     
-    public List<Coordinate> getFarmerAreaCoordinates();
+   
+    public void updateFarmerArea(List<Coordinate> farmerArea, int farmerid);
     
     
 }

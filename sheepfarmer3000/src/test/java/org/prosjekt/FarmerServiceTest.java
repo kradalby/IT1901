@@ -5,6 +5,7 @@
 package org.prosjekt;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.googlecode.flyway.core.util.jdbc.DriverDataSource;
 import java.io.File;
@@ -24,6 +25,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.database.repository.FarmerRepository;
+import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -66,69 +68,125 @@ public class FarmerServiceTest {
     }
   
     int farmerid = -99;
-    private String insertFarmer1 = "INSERT INTO users (id,firstname,lastname, hashpass, email, phone) VALUES ('test_uuid_farmer1', 'Ole', 'Olsen', 'pass1', 'ole.olsen@bondelaget.no', '12345678');  INSERT INTO farmer VALUES("+farmerid+", 'test_uuid_farmer1');";
+    private String insertFarmer1 = "INSERT INTO users (id,firstname,lastname, email, phone) VALUES ('test_uuid_farmer1', 'Ole', 'Olsen', 'ole.olsen@bondelaget.no', '12345678');  INSERT INTO farmer VALUES("+farmerid+", 'test_uuid_farmer1', 'pass1');";
     private String deleteFarmer1 = "delete from users where id = 'test_uuid_farmer1'; delete from farmer where id = "+farmerid+";";
 
     @Test
     public void setPashHash() throws SQLException {
         populateDB();
         setup();
+        String hashpass = null;
         try {
             conn.createStatement().executeUpdate(insertFarmer1);
             fr.setPasshash("newpass", farmerid);
-            Assert.assertEquals("newpass", fr.getPasshash(farmerid));
+            hashpass = fr.getPasshash(farmerid).getPasshash();
         } catch (SQLException ex) {
             Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conn.createStatement().executeUpdate(deleteFarmer1);
             
         }
+        Assert.assertEquals("newpass", hashpass);
         
     }
     
     
     
     @Test 
-    public void getFarmer() throws SQLException{
+    public void getSheepsLastCoordinate() throws SQLException{
+        System.out.println("getSheepsLastCoordinate test");
+        List<Sheep> sheeps = Lists.newArrayList();
         setup();
         try {
             conn.createStatement().executeUpdate(insertFarmer1);
             conn.createStatement().executeUpdate(
-                     "INSERT INTO sheepcoordinate (id, coordinate_id, sheep_id) VALUES "
-                     + "('test_sheep1coordinate1', 'sheep1coordinate1', 'test_sheep1'),"
-                     + "('test_sheep1coordinate2', 'sheep1coordinate2', 'test_sheep1'),"
-                     + "('test_sheep1coordinate3', 'sheep1coordinate3', 'test_sheep1');"
-                     
-                     + "INSERT INTO coordinate (id, dateevent, latitude, longitude) VALUES "
+                      "INSERT INTO coordinate (id, dateevent, latitude, longitude) VALUES "
                      + "('test_sheep1coordinate1',TIMESTAMP '2011-05-16 15:00:00' ,62.00000,9.00000),"
                      + "('test_sheep1coordinate2',TIMESTAMP '2011-05-16 12:00:00' ,61.00000,8.00000),"
                      + "('test_sheep1coordinate3',TIMESTAMP '2011-05-16 15:00:00' ,63.00000,9.00000);"
+                     + "INSERT INTO sheepcoordinate (id, coordinate_id, sheep_id) VALUES "
+                     + "('test_sheep1coordinate1', 'test_sheep1coordinate1', 'test_sheep1'),"
+                     + "('test_sheep1coordinate2', 'test_sheep1coordinate2', 'test_sheep1'),"
+                     + "('test_sheep1coordinate3', 'test_sheep1coordinate3', 'test_sheep1');"
                      
                      + "INSERT INTO sheep (id, farmerid, birth, alive, lastcoordinateid) VALUES ('test_sheep1', "+farmerid+", '2013-01-01', true, 'test_sheep1coordinate1');");
             fr.getFarmer(farmerid);
             
-            List<Sheep> sheeps = fr.getAllSheepWithLastCoordinate(new Farmer(farmerid));
-            Sheep sheep1 = sheeps.get(0);
-            Assert.assertEquals(1, sheeps.size());
-            Assert.assertEquals(0, sheep1.getWeight());
-            Assert.assertEquals("test_sheep1", sheep1.getId());
-            Assert.assertEquals(true, sheep1.getAlive());
-            Assert.assertEquals(new DateTime(2013, 1, 1, 0,0,0), sheep1.getBirth());
-          
+            sheeps = fr.getAllSheepWithLastCoordinate(new Farmer(farmerid));
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conn.createStatement().executeUpdate(deleteFarmer1);
-            conn.createStatement().executeUpdate(""
+            conn.createStatement().executeUpdate(
+                      "delete from sheepcoordinate where id = 'test_sheep1coordinate1';" 
+                    + "delete from sheepcoordinate where id = 'test_sheep1coordinate2';" 
+                    + "delete from sheepcoordinate where id = 'test_sheep1coordinate3';"
                     + "delete from coordinate where id = 'test_sheep1coordinate1';" 
+                    + "delete from coordinate where id = 'test_sheep1coordinate2';" 
+                    + "delete from coordinate where id = 'test_sheep1coordinate3';"
+                    + "delete from sheep where id='test_sheep1';"
+                    );
+                    
+        }
+        org.junit.Assert.assertEquals(1, sheeps.size());
+        Sheep sheep1 = sheeps.get(0);
+        org.junit.Assert.assertEquals(0, sheep1.getWeight());
+        org.junit.Assert.assertEquals("test_sheep1", sheep1.getId());
+        org.junit.Assert.assertEquals(true, sheep1.getAlive());
+        org.junit.Assert.assertEquals(new DateTime(2013, 1, 1, 0,0,0), sheep1.getBirth());
+        Coordinate c = sheep1.getMostRecentCoordinate();
+        org.junit.Assert.assertEquals(15, c.getDate().getHourOfDay());
+        org.junit.Assert.assertEquals(62.0, c.getLat(), 0.1);
+        org.junit.Assert.assertEquals(9.0, c.getLon(), 0.1);
+    }
+        
+    public static String addFarmerCoordinates =  "INSERT INTO coordinate (id, dateevent, latitude, longitude) VALUES "
+                     + "('test_farmer1coordinate1',TIMESTAMP '2013-10-1 08:00:00' ,62.00000,9.00000),"
+                     + "('test_farmer1coordinate2',TIMESTAMP '2013-10-1 08:00:00' ,61.00000,8.00000),"
+                     + "('test_farmer1coordinate3',TIMESTAMP '2013-10-1 08:00:00' ,63.00000,9.00000),"
+                     + "('test_farmer1coordinate4',TIMESTAMP '2013-10-1 08:00:00' ,64.00000,9.00000);"
+                     + "INSERT INTO farmercoordinate (id, coordinate_id, sheep_id) VALUES "
+                     + "('test_farmercoordinate1', 'test_farmer1coordinate1', 'test_uuid_farmer1'),"
+                     + "('test_farmercoordinate2', 'test_farmer1coordinate2', 'test_uuid_farmer1'),"
+                     + "('test_farmercoordinate3', 'test_farmer1coordinate3', 'test_uuid_farmer1'),"
+                     + "('test_farmercoordinate4', 'test_farmer1coordinate4', 'test_uuid_farmer1');"
+                    + "";
+    
+    public static String deleteFarmerCoordinates =     
+                      "delete from coordinate where id = 'test_sheep1coordinate1';" 
                     + "delete from coordinate where id = 'test_sheep1coordinate2';" 
                     + "delete from coordinate where id = 'test_sheep1coordinate3';"
                     + "delete from sheepcoordinate where id = 'test_sheep1coordinate1';" 
                     + "delete from sheepcoordinate where id = 'test_sheep1coordinate2';" 
                     + "delete from sheepcoordinate where id = 'test_sheep1coordinate3';"
-                    + "delete from sheep where id='test_sheep1'");
-        }
+                    + "delete from sheep where id='test_sheep1';";
+//                     + "INSERT INTO sheep (id, farmerid, birth, alive, lastcoordinateid) VALUES ('test_sheep1', "+farmerid+", '2013-01-01', true, 'test_sheep1coordinate1');");
+                    
+    
+    @Test
+    public void getFarmerAreaTest(){
         
+    }
+    
+    
+//    @Test 
+    public void getFarmer() throws SQLException{
+        setup();
+        Farmer farmer = null;
+        try {
+            conn.createStatement().executeUpdate(insertFarmer1);
+            conn.createStatement().executeUpdate(addFarmerCoordinates);
+            farmer = fr.getFarmer(farmerid);
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conn.createStatement().executeUpdate(deleteFarmer1);
+            conn.createStatement().executeUpdate(deleteFarmerCoordinates);
+                    
+        }
+        System.out.println(farmer);
         
     }
     
