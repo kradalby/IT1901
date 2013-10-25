@@ -27,25 +27,28 @@ public class CustomMapController extends DefaultMapController{
     public void mouseReleased(MouseEvent e){
         super.mouseReleased(e);
         if (e.getButton() == this.PopoupMouseButton){
-            int currentId = parentMap.getClickedSheep(e.getPoint());
-            if (currentId == -1)
+            SheepMarker clickedSheep = parentMap.getClickedSheep(e.getPoint());
+            if (clickedSheep == null)
                 gui.createPopup(e.getX(), e.getY());
             else
-                gui.createPopup(e.getX(), e.getY(), currentId);
+                gui.createPopup(e.getX(), e.getY(), clickedSheep.getId());
         }
     }
+    
+    /*
+     * This method will zoom into a sheep if it is doubleclicked
+     */
     
     @Override
     public void mouseClicked(MouseEvent e){
         if (isDoubleClickZoomEnabled() && e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1){
-            int clickedSheepId = parentMap.getClickedSheep(e.getPoint());
-            if (clickedSheepId == -1)
+            SheepMarker clickedSheep = parentMap.getClickedSheep(e.getPoint());
+            if (clickedSheep == null){
                 parentMap.zoomIn(e.getPoint());
-            else if(clickedSheepId >= 0){
-                Point p = e.getPoint();
-                System.out.print(p);
-                System.out.print(parentMap.getWidth() + " " + parentMap.getHeight());
-                parentMap.moveMap((int)p.getX() - parentMap.getWidth(), (int)p.getY() - parentMap.getHeight());
+            }
+            else {
+                int nextZoom = parentMap.getZoom();
+                parentMap.setDisplayPositionByLatLon(clickedSheep.getLat(), clickedSheep.getLon(), parentMap.getTileController().getTileSource().getMaxZoom() - 2);
             }
         }
     }
