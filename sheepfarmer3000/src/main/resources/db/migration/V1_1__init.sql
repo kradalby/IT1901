@@ -18,10 +18,7 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
---
--- TOC entry 164 (class 3079 OID 11639)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
+
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
@@ -31,107 +28,126 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 -- Dependencies: 164
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
-
-
-
 SET search_path = public, pg_catalog;
-
 SET default_tablespace = '';
-
 SET default_with_oids = false;
 
---
--- TOC entry 161 (class 1259 OID 101976)
--- Dependencies: 6
--- Name: coordinate; Type: TABLE; Schema: public; Owner: prosjekt; Tablespace: 
---
-
-CREATE TABLE coordinate (
-    id integer NOT NULL,
-    latitude character varying(255),
-    longitude character varying(255),
-    attack boolean,
-    dateevent timestamp without time zone,
-    sheepid integer,
-    farmerid integer
-);
 
 
-ALTER TABLE public.coordinate OWNER TO prosjekt;
 
---
--- TOC entry 162 (class 1259 OID 101982)
--- Dependencies: 6
--- Name: farmer; Type: TABLE; Schema: public; Owner: prosjekt; Tablespace: 
---
-
-CREATE TABLE farmer (
-    id integer NOT NULL,
+-- id is set by admin
+CREATE TABLE users (
+    id character varying(255) NOT NULL,
     firstname character varying(255),
     lastname character varying(255),
     hashpass character varying(255),
     email character varying(255),
-    phone character varying(255),
-    helperfirstname character varying,
-    helperlastname character varying,
-    helperemail character varying,
-    helperphone character varying
+    phone character varying(255)
+);
+ALTER TABLE public.users OWNER TO prosjekt;
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+--farmer  id is same as userid
+CREATE TABLE farmer (
+    id integer NOT NULL,
+    users_id character varying(255) NOT NULL
 );
 
-
 ALTER TABLE public.farmer OWNER TO prosjekt;
+ALTER TABLE ONLY farmer
+    ADD CONSTRAINT farmer_pkey PRIMARY KEY (id);
 
---
--- TOC entry 163 (class 1259 OID 101988)
--- Dependencies: 6
--- Name: sheep; Type: TABLE; Schema: public; Owner: prosjekt; Tablespace: 
---
+
+
+
+
+
+--helper id is same as userid
+CREATE TABLE helper (
+    id integer NOT NULL,
+    users_id character varying(255) NOT NULL,
+    farmer_id integer NOT NULL
+);
+ALTER TABLE public.helper OWNER TO prosjekt;
+ALTER TABLE ONLY helper
+    ADD CONSTRAINT helper_pkey PRIMARY KEY (id);
+
+
+
+
+CREATE TABLE coordinate(
+  id character varying(255) NOT NULL,
+  longitude double precision,
+  latitude double precision,
+  dateevent timestamp without time zone,
+  CONSTRAINT pk_coordinate PRIMARY KEY (id)
+);
+ALTER TABLE coordinate
+  OWNER TO prosjekt;
+
+
+
+CREATE TABLE sheepcoordinate (
+    id character varying(255) NOT NULL,
+    coordinate_id character varying(255) NOT NULL,
+    sheep_id character varying(255) NOT NULL,
+    attack_id character varying(255),
+    CONSTRAINT pk_sheepcoordinate PRIMARY KEY (id),
+    CONSTRAINT fk_sheepcoordinate FOREIGN KEY (coordinate_id)
+      REFERENCES coordinate (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+ALTER TABLE public.sheepcoordinate OWNER TO prosjekt;
+
+
+
+CREATE TABLE farmercoordinate (
+    id character varying(255) NOT NULL,
+    coordinate_id character varying(255) NOT NULL,
+    farmerid integer NOT NULL,
+    CONSTRAINT pk_farmercoordinate PRIMARY KEY (id),
+    CONSTRAINT fk_farmercoordinate FOREIGN KEY (coordinate_id)
+      REFERENCES coordinate (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+ALTER TABLE public.farmercoordinate OWNER TO prosjekt;
+
+
+
+
+CREATE TABLE attack (
+    id character varying(255) NOT NULL,
+    coordinate_id character varying(255) NOT NULL,
+    CONSTRAINT pk_attack PRIMARY KEY (id),
+    CONSTRAINT fk_attack FOREIGN KEY (coordinate_id)
+      REFERENCES coordinate (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+    
+);
+ALTER TABLE public.attack OWNER TO prosjekt;
+
+
 
 CREATE TABLE sheep (
-    id integer NOT NULL,
+    id character varying(255) NOT NULL,
     farmerid integer NOT NULL,
     birth date,
     alive boolean
 );
 
-
 ALTER TABLE public.sheep OWNER TO prosjekt;
-
---
--- TOC entry 1862 (class 0 OID 101976)
--- Dependencies: 161
--- Data for Name: coordinate; Type: TABLE DATA; Schema: public; Owner: prosjekt
---
-
-
---
--- TOC entry 1857 (class 2606 OID 101992)
--- Dependencies: 161 161
--- Name: coordinate_pkey; Type: CONSTRAINT; Schema: public; Owner: prosjekt; Tablespace: 
---
-
-ALTER TABLE ONLY coordinate
-    ADD CONSTRAINT coordinate_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 1859 (class 2606 OID 101994)
--- Dependencies: 162 162
--- Name: farmer_pkey; Type: CONSTRAINT; Schema: public; Owner: prosjekt; Tablespace: 
---
-
-ALTER TABLE ONLY farmer
-    ADD CONSTRAINT farmer_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 1861 (class 2606 OID 101996)
--- Dependencies: 163 163
--- Name: sheep_pkey; Type: CONSTRAINT; Schema: public; Owner: prosjekt; Tablespace: 
---
-
 ALTER TABLE ONLY sheep
     ADD CONSTRAINT sheep_pkey PRIMARY KEY (id);
+
+
+
 
 
 --
@@ -145,8 +161,6 @@ REVOKE ALL ON SCHEMA public FROM prosjekt;
 GRANT ALL ON SCHEMA public TO prosjekt;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
-
--- Completed on 2013-10-11 15:42:16
 
 --
 -- PostgreSQL database dump complete

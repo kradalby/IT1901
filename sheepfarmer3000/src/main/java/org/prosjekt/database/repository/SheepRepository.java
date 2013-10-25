@@ -96,10 +96,7 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         return entity;
     }
 
-    @Override
-    public Sheep getSheepAllCordinates(Sheep sheep) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
 
     @Override
@@ -110,6 +107,11 @@ public class SheepRepository extends AbstractProperties implements SheepService{
 
     @Override
     public void removeSheep(Sheep sheep) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Sheep getSheepAllCordinates(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

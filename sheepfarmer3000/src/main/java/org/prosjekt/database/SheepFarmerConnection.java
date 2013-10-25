@@ -35,7 +35,7 @@ public class SheepFarmerConnection {
         if (instance == null){
             try {
                 AbstractProperties ap = new AbstractProperties();
-                instance = DriverManager.getConnection(ap.getUrl(), ap.getUrl(), ap.getUrl());
+                instance = DriverManager.getConnection(ap.getUrl(), ap.getUser(), ap.getPasswd());
             } catch (SQLException ex) {
                 Logger.getLogger(SheepFarmerConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
