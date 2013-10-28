@@ -7,11 +7,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 
 public class Sheep implements Serializable {
-	private final int id;
+	private final String id;
 	private final DateTime birth;
 	private boolean alive;
 	private int weight;
@@ -20,14 +19,22 @@ public class Sheep implements Serializable {
 	private Farmer farmer;
         private Coordinate mostRecentCoordinate;
 
-	public Sheep(int id, DateTime birth, Farmer farmer) {
+	public Sheep(String id, DateTime birth, Farmer farmer) {
 		this.id = id;
 		this.birth = birth;
 		this.farmer = farmer;
                 cordinates = Collections.unmodifiableList(new ArrayList());
 	}
+        
+        public Sheep(int id, DateTime birth, Farmer farmer, Coordinate coordinate) {
+		this.id = id;
+		this.birth = birth;
+		this.farmer = farmer;
+                cordinates = Collections.unmodifiableList(new ArrayList());
+                this.mostRecentCoordinate = coordinate;
+	}
 
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 	

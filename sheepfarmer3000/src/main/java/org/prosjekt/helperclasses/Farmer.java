@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Passhash;
 import org.prosjekt.helperclasses.Sheep;
@@ -23,7 +22,7 @@ public class Farmer implements Serializable {
     private String helperLastName;
     private String helperPhone;
     private String helperEmail;
-    private List<Coordinate> cordinates; //koordinatene til gaaren/teigen
+    private List<Coordinate> coordinates; //koordinatene til gaaren/teigen
 
     /*
      *  Temporary constructor, used under db development. 
@@ -123,7 +122,11 @@ public class Farmer implements Serializable {
     public List<Sheep> getSheeps() {
         return sheeps;
     }
-
+    
+    public List<Coordinate> getCoordinates(){
+        return coordinates;
+    }
+    
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -139,8 +142,8 @@ public class Farmer implements Serializable {
 
     
 
-    public void setCordinates(List<Coordinate> coordinates) {
-        this.cordinates = coordinates;
+    public void setCoordinates(List<Coordinate> coordinates) {
+        this.coordinates = coordinates;
     }
 
     @Override
@@ -203,7 +206,7 @@ public class Farmer implements Serializable {
         }
 
         public Builder withCordinates(final List<Coordinate> cordinates) {
-            this.item.cordinates = cordinates;
+            this.item.coordinates = cordinates;
             return this;
         }
 

@@ -5,71 +5,54 @@
 package org.prosjekt.helperclasses;
 
 import java.io.Serializable;
-
 import org.joda.time.DateTime;
-import org.prosjekt.helperclasses.Coordinate;
-
-import sun.util.calendar.Gregorian;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 
 /**
  *
- * @author Christoffer <christofferbuvik@gmail.com>
+ * @author Alfredo
  */
-public class Coordinate implements Serializable {
-    //private final Integer id;
-    private double longitude;
+public class Coordinate implements ICoordinate, Serializable{
+    
     private double latitude;
+    private double longitude;
     private DateTime date;
-    private boolean attack;
-
-    public Coordinate(double longitude, double latitude) {
-        //Vi trenger en generell maate aa fikse ider til ting.
-    	//this.id = id;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.date = DateTime.now();
+    
+    public Coordinate(){
+        latitude = -1;
+        longitude = -1;
+        date = null;        
     }
     
-    
-
-    public Integer getId() {
-        return id;
-    }
-
-   
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
+    public Coordinate(double latitude, double longitude, DateTime date){
         this.latitude = latitude;
-    }
-
-    public DateTime getDate() {
-        return date;
-    }
-
-    public void setDate(DateTime date) {
+        this.longitude = longitude;
         this.date = date;
     }
-
-    public boolean isAttack() {
-        return attack;
-    }
-
-    public void setAttack(boolean attack) {
-        this.attack = attack;
-    }
-
     
+    @Override
+    public double getLat(){
+        return latitude;
+    }
+    @Override
+    public void setLat(double lat){
+        this.latitude = lat;
+    }
+    @Override
+    public double getLon(){
+        return longitude;
+    }
+    @Override
+    public void setLon(double lon){
+        this.longitude = lon;
+    }
+    
+    public void setTime(DateTime date){
+        this.date = date;
+    }
+    
+    public DateTime getDate(){
+        return date;
+    }
     
 }

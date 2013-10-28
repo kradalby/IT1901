@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.MapObjectImpl;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
+import org.prosjekt.helperclasses.Sheep;
 
 /**
  *
@@ -34,13 +35,26 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
     private final String fileLocation = "C:\\Users\\Alfredo\\Documents\\NetBeansProjects\\New Folder\\TestProject\\sheep.png";
     private Point lastPainted;
     
-    SheepMarker(){
+    public SheepMarker(){
         super("");
         this.img = null;
         this.id = -1;
     }
     
-    SheepMarker(double lon, double lat, int id){
+    public SheepMarker(Sheep sheep){
+        super("");
+        try{
+            img = ImageIO.read(new File(fileLocation));
+        }
+        catch(IOException e){
+            img = null;
+        }
+        this.lon = sheep.getCurrentCordinate().getLon();
+        this.lat = sheep.getCurrentCordinate().getLat();
+        this.id = sheep.getId();
+    }
+    
+    public SheepMarker(double lon, double lat, int id){
         super("");
         try{
             img = ImageIO.read(new File(fileLocation));
@@ -53,7 +67,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
         this.id = id;
     }
     
-    SheepMarker(Coordinate coord, int id){
+    public SheepMarker(Coordinate coord, int id){
         super("");
         try{
             img = ImageIO.read(new File(fileLocation));

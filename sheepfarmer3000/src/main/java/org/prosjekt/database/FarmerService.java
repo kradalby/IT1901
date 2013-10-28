@@ -26,5 +26,8 @@ public interface FarmerService {
      * @return Farmer object with all sheeps, only last coordinate of each sheep.  
      */
     public Farmer getFarmer(int farmerid);
-    public void addSheep(int farmerid, Sheep sheep);
+    
+    public List<Coordinate> getFarmerAreaCoordinates();
+    
+    
 }

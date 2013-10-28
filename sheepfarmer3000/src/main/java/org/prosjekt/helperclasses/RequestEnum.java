@@ -22,6 +22,7 @@ public enum RequestEnum {
 	UPDATEUSER,
 	GETUSER,
 	ADDSHEEP,
+        UpdateFarmerArea,
 	
 
 }

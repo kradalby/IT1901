@@ -19,12 +19,16 @@ public class Passhash implements Serializable{
         this.farmerid = farmerid;
     }
     
-    public String getPasshash(int farmerid) {
+    public String getPasshash() {
         return passhash;
     }
 
-    public void setPasshash(int farmerid, String passhash) {
+    public void setPasshash(String passhash) {
         this.passhash = passhash;
+    }
+    
+    public char[] toCharArray(){
+        return passhash.toCharArray();
     }
     
 }
