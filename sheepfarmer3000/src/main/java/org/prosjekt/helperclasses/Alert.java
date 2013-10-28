@@ -44,8 +44,8 @@ public class Alert {
 		message = "Hei\n"
 				+ "Din sau med ID: " + this.sheep.getId()
 				+ "er under angrep. De siste kjente kordinatene til sauen er:\n"
-				+ this.sheep.getCurrentCordinate().getLatitude() + " " 
-				+ this.sheep.getCurrentCordinate().getLongitude()
+				+ this.sheep.getCurrentCordinate().getLat() + " " 
+				+ this.sheep.getCurrentCordinate().getLon()
 				+ "\n du kan ogsaa logge inn paa sheepwatcher aa sjekke der.\n"
 				+ "mvh Sheepwatcher";
 		

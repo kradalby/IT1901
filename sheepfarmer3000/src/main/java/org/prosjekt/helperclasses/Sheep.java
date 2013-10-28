@@ -17,21 +17,16 @@ public class Sheep implements Serializable {
 	private String attack;
 	private List<Coordinate> cordinates;
 	private Farmer farmer;
-        private Coordinate mostRecentCoordinate;
+        private Coordinate currentCoordinate;
 
-	public Sheep(String id, DateTime birth, Farmer farmer) {
-		this.id = id;
-		this.birth = birth;
-		this.farmer = farmer;
-                cordinates = Collections.unmodifiableList(new ArrayList());
-	}
+	
         
-        public Sheep(int id, DateTime birth, Farmer farmer, Coordinate coordinate) {
+        public Sheep(String id, DateTime birth, Farmer farmer, Coordinate currentCoordinate) {
 		this.id = id;
 		this.birth = birth;
 		this.farmer = farmer;
                 cordinates = Collections.unmodifiableList(new ArrayList());
-                this.mostRecentCoordinate = coordinate;
+                this.currentCoordinate = currentCoordinate;
 	}
 
 	public String getId() {
@@ -50,19 +45,12 @@ public class Sheep implements Serializable {
 		return this.weight;
 	}
 	
-	public void setWeigth(int weight) {
-		this.weight = weight;
-	}
+	
 	
 	public DateTime getBirth() {
 		return this.birth;
 	}
 	
-        public void addCoordinate(Coordinate coordinate){
-            this.cordinates.add(coordinate);
-        }
-        
-       
 	public List getAllCordinates() { 
 		return Collections.unmodifiableList(this.cordinates);
 	}
@@ -70,16 +58,26 @@ public class Sheep implements Serializable {
 	
         public Coordinate getCurrentCordinate() {
             //throw new UnsupportedOperationException("not yet implemented. ");
-		return this.cordinates.get(this.cordinates.size() - 1 );
+		return currentCoordinate;
 	}
 
-    public void setMostCurrentCoordinate(Coordinate coordinate) {
-        this.mostRecentCoordinate = coordinate;
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
-    public Coordinate getMostRecentCoordinate() {
-        return mostRecentCoordinate;
+    public void setAttack(String attack) {
+        this.attack = attack;
     }
+
+    public void setCordinates(List<Coordinate> cordinates) {
+        this.cordinates = cordinates;
+    }
+
+    public void setCurrentCoordinate(Coordinate currentCoordinate) {
+        this.currentCoordinate = currentCoordinate;
+    }
+
+    
 	
     
         
