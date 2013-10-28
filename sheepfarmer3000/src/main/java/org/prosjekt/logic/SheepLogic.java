@@ -52,7 +52,10 @@ public class SheepLogic {
 			
 			//Dette er to metoder je gikke er sikker paa hva som er forskjellen paa
 			//Anyone?
-			sheeps[i].addCoordinate(newCoord);
+			
+			//Bruk LogicService fra server. addCoordinate i Sheep legger bare inn i Sheep objektet
+			// og ikke inn i databasen. 
+			//sheeps[i].addCoordinate(newCoord);
 			ls.addSheepMovement(sheeps[i], newCoord);
 		}
 	}
