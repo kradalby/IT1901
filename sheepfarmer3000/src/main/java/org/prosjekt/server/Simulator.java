@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.prosjekt.database.LogicService;
 import org.prosjekt.database.SheepService;
+import org.prosjekt.database.repository.LogicRepository;
 import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.logic.SheepLogic;
@@ -19,7 +21,7 @@ import org.prosjekt.logic.WolfLogic;
 public class Simulator extends Thread {
 	
 	private boolean running;
-	SheepService ss = new SheepRepository();
+	LogicService ls = new LogicRepository();
 	private int timeBetweenMoves = 600000; //10 min
 	private int timeBetweenAttacks = 172800000; // 48 timer
 	
@@ -63,7 +65,7 @@ public class Simulator extends Thread {
 		public void run() {
 			while (running) {
 				try {
-					WolfLogic.wolfAttack(WolfLogic.getRandomSheep(ss.getAllSheeps()));
+					WolfLogic.wolfAttack(WolfLogic.getRandomSheep(ls.getAllSheeps()));
 					Thread.sleep(timeBetweenAttacks);
 				} catch (InterruptedException e) {
 					e.printStackTrace();

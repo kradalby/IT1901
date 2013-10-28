@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import org.joda.time.DateTime;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
@@ -37,10 +38,10 @@ public class RandomSheepGenerator {
         for (int i = 0; i < amount; i++){
             currentTriangle = generator.nextInt() % 2;
             if (currentTriangle == 0){
-                result.add(new Sheep(i, DateTime.now(), farmer, triangle1.generateContainedCoordinate()));
+                result.add(new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), triangle1.generateContainedCoordinate()));
             }
             else{
-                result.add(new Sheep(i, DateTime.now(), farmer, triangle2.generateContainedCoordinate()));
+                result.add(new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), triangle2.generateContainedCoordinate()));
             }
         }
         

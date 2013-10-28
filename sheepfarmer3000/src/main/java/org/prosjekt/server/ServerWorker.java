@@ -1,8 +1,10 @@
 package org.prosjekt.server;
 
 import org.prosjekt.database.FarmerService;
+import org.prosjekt.database.LogicService;
 import org.prosjekt.database.SheepService;
 import org.prosjekt.database.repository.FarmerRepository;
+import org.prosjekt.database.repository.LogicRepository;
 import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Request;
@@ -82,7 +84,7 @@ public class ServerWorker {
 	 * @param request
 	 */
 	public static void getAllSheeps(Response response) {
-		SheepService ss = new SheepRepository();
+		LogicService ss = new LogicRepository();
 		Sheep[] sheeps = ss.getAllSheeps();
 		response.addSheeps(sheeps);
 	}
@@ -95,12 +97,13 @@ public class ServerWorker {
 	 */
 	public static void getSheepById(Response response, Request request) {
 		SheepService ss = new SheepRepository();
-		int id = (int) request.getItem("sheepid");
+		String id = (String) request.getItem("sheepid");
 		response.setSheep(ss.getSheepAllCordinates(id));		
 	}
 	
 	/**
 	 * Mottar en sau fra clienten og legger den til i databasen.
+         * Sau MÅ ha currentCoordinate satt. 
 	 * 
 	 * @param response
 	 * @param request
@@ -108,7 +111,7 @@ public class ServerWorker {
 	public static void addSheep(Response response, Request request) {
 		SheepService ss = new SheepRepository();
 		Sheep sheep = (Sheep) request.getItem("sheep");
-		ss.addSheep(sheep);
+		ss.addSheep(sheep, sheep.getCurrentCordinate());
 		response.addItem("success", "success");
 	}
 	
@@ -121,7 +124,7 @@ public class ServerWorker {
 	public static void removeSheep(Response response, Request request) {
 		SheepService ss = new SheepRepository();
 		Sheep sheep = (Sheep) request.getItem("sheep");
-		ss.removeSheep(sheep);
+		ss.removeSheep(sheep.getId());
 		response.addItem("success", "success");
 	}
 	

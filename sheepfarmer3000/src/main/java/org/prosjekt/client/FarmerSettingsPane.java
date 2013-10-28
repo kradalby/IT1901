@@ -28,6 +28,7 @@ import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 import org.prosjekt.GUIClient.SpringUtilities;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.Helper;
 
 public class FarmerSettingsPane extends JPanel implements ActionListener{
 	private Farmer currentUser;	//kan hende denne kan fjernes
@@ -164,25 +165,25 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		//Lager elementene for helper information
 		helperFirstName = new JLabel("First Name: ", JLabel.TRAILING);
 		personalData.add(helperFirstName);
-		textHelperFirstName = new JTextField(currentUser.getHelperFirstname());
+		textHelperFirstName = new JTextField(currentUser.getHelpers().get(0).getFirstname());
 		helperFirstName.setLabelFor(textHelperFirstName);
 		personalData.add(textHelperFirstName);
 		
 		helperLastName = new JLabel("Last Name: ", JLabel.TRAILING);
 		personalData.add(helperLastName);
-		textHelperLastName = new JTextField(currentUser.getHelperLastName());
+		textHelperLastName = new JTextField(currentUser.getHelpers().get(0).getLastname());
 		helperLastName.setLabelFor(textHelperLastName);
 		personalData.add(textHelperLastName);
 		
 		helperEmail = new JLabel("Email: ", JLabel.TRAILING);
 		personalData.add(helperEmail);
-		textHelperEmail = new JTextField(currentUser.getHelperEmail());
+		textHelperEmail = new JTextField(currentUser.getHelpers().get(0).getEmail());
 		helperEmail.setLabelFor(textHelperEmail);
 		personalData.add(textHelperEmail);
 		
 		helperPhone = new JLabel("Phone; ", JLabel.TRAILING);
 		personalData.add(helperPhone);
-		textHelperPhone = new JTextField(currentUser.getHelperPhone());
+		textHelperPhone = new JTextField(currentUser.getHelpers().get(0).getPhone());
 		helperPhone.setLabelFor(textHelperPhone);
 		personalData.add(textHelperPhone);
 		
@@ -416,11 +417,8 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		Gui.currentUser.setLastName(textLastName.getText());
 		Gui.currentUser.setEmail(textEmail.getText());
 		Gui.currentUser.setPhone(textPhone.getText());
-		Gui.currentUser.setHelperFirstname(textHelperFirstName.getText());
-		Gui.currentUser.setHelperLastName(textHelperLastName.getText());
-		Gui.currentUser.setHelperEmail(textHelperEmail.getText());
-		Gui.currentUser.setHelperPhone(textHelperPhone.getText());	
-		
+                Helper helper = new Helper(currentUser.getId(),textHelperFirstName.getText(), textHelperLastName.getText(), textHelperPhone.getText(), textHelperEmail.getText() );
+                Gui.currentUser.getHelpers().add(helper);
 	}
 	
 	//Denne lagrer passordet til farmer-objektet dersom riktig gammelt passord er skrevet inn

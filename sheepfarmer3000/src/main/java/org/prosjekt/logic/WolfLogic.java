@@ -1,6 +1,7 @@
 package org.prosjekt.logic;
 
 import java.util.ArrayList;
+import org.joda.time.DateTime;
 
 import org.prosjekt.helperclasses.Alert;
 import org.prosjekt.helperclasses.Attack;
@@ -38,7 +39,7 @@ public class WolfLogic {
 			Alert alert = new Alert(sheep);
 			alert.sendAttackAlarm();
 			// jeg antar at denne maa dyttes inn i databasen paa en eller annen maate.
-			Attack attack = new Attack(sheep, sheep.getCurrentCordinates().getLatitude(), sheep.getCurrentCordinates().getLongitude());
+//			Attack attack = new Attack(sheep, sheep.getCurrentCordinate().getLat(), sheep.getCurrentCordinate().getLon());
 			// Det maa ogsaa legges til et kall mot alert funksjonen naar den eksisterer.
 		} 	
 	}

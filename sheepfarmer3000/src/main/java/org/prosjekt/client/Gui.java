@@ -1,6 +1,6 @@
 package org.prosjekt.client;
 
-import com.sun.security.ntlm.Client;
+//import com.sun.security.ntlm.Client;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -35,7 +35,7 @@ public class Gui implements ActionListener, ItemListener {
 	protected JFrame statFrame;
 	private JFrame farmerSettingsFrame;
 	protected static Farmer currentUser;
-        private static Client client;
+//        private static Client client;
         private int POPUP_X;
         private int POPUP_Y;
 	
@@ -69,31 +69,31 @@ public class Gui implements ActionListener, ItemListener {
 		
 	}
         
-        public void createGui(Client client){
-		//initialize();
-		//Lager en JFrame
-		frame = new JFrame("Sheep system 3000");
-		emptyLabel = new JLabel("");
-		emptyLabel.setPreferredSize(new Dimension(800, 600));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
-		
-                //Lagrer en refenranse til clientet som lager GUI-en
-                this.client = client;
-                
-		//�pner passordboksen
-		passwordBox = new PasswordBox(this);
-		//boolean test = passwordBox.getCorrect(); //trengs denne?
-		frame.add(passwordBox);
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e){
-				passwordBox.resetFocus();
-			}
-		});
-		frame.pack();
-		frame.setVisible(true);
-		
-	}
+//        public void createGui(Client client){
+//		//initialize();
+//		//Lager en JFrame
+//		frame = new JFrame("Sheep system 3000");
+//		emptyLabel = new JLabel("");
+//		emptyLabel.setPreferredSize(new Dimension(800, 600));
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
+//		
+//                //Lagrer en refenranse til clientet som lager GUI-en
+//                this.client = client;
+//                
+//		//�pner passordboksen
+//		passwordBox = new PasswordBox(this);
+//		//boolean test = passwordBox.getCorrect(); //trengs denne?
+//		frame.add(passwordBox);
+//		frame.addWindowListener(new WindowAdapter() {
+//			public void windowActivated(WindowEvent e){
+//				passwordBox.resetFocus();
+//			}
+//		});
+//		frame.pack();
+//		frame.setVisible(true);
+//		
+//	}
 	
 	
 	//Henter GUI
@@ -102,9 +102,7 @@ public class Gui implements ActionListener, ItemListener {
 		return this.frame;
 	}
         
-        public final Client getClient(){
-            return this.client;
-        }
+//        public final Client getClient(){ 
 	
 	
 	//Denne tar seg i praksis av alt, initializer, etter passordet er bekreftet
