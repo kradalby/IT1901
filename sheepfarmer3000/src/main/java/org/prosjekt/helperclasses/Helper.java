@@ -4,17 +4,23 @@
  */
 package org.prosjekt.helperclasses;
 
+import java.util.UUID;
+
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Helper {
+    private String id;
+    private int farmerid;
     private String firstname;
     private String lastname;
     private String phone;
     private String email;
 
-    public Helper(String firstname, String lastname, String phone, String email) {
+    public Helper(int farmerid, String firstname, String lastname, String phone, String email) {
+        id = UUID.randomUUID().toString();
+        this.farmerid = farmerid;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
@@ -53,10 +59,22 @@ public class Helper {
         this.email = email;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public int getFarmerid() {
+        return farmerid;
+    }
+
     @Override
     public String toString() {
-        return "Helper{" + "firstname=" + firstname + ", lastname=" + lastname + ", phone=" + phone + ", email=" + email + '}';
+        return "Helper{" + "id=" + id + ", farmerid=" + farmerid + ", firstname=" + firstname + ", lastname=" + lastname + ", phone=" + phone + ", email=" + email + '}';
     }
+    
+    
+
+  
     
     
 }

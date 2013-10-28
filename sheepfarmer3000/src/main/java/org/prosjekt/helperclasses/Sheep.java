@@ -84,6 +84,16 @@ public class Sheep implements Serializable {
         return cordinates;
     }
 
+    public int getFarmerid() {
+        return farmerid;
+    }
+
+    @Override
+    public String toString() {
+        return "Sheep{" + "id=" + id + ", birth=" + birth + ", alive=" + alive + ", weight=" + weight + ", attack=" + attack + ", cordinates=" + cordinates + ", farmerid=" + farmerid + ", currentCoordinate=" + currentCoordinate + '}';
+    }
+
+    
    
 
       

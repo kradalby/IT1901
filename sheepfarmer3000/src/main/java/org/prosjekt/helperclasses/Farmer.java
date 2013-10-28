@@ -18,6 +18,7 @@ public class Farmer implements Serializable {
     private String email;
     private String phone;
     //kontaktinfo til helper
+    private List<Helper> helpers;
     private String helperFirstname;
     private String helperLastName;
     private String helperPhone;
@@ -36,17 +37,13 @@ public class Farmer implements Serializable {
     
     
     
-    public Farmer(int id, String firstName, String lastName, String email, String phone, String helperFirstName, String helperLastName, String helperPhone, String helperEmail) {
-        
+    public Farmer(int id, String firstName, String lastName, String email, String phone) {
+        helpers = new ArrayList<Helper>();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.helperFirstname = helperFirstName;
-        this.helperLastName = helperLastName;
-        this.helperPhone = helperPhone;
-        this.helperEmail = helperEmail;
         this.sheeps = Collections.unmodifiableList(new ArrayList<Sheep>());
     }
     
@@ -75,38 +72,6 @@ public class Farmer implements Serializable {
         this.phone = phone;
     }
 
-    public String getHelperFirstname() {
-        return helperFirstname;
-    }
-
-    public void setHelperFirstname(String helperFirstname) {
-        this.helperFirstname = helperFirstname;
-    }
-
-    public String getHelperLastName() {
-        return helperLastName;
-    }
-
-    public void setHelperLastName(String helperLastName) {
-        this.helperLastName = helperLastName;
-    }
-    
-    public String getHelperPhone() {
-        return helperPhone;
-    }
-    
-    public void setHelperPhone(String helperPhone) {
-        this.helperPhone = helperPhone;
-    }
-    
-    public String getHelperEmail() {
-        return helperEmail;
-    }
-    
-    public void setHelperEmail(String helperEmail) {
-        this.helperEmail = helperEmail;
-    }
-    
     public int getId() {
         return id;
     }
@@ -137,6 +102,14 @@ public class Farmer implements Serializable {
 
     public void setSheeps(List<Sheep> sheeps) {
         this.sheeps = sheeps;
+    }
+
+    public List<Helper> getHelpers() {
+        return helpers;
+    }
+
+    public void setHelpers(List<Helper> helpers) {
+        this.helpers = helpers;
     }
 
     
