@@ -9,6 +9,12 @@ import org.prosjekt.helperclasses.Response;
 import org.prosjekt.helperclasses.Sheep;
 import org.prosjekt.helperclasses.Sms;
 
+/**
+ * Denne klassen er en placeholder klasse helt til GUI peepsa finner ut hvor de vil ha metodene.
+ * 
+ * @author kradalby
+ *
+ */
 public class ClientExample {
 
 	static ClientConnection connection = new ClientConnection("127.0.0.1", 4455);
