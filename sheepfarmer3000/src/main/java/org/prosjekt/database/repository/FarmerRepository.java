@@ -104,6 +104,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         Farmer farmer = getFarmerPlain(id);
         farmer.setSheeps(getAllSheepWithLastCoordinate(id));
         farmer.setCoordinates(getFarmerArea(id));
+        farmer.setHelpers(getHelpers(id));
         return farmer; 
     }
     
@@ -234,16 +235,57 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     }
 
     @Override
-    public void removeHelper(int farmerid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeHelper(Helper helper) {
+        String sql = "delete from users where id=?";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setString(1, helper.getId());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public void addHelper(Helper helper, int farmerid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addHelper(Helper helper) {
+        String sql = "insert into users (id, firstname, lastname, email, phone) values (?,?,?,?,?) ";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setString(1, helper.getId());
+            ps.setString(2, helper.getFirstname());
+            ps.setString(3, helper.getLastname());
+            ps.setString(4, helper.getEmail());
+            ps.setString(5, helper.getPhone());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        sql = "insert into helper (id, users_id, farmer_id) values (?,?,?) ";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setString(1, helper.getId());
+            ps.setString(2, helper.getId());
+            ps.setInt(3, helper.getFarmerid());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-  
+    
+    public List<Helper> getHelpers(int farmerid){
+        List<Helper> list = Lists.newArrayList();
+             String sql = "select h.id as hid, u.firstname as fn, u.lastname as ln, u.email as email,u.phone as phone from helper h "
+                     + "join users u on u.id = h.users_id "
+                     + "where h.farmer_id = ?";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setInt(1, farmerid);
+            ResultSet rs = ps.executeQuery();
+             while (rs.next()) {
+                list.add(new Helper(farmerid, rs.getString("fn"), rs.getString("ln"), rs.getString("phone"), rs.getString("email")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
     
 
 

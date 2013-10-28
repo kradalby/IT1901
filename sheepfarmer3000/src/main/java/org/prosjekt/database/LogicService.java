@@ -12,8 +12,13 @@ import org.prosjekt.helperclasses.Sheep;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public interface LogicService {
-    
-    public void addSheepMovement(Sheep sheep,Coordinate coordiante);
+    /**
+     * 
+     * @param sheep
+     * @param coordiante
+     * @return coordinate id of this movement.  
+     */
+    public String addSheepMovement(Sheep sheep,Coordinate coordiante);
     public void updateSheepAttack(Sheep sheep, Coordinate coordinate);
     
     
