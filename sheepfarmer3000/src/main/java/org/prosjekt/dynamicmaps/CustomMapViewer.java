@@ -47,17 +47,17 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
         
-    public void removeSheepMarker(int id){
+    public void removeSheepMarker(String id){
         for (SheepMarker marker : sheepMarkerList){
-            if (marker.getId() == id){
+            if (marker.getId().equals(id)){
                 sheepMarkerList.remove(marker);
             }
         }
     }
     
-    public void removeSheepMarkers(ArrayList<Integer> ids){
-        for (Integer id : ids){
-            removeSheepMarker(id.intValue());
+    public void removeSheepMarkers(ArrayList<String> ids){
+        for (String id : ids){
+            removeSheepMarker(id);
         }
     }
     
