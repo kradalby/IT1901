@@ -56,12 +56,14 @@ ALTER TABLE ONLY users
 --farmer  id is same as userid
 CREATE TABLE farmer (
     id integer NOT NULL,
-    users_id character varying(255) NOT NULL
+    users_id character varying(255) NOT NULL,
+    CONSTRAINT pk_farmer PRIMARY KEY (id),
+    CONSTRAINT fk_farmer FOREIGN KEY (users_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ALTER TABLE public.farmer OWNER TO prosjekt;
-ALTER TABLE ONLY farmer
-    ADD CONSTRAINT farmer_pkey PRIMARY KEY (id);
 
 
 
@@ -72,11 +74,13 @@ ALTER TABLE ONLY farmer
 CREATE TABLE helper (
     id integer NOT NULL,
     users_id character varying(255) NOT NULL,
-    farmer_id integer NOT NULL
+    farmer_id integer NOT NULL,
+    CONSTRAINT pk_helper PRIMARY KEY (id),
+    CONSTRAINT fk_helper FOREIGN KEY (users_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 ALTER TABLE public.helper OWNER TO prosjekt;
-ALTER TABLE ONLY helper
-    ADD CONSTRAINT helper_pkey PRIMARY KEY (id);
 
 
 
@@ -101,7 +105,7 @@ CREATE TABLE sheepcoordinate (
     CONSTRAINT pk_sheepcoordinate PRIMARY KEY (id),
     CONSTRAINT fk_sheepcoordinate FOREIGN KEY (coordinate_id)
       REFERENCES coordinate (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ALTER TABLE public.sheepcoordinate OWNER TO prosjekt;
@@ -115,7 +119,7 @@ CREATE TABLE farmercoordinate (
     CONSTRAINT pk_farmercoordinate PRIMARY KEY (id),
     CONSTRAINT fk_farmercoordinate FOREIGN KEY (coordinate_id)
       REFERENCES coordinate (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 ALTER TABLE public.farmercoordinate OWNER TO prosjekt;
 
@@ -128,7 +132,7 @@ CREATE TABLE attack (
     CONSTRAINT pk_attack PRIMARY KEY (id),
     CONSTRAINT fk_attack FOREIGN KEY (coordinate_id)
       REFERENCES coordinate (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
     
 );
 ALTER TABLE public.attack OWNER TO prosjekt;

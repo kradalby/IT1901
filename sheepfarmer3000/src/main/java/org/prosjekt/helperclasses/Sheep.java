@@ -76,7 +76,12 @@ public class Sheep implements Serializable {
     public void setMostCurrentCoordinate(Coordinate coordinate) {
         this.mostRecentCoordinate = coordinate;
     }
+
+    public Coordinate getMostRecentCoordinate() {
+        return mostRecentCoordinate;
+    }
 	
+    
         
 	
 	//Trenger vi en setFarmer? bytte av eierskap?
