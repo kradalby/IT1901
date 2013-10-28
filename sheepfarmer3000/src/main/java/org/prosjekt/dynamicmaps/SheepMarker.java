@@ -27,7 +27,7 @@ import org.prosjekt.helperclasses.Sheep;
 public class SheepMarker extends MapObjectImpl implements MapMarker{
     
     private Image img;
-    private int id;
+    private String id;
     private double lon;
     private double lat;
     private final int SIZE_X = 20;
@@ -38,7 +38,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
     public SheepMarker(){
         super("");
         this.img = null;
-        this.id = -1;
+        this.id = null;
     }
     
     public SheepMarker(Sheep sheep){
@@ -54,7 +54,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
         this.id = sheep.getId();
     }
     
-    public SheepMarker(double lon, double lat, int id){
+    public SheepMarker(double lon, double lat, String id){
         super("");
         try{
             img = ImageIO.read(new File(fileLocation));
@@ -67,7 +67,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
         this.id = id;
     }
     
-    public SheepMarker(Coordinate coord, int id){
+    public SheepMarker(Coordinate coord, String id){
         super("");
         try{
             img = ImageIO.read(new File(fileLocation));
@@ -98,7 +98,7 @@ public class SheepMarker extends MapObjectImpl implements MapMarker{
         this.lat = lat;
     }
     
-    public int getId(){
+    public String getId(){
         return this.id;
     }
     
