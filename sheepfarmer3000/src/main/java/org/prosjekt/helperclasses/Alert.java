@@ -2,6 +2,12 @@ package org.prosjekt.helperclasses;
 
 import java.util.ArrayList;
 
+/**
+ * Denne klassen haandterer alle alerts som skal sendes ut.
+ * 
+ * @author Kristoffer Dalby <kradalby@kradalby.no>
+ *
+ */
 public class Alert {
 	
 	private Sheep sheep;

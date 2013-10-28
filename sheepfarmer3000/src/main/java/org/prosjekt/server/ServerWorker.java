@@ -76,23 +76,35 @@ public class ServerWorker {
 	}
 	
 	/**
-	 * @param returnerer alle sauene i hele systemet.
+	 * Sender alle sauene i hele systemet til clienten.
+	 * 
+	 * @param response
+	 * @param request
 	 */
 	public static void getAllSheeps(Response response) {
-		Sheep sheep1 = new Sheep(0, null, null);
-		Sheep sheep2 = new Sheep(1, null, null);
-		Sheep[] sheeps = new Sheep[2];
-		sheeps[0] = sheep1;
-		sheeps[1] = sheep2;
+		SheepService ss = new SheepRepository();
+		Sheep[] sheeps = ss.getAllSheeps();
 		response.addSheeps(sheeps);
 	}
 	
+	/**
+	 * Sender en sau til clienten
+	 * 
+	 * @param response
+	 * @param request
+	 */
 	public static void getSheepById(Response response, Request request) {
 		SheepService ss = new SheepRepository();
 		int id = (int) request.getItem("sheepid");
 		response.setSheep(ss.getSheepAllCordinates(id));		
 	}
 	
+	/**
+	 * Mottar en sau fra clienten og legger den til i databasen.
+	 * 
+	 * @param response
+	 * @param request
+	 */
 	public static void addSheep(Response response, Request request) {
 		SheepService ss = new SheepRepository();
 		Sheep sheep = (Sheep) request.getItem("sheep");
@@ -100,6 +112,12 @@ public class ServerWorker {
 		response.addItem("success", "success");
 	}
 	
+	/**
+	 * Motar en sau fra clienten og fjerner den fra databasen.
+	 * 
+	 * @param response
+	 * @param request
+	 */
 	public static void removeSheep(Response response, Request request) {
 		SheepService ss = new SheepRepository();
 		Sheep sheep = (Sheep) request.getItem("sheep");
@@ -107,12 +125,24 @@ public class ServerWorker {
 		response.addItem("success", "success");
 	}
 	
+	/**
+	 * Mottar en id for en farmer av clienten og returnerer objektet.
+	 * 
+	 * @param response
+	 * @param request
+	 */
 	public static void getUser(Response response, Request request) {
 		FarmerService fs = new FarmerRepository();
 		int id = (int) request.getItem("farmerid");
 		response.setFarmer(fs.getFarmer(id));
 	}
 	
+	/**
+	 * Mottar et farmer objekt fra client som skal oppdateres i databasen.
+	 *
+	 * @param response
+	 * @param request
+	 */
 	public static void updateUser(Response response, Request request) {
 		FarmerService fs = new FarmerRepository();
 		Farmer farmer = (Farmer) request.getItem("farmer");
@@ -120,6 +150,12 @@ public class ServerWorker {
 		response.addItem("success", "success");
 	}
 	
+	/**
+	 * Mottar en passhash string og en farmer id som skal settes passhash paa i databasen.
+	 * 
+	 * @param response
+	 * @param request
+	 */
 	public static void setPasshash(Response response, Request request) {
 		FarmerService fs = new FarmerRepository();
 		String passhash = (String) request.getItem("passhash");
@@ -128,6 +164,12 @@ public class ServerWorker {
 		response.addItem("success", "success");
 	}
 	
+	/**
+	 * Mottar en farmerid og returnerer passhashen til denne bonden.
+	 * 
+	 * @param response
+	 * @param request
+	 */
 	public static void getPasshash(Response response, Request request) {
 		FarmerService fs = new FarmerRepository();
 		int id = (int) request.getItem("farmerid");
