@@ -52,5 +52,7 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    
+    public Sheep[] getAllSheeps() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -25,6 +25,14 @@ public class Sheep implements Serializable {
 		this.farmer = farmer;
                 cordinates = Collections.unmodifiableList(new ArrayList());
 	}
+        
+        public Sheep(int id, DateTime birth, Farmer farmer, Coordinate coordinate) {
+		this.id = id;
+		this.birth = birth;
+		this.farmer = farmer;
+                cordinates = Collections.unmodifiableList(new ArrayList());
+                this.mostRecentCoordinate = coordinate;
+	}
 
 	public String getId() {
 		return this.id;

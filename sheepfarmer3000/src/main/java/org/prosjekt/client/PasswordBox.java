@@ -28,11 +28,11 @@ public class PasswordBox extends JPanel implements ActionListener {
 	
 	private boolean test = false;
 	private boolean isCorrect = false;
-	//Disse må hentes fra server
+	//Disse maa hentes fra server
 	//private String tempUsername = "admin";
 	//private char[] correctPassword = {'a','d','m','i','n'};
 	private Farmer currentUser;
-	//Husk å legge et eget felt for brukernavn
+	//Husk aa legge et eget felt for brukernavn
 	private static String OK = "ok";
     private static String HELP = "help";
     
@@ -123,7 +123,7 @@ public class PasswordBox extends JPanel implements ActionListener {
 	
         
         /**
-         * Edit christbu: password bør være hasha i databasen.  
+         * Edit christbu: password boer vaere hasha i databasen.  
          *  Inntil videre send inn plain text som String. 
          *  
          * @param input String passhash/password 

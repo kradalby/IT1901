@@ -20,7 +20,7 @@ public interface SheepService {
     public Sheep getSheepAllCordinates(int id);
     public void addSheep(Sheep sheep);
     public void removeSheep(Sheep sheep);
-    
+    public Sheep[] getAllSheeps();
     
     
 }

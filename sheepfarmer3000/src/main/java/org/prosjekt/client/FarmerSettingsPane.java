@@ -77,7 +77,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Personal Details", createPersonalDataTab());
 		tabbedPane.addTab("Password", createPasswordTab());
-		//sett inn flere faner her dersom det er nødvendig
+		//sett inn flere faner her dersom det er noedvendig
 		
 		add(tabbedPane);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -120,19 +120,19 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		//Lager elementene for adresseopplysninger
 		street = new JLabel("Street: ", JLabel.TRAILING);
 		personalData.add(street);
-		textStreet = new JTextField("Her må adresse fylles inn, legges inn i farmer-objektet");	//!!!
+		textStreet = new JTextField("Her maa adresse fylles inn, legges inn i farmer-objektet");	//!!!
 		street.setLabelFor(textStreet);
 		personalData.add(textStreet);
 		
 		zip = new JLabel("Zip: ", JLabel.TRAILING);
 		personalData.add(zip);
-		textZip = new JTextField("Her må zip legges inn i farmer-objektet");	//!!!
+		textZip = new JTextField("Her maa zip legges inn i farmer-objektet");	//!!!
 		zip.setLabelFor(textZip);	
 		personalData.add(textZip);
 		
 		city = new JLabel("City:", JLabel.TRAILING);
 		personalData.add(city);
-		textCity = new JTextField("Her må city fylles ut i farmer-objektet");	//!!!
+		textCity = new JTextField("Her maa city fylles ut i farmer-objektet");	//!!!
 		city.setLabelFor(textCity);
 		personalData.add(textCity);
 		
@@ -193,13 +193,13 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		personalData.add(createButtons());
 		
 		
-		//Denne organiserer alle elementene i et grid, er nødvendig for at springlayout skal gi best mulig resultat 
-		//På denne skal kun den første int endres til å passe antall elementer
+		//Denne organiserer alle elementene i et grid, er noedvendig for at springlayout skal gi best mulig resultat 
+		//Paa denne skal kun den foerste int endres til aa passe antall elementer
 		SpringUtilities.makeCompactGrid(personalData,16,2,6,6,6,6);
 		
 		
 		
-		//kan hende vi må kalle personalData.setOpaque(true);
+		//kan hende vi maa kalle personalData.setOpaque(true);
 
 		return personalData;
 	}
@@ -210,7 +210,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		//passwordTab.setPreferredSize(new Dimension(400,200));
 		JPanel passwordField = new JPanel(new GridLayout(17,3));
 		
-		//Fill-labels laget for å få denne siden til å se ut som den gjør
+		//Fill-labels laget for aa faa denne siden til aa se ut som den gjoer
 		JLabel fill1 = new JLabel("");
 		passwordField.add(fill1);
 		JLabel fill2 = new JLabel("");
@@ -410,7 +410,7 @@ public class FarmerSettingsPane extends JPanel implements ActionListener{
 		}
 	}
 
-	//Lagrer data når ok/apply er trykket
+	//Lagrer data naar ok/apply er trykket
 	private void saveData(){
 		Gui.currentUser.setFirstName(textFirstName.getText());
 		Gui.currentUser.setLastName(textLastName.getText());
