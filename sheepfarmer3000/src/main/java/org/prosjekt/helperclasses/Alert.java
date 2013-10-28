@@ -28,10 +28,11 @@ public class Alert {
 	 */
 	public void getRecipients() {
 		//Denne metoden vil trenge noen endringer naar vi endrer helper.
-		emailRecipient.add(this.sheep.getFarmer().getEmail());
-		emailRecipient.add(this.sheep.getFarmer().getHelperEmail());
-		smsRecipient.add(this.sheep.getFarmer().getPhone());
-		smsRecipient.add(this.sheep.getFarmer().getHelperPhone());
+                //Hent ut List<Farmer>  og slå opp i farmer. 
+//		emailRecipient.add(this.sheep.getFarmer().getEmail());
+//		emailRecipient.add(this.sheep.getFarmer().getHelperEmail());
+//		smsRecipient.add(this.sheep.getFarmer().getPhone());
+//		smsRecipient.add(this.sheep.getFarmer().getHelperPhone());
 	}
 	
 	

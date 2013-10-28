@@ -117,7 +117,7 @@ public class FarmerServiceTest {
                      + "INSERT INTO sheep (id, farmerid, birth, alive, lastcoordinateid) VALUES ('test_sheep1', "+farmerid+", '2013-01-01', true, 'test_sheep1coordinate1');");
             fr.getFarmer(farmerid);
             
-            sheeps = fr.getAllSheepWithLastCoordinate(new Farmer(farmerid));
+            sheeps = fr.getAllSheepWithLastCoordinate(farmerid);
             
             
         } catch (SQLException ex) {
@@ -142,7 +142,7 @@ public class FarmerServiceTest {
         org.junit.Assert.assertEquals("test_sheep1", sheep1.getId());
         org.junit.Assert.assertEquals(true, sheep1.getAlive());
         org.junit.Assert.assertEquals(new DateTime(2013, 1, 1, 0,0,0), sheep1.getBirth());
-        Coordinate c = sheep1.getMostRecentCoordinate();
+        Coordinate c = sheep1.getCurrentCordinate();
         org.junit.Assert.assertEquals(15, c.getDate().getHourOfDay());
         org.junit.Assert.assertEquals(62.0, c.getLat(), 0.1);
         org.junit.Assert.assertEquals(9.0, c.getLon(), 0.1);
@@ -169,19 +169,19 @@ public class FarmerServiceTest {
             fr.deleteAllCoordinatesByFarmer(farmerid);
             areaAfterCleanup = fr.getFarmerArea(farmerid);
         }
-        Collections.sort(area);
-//        for (Coordinate c : areaAct) System.out.println(c);
+        Collections.sort(areaAct);
+        for (Coordinate c : areaAct) System.out.println(c);
         org.junit.Assert.assertEquals(3, areaAct.size());
+        //testing last coordinate. 
+        org.junit.Assert.assertEquals(5.0011, areaAct.get(0).getLat(), 0.01);
+        org.junit.Assert.assertEquals(2.333, areaAct.get(0).getLon(), 0.01);
+        org.junit.Assert.assertEquals(15, areaAct.get(0).getDate().getMillisOfSecond());
+        
         
         //testing first coordinate. 
-        org.junit.Assert.assertEquals(5.0044, areaAct.get(0).getLat(), 0.01);
-        org.junit.Assert.assertEquals(2.111, areaAct.get(0).getLon(), 0.01);
-        org.junit.Assert.assertEquals(13, areaAct.get(0).getDate().getMillisOfSecond());
-        
-        //testing last coordinate. 
-        org.junit.Assert.assertEquals(5.0011, areaAct.get(2).getLat(), 0.01);
-        org.junit.Assert.assertEquals(2.333, areaAct.get(2).getLon(), 0.01);
-        org.junit.Assert.assertEquals(15, areaAct.get(2).getDate().getMillisOfSecond());
+        org.junit.Assert.assertEquals(5.0044, areaAct.get(2).getLat(), 0.01);
+        org.junit.Assert.assertEquals(2.111, areaAct.get(2).getLon(), 0.01);
+        org.junit.Assert.assertEquals(13, areaAct.get(2).getDate().getMillisOfSecond());
         
         org.junit.Assert.assertEquals(0, areaAfterCleanup.size());
     }

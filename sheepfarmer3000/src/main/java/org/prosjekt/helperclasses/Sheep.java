@@ -16,15 +16,15 @@ public class Sheep implements Serializable {
 	private int weight;
 	private String attack;
 	private List<Coordinate> cordinates;
-	private Farmer farmer;
+	private int farmerid;
         private Coordinate currentCoordinate;
 
 	
         
-        public Sheep(String id, DateTime birth, Farmer farmer, Coordinate currentCoordinate) {
+        public Sheep(String id, DateTime birth, int farmerid, Coordinate currentCoordinate) {
 		this.id = id;
 		this.birth = birth;
-		this.farmer = farmer;
+		this.farmerid = farmerid;
                 cordinates = Collections.unmodifiableList(new ArrayList());
                 this.currentCoordinate = currentCoordinate;
 	}
@@ -76,23 +76,13 @@ public class Sheep implements Serializable {
     public void setCurrentCoordinate(Coordinate currentCoordinate) {
         this.currentCoordinate = currentCoordinate;
     }
-
     
-	
-    
-        
-	
-	//Trenger vi en setFarmer? bytte av eierskap?
-	public Farmer getFarmer() {
-		return this.farmer;
-	}
-
-        /**
-         * @return all coordinates of sheep as unmodifiable list.
-         */
-        public List<Coordinate> getAllCoordinates() {
-            return cordinates;
-        }
+    /**
+     * @return all coordinates of sheep as unmodifiable list.
+     */
+    public List<Coordinate> getAllCoordinates() {
+        return cordinates;
+    }
 
    
 

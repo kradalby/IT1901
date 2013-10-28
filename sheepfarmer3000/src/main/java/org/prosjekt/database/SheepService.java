@@ -17,10 +17,9 @@ public interface SheepService {
      * @param sheep
      * @return sheep with all coordinates 
      */
-    public Sheep getSheepAllCordinates(int id);
-    public void addSheep(Sheep sheep);
-    public void removeSheep(Sheep sheep);
-    public Sheep[] getAllSheeps();
+    public Sheep getSheepAllCordinates(String id);
+    public void addSheep(Sheep sheep, Coordinate currentCoordinate);
+    public void removeSheep(String sheepid);
     
     
 }

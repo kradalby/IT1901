@@ -16,4 +16,6 @@ public interface LogicService {
     public void addSheepMovement(Sheep sheep,Coordinate coordiante);
     public void updateSheepAttack(Sheep sheep, Coordinate coordinate);
     
+    
+    public Sheep[] getAllSheeps();
 }
