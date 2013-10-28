@@ -28,6 +28,7 @@ import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.database.repository.FarmerRepository;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
@@ -218,6 +219,32 @@ public class FarmerServiceTest {
     }
     
   
+    @Test
+    public void testHelper() throws SQLException {
+        setup();
+        Helper helper1 = new Helper(farmerid, "Jon", "Johnsen", "123", "email1");
+        Helper helper2 = new Helper(farmerid, "Egil", "Egilsen", "456", "email2");
+        Farmer farmer = null;
+        Farmer farmerAfterDeleting = null;
+        try {
+            conn.createStatement().executeUpdate(insertFarmer1);
+            conn.createStatement().executeUpdate(insertFarmer2);
+            fr.addHelper(helper1);
+            fr.addHelper(helper2);
+            farmer = fr.getFarmer(farmerid);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conn.createStatement().executeUpdate(deleteFarmer1);
+            conn.createStatement().executeUpdate(deleteFarmer2);
+            fr.removeHelper(helper1);
+            fr.removeHelper(helper2);
+            farmerAfterDeleting = fr.getFarmer(farmerid);
+        }
+        org.junit.Assert.assertEquals(2, farmer.getHelpers().size());
+        org.junit.Assert.assertEquals(0, farmerAfterDeleting.getHelpers().size());
+    }
     
 }
 
