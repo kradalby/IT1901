@@ -72,7 +72,7 @@ ALTER TABLE public.farmer OWNER TO prosjekt;
 
 --helper id is same as userid
 CREATE TABLE helper (
-    id integer NOT NULL,
+    id character varying(255) NOT NULL,
     users_id character varying(255) NOT NULL,
     farmer_id integer NOT NULL,
     CONSTRAINT pk_helper PRIMARY KEY (id),
