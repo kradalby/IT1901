@@ -135,9 +135,11 @@ public class Farmer implements Serializable {
         this.lastName = lastName;
     }
 
-    public void addSheep(Sheep sheep) {
+    public void setSheeps(List<Sheep> sheeps) {
         this.sheeps = sheeps;
     }
+
+    
 
 
     

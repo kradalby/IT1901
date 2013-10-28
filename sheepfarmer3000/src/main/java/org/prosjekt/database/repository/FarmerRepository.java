@@ -57,10 +57,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
             ps.setInt(1, farmer.getId());
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                Sheep sheep = new Sheep(rs.getString("s_id"), new DateTime(rs.getDate("s_birth").getTime()), farmer);
-                sheep.setAlive(rs.getBoolean("s_alive"));
+                
                 java.sql.Timestamp d = rs.getTimestamp("dateevent");
-                sheep.setMostCurrentCoordinate(new Coordinate(rs.getDouble("latitude"), rs.getDouble("longitude"), new DateTime(d)));
+                Coordinate currentCoordinate = new Coordinate(rs.getDouble("latitude"), rs.getDouble("longitude"), new DateTime(d));
+                Sheep sheep = new Sheep(rs.getString("s_id"), new DateTime(rs.getDate("s_birth").getTime()), farmer, currentCoordinate);
+                sheep.setAlive(rs.getBoolean("s_alive"));
                 sheeps.add(sheep);
                 
             }
