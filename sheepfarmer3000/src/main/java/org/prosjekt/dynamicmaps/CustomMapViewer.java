@@ -7,8 +7,6 @@ import java.util.List;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
-import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import org.prosjekt.client.Gui;
 import org.prosjekt.helperclasses.Coordinate;
@@ -24,19 +22,25 @@ public class CustomMapViewer extends JMapViewer{
     private final int DEFAULT_SIZE_Y = 600;
     private static Gui gui;
     private List<SheepMarker> sheepMarkerList;
-    private CustomMapController mapController;
     
+    /**
+     * Class constructor
+     * 
+     * @param gui
+     */
     public CustomMapViewer(Gui gui){
         super(new MemoryTileCache(), 8);
-        this.gui = gui;
+        CustomMapViewer.gui = gui;
         sheepMarkerList = new ArrayList<>();
-        mapController = new CustomMapController(this);
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
-        //setDisplayToFitMapElements(false, false, true);
     }
     
+    /**
+     * 
+     * @return
+     */
     public final Gui getGui(){
-        return this.gui;
+        return CustomMapViewer.gui;
     }
     
     @Override
@@ -45,8 +49,13 @@ public class CustomMapViewer extends JMapViewer{
         for (SheepMarker marker : sheepMarkerList){
             paintMarker(g, marker);
         }
+        setDisplayToFitMapElements(false, false, true);
     }
         
+    /**
+     *
+     * @param id
+     */
     public void removeSheepMarker(String id){
         for (SheepMarker marker : sheepMarkerList){
             if (marker.getId().equals(id)){
@@ -55,24 +64,39 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
     
+    /**
+     *
+     * @param ids
+     */
     public void removeSheepMarkers(ArrayList<String> ids){
         for (String id : ids){
             removeSheepMarker(id);
         }
     }
     
+    /**
+     *
+     */
     @Override
     public void removeAllMapMarkers(){
         sheepMarkerList.clear();
         repaint();
     }
     
+    /**
+     *
+     * @param coords
+     */
     public void addPath(ArrayList<Coordinate> coords){
         if (coords.isEmpty())
             return;
         addMapPolygon(new MapPolygonImpl(coords));
     }
     
+    /**
+     *
+     * @param coords
+     */
     public void removePath(ArrayList<Coordinate> coords){
         for (MapPolygon polygon : mapPolygonList){
             if (coords.equals(polygon.getPoints()))
@@ -80,10 +104,22 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
     
+    /**
+     *
+     */
     public void removeAllPaths(){
         removeAllMapPolygons();
     }
     
+    /**
+     * This method iterates over sheepMarkerList and checks
+     * if they contain Point p, if they do then that sheepMarker
+     * object is returned.
+     *
+     * 
+     * @param p
+     * @return
+     */
     public SheepMarker getClickedSheep(Point p){
         for (SheepMarker sheepMarker : sheepMarkerList){
             SheepMarker sheep = sheepMarker;
@@ -93,6 +129,10 @@ public class CustomMapViewer extends JMapViewer{
         return null;
     }
     
+    /**
+     *
+     * @param sheep
+     */
     public void addSheep(Sheep sheep){
         SheepMarker sMarker = new SheepMarker(sheep);
         sheepMarkerList.add(sMarker);
