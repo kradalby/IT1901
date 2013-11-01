@@ -20,6 +20,8 @@ public class CustomMapViewer extends JMapViewer{
     
     private final int DEFAULT_SIZE_X = 800;
     private final int DEFAULT_SIZE_Y = 600;
+    private boolean created = false;
+    private CustomMapController mapController;
     private static Gui gui;
     private List<SheepMarker> sheepMarkerList;
     
@@ -33,6 +35,7 @@ public class CustomMapViewer extends JMapViewer{
         CustomMapViewer.gui = gui;
         sheepMarkerList = new ArrayList<>();
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
+        mapController = new CustomMapController(this);
     }
     
     /**
@@ -49,7 +52,10 @@ public class CustomMapViewer extends JMapViewer{
         for (SheepMarker marker : sheepMarkerList){
             paintMarker(g, marker);
         }
-        setDisplayToFitMapElements(false, false, true);
+        if (!created){
+            setDisplayToFitMapElements(false, false, true);
+        created = true;
+        }
     }
         
     /**
