@@ -14,7 +14,7 @@ public class Sheep implements Serializable {
 	private final DateTime birth;
 	private boolean alive;
 	private int weight;
-	private String attack;
+	private List<Coordinate> attacks;
 	private List<Coordinate> cordinates;
 	private int farmerid;
         private Coordinate currentCoordinate;
@@ -26,6 +26,7 @@ public class Sheep implements Serializable {
 		this.birth = birth;
 		this.farmerid = farmerid;
                 cordinates = Collections.unmodifiableList(new ArrayList());
+                attacks = new ArrayList<Coordinate>();
                 this.currentCoordinate = currentCoordinate;
 	}
 
@@ -65,9 +66,7 @@ public class Sheep implements Serializable {
         this.weight = weight;
     }
 
-    public void setAttack(String attack) {
-        this.attack = attack;
-    }
+    
 
     public void setCordinates(List<Coordinate> cordinates) {
         this.cordinates = cordinates;
@@ -76,6 +75,16 @@ public class Sheep implements Serializable {
     public void setCurrentCoordinate(Coordinate currentCoordinate) {
         this.currentCoordinate = currentCoordinate;
     }
+
+    public List<Coordinate> getAttacks() {
+        return attacks;
+    }
+
+    public void setAttacks(List<Coordinate> attacks) {
+        this.attacks = attacks;
+    }
+    
+    
     
     /**
      * @return all coordinates of sheep as unmodifiable list.
@@ -90,7 +99,7 @@ public class Sheep implements Serializable {
 
     @Override
     public String toString() {
-        return "Sheep{" + "id=" + id + ", birth=" + birth + ", alive=" + alive + ", weight=" + weight + ", attack=" + attack + ", cordinates=" + cordinates + ", farmerid=" + farmerid + ", currentCoordinate=" + currentCoordinate + '}';
+        return "Sheep{" + "id=" + id + ", birth=" + birth + ", alive=" + alive + ", weight=" + weight + ", attack=" + attacks + ", cordinates=" + cordinates + ", farmerid=" + farmerid + ", currentCoordinate=" + currentCoordinate + '}';
     }
 
     

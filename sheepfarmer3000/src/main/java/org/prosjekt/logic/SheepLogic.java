@@ -26,7 +26,9 @@ public class SheepLogic {
 	 */
 	public static void moveSheeps() {
 		LogicService ls = new LogicRepository();
-		
+		ls.getAllSheeps();
+                
+                /*
 		Sheep[] sheeps = ls.getAllSheeps();
 		for (int i = 0; i < sheeps.length; i++) {
 			double currentLong = sheeps[i].getCurrentCordinate().getLon();
@@ -37,6 +39,7 @@ public class SheepLogic {
 			
 			ls.addSheepMovement(sheeps[i], newCoord);
 		}
+                */
 	}
 
    
