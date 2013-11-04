@@ -3,7 +3,6 @@ package org.prosjekt.dynamicmaps;
 
 import java.awt.event.MouseEvent;
 import org.openstreetmap.gui.jmapviewer.DefaultMapController;
-import org.prosjekt.client.Gui;
 
 /**
  * 
@@ -15,7 +14,6 @@ import org.prosjekt.client.Gui;
 public class CustomMapController extends DefaultMapController{
     
     CustomMapViewer parentMap;
-    private static Gui gui;
     private int PopoupMouseButton = MouseEvent.BUTTON3;
     
     /**
@@ -27,7 +25,6 @@ public class CustomMapController extends DefaultMapController{
     public CustomMapController(CustomMapViewer map){
         super(map);
         parentMap = map;
-        gui= this.parentMap.getGui();
         setMovementMouseButton(MouseEvent.BUTTON1);
     }
     
@@ -35,7 +32,7 @@ public class CustomMapController extends DefaultMapController{
      * This method handles clicks with the current
      * PopupMouseButton(right mouse button). If a sheep is
      * clicked on, then a popup with its ID is requested
-     * from the Gui. If not, a popup with no ID is requested.
+     * from the parentMap. If not, a popup with no ID is requested.
      * 
      * @param e 
      */
@@ -44,11 +41,11 @@ public class CustomMapController extends DefaultMapController{
     public void mouseReleased(MouseEvent e){
         super.mouseReleased(e);
         if (e.getButton() == this.PopoupMouseButton){
-            SheepMarker clickedSheep = parentMap.getClickedSheep(e.getPoint());
-            if (clickedSheep == null)
-                gui.createPopup(e.getX(), e.getY());
+            CustomMapMarker clickedMarker = parentMap.getClickedMarker(e.getPoint());
+            if (clickedMarker == null)
+                parentMap.createPopup(e.getX(), e.getY());
             else
-                gui.createPopup(e.getX(), e.getY(), clickedSheep.getId());
+                parentMap.createPopup(e.getX(), e.getY(), clickedMarker);
         }
     }
     
@@ -65,13 +62,13 @@ public class CustomMapController extends DefaultMapController{
     @Override
     public void mouseClicked(MouseEvent e){
         if (isDoubleClickZoomEnabled() && e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1){
-            SheepMarker clickedSheep = parentMap.getClickedSheep(e.getPoint());
-            if (clickedSheep == null){
+            CustomMapMarker clickedMarker = parentMap.getClickedMarker(e.getPoint());
+            if (clickedMarker == null){
                 parentMap.zoomIn(e.getPoint());
             }
             else {
                 int nextZoom = parentMap.getZoom();
-                parentMap.setDisplayPositionByLatLon(clickedSheep.getLat(), clickedSheep.getLon(), parentMap.getTileController().getTileSource().getMaxZoom() - 2);
+                parentMap.setDisplayPositionByLatLon(clickedMarker.getLat(), clickedMarker.getLon(), parentMap.getTileController().getTileSource().getMaxZoom() - 2);
             }
         }
     }

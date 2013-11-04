@@ -1,9 +1,9 @@
+package org.prosjekt.logic;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.prosjekt.logic;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +24,7 @@ public class RandomSheepGenerator {
     private static Farmer farmer;
     
     public RandomSheepGenerator(List<Coordinate> path, Farmer farmer){
-        this.farmer = farmer;
+        RandomSheepGenerator.farmer = farmer;
         this.path  = path;
         Date date = new Date();
         generator = new Random(date.getTime());
@@ -32,16 +32,31 @@ public class RandomSheepGenerator {
     
     public ArrayList<Sheep> generateSheep(int amount){
         ArrayList<Sheep> result = new ArrayList<>();
-        Triangle currentTriangle;
-        ArrayList<Triangle> triangles = new ArrayList<>();
+        ArrayList<Coordinate> randomCoords = generateCoords(amount);
+        for (int i = 0; i < amount; i++){
+            Sheep currentSheep = new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), randomCoords.get(i));
+            currentSheep.setAttacks(generateCoords(generator.nextInt(2)));
+            result.add(currentSheep);
+        }
         
-        for (int i = 1; i < path.size() - 1; i++){
-            triangles.add(new Triangle(path.get(0), path.get(i), path.get(i + 1)));
+        return result;
+    }
+    
+    private ArrayList<Coordinate> generateCoords(int amount){
+        
+        ArrayList<Coordinate> result = new ArrayList<>();
+        RandomSheepGenerator.Triangle currentTriangle;
+        ArrayList<RandomSheepGenerator.Triangle> triangles = new ArrayList<>();
+        int currentTriangleIndex;
+        
+        for (int i = 1; i < (path.size() - 1); i++){
+            triangles.add(new RandomSheepGenerator.Triangle(path.get(0), path.get(i), path.get(i + 1)));
         }
         
         for (int i = 0; i < amount; i++){
-            currentTriangle = triangles.get(generator.nextInt(9999999) % triangles.size());
-            result.add(new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), currentTriangle.generateContainedCoordinate()));
+            currentTriangleIndex = generator.nextInt(9999999); 
+            currentTriangle = triangles.get(currentTriangleIndex % triangles.size() );
+            result.add(currentTriangle.generateContainedCoordinate());
         }
         
         return result;

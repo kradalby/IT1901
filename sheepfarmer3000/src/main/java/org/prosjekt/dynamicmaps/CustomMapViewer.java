@@ -1,14 +1,14 @@
 package org.prosjekt.dynamicmaps;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
-import org.prosjekt.client.Gui;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -22,24 +22,27 @@ public class CustomMapViewer extends JMapViewer{
     private final int DEFAULT_SIZE_X = 800;
     private final int DEFAULT_SIZE_Y = 600;
     private boolean created = false;
+    private static Farmer farmer;
     private CustomMapController mapController;
-    private List<SheepMarker> sheepMarkerList;
+    private List<CustomMapMarker> customMapMarkerList;
     
     /**
      * Class constructor
      * 
      */
-    public CustomMapViewer(){
+    public CustomMapViewer(Farmer farmer){
         super(new MemoryTileCache(), 8);
-        sheepMarkerList = new ArrayList<>();
+        customMapMarkerList = new ArrayList<>();
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
         mapController = new CustomMapController(this);
+        this.farmer = farmer;
+        this.refreshMap();
     }
     
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        for (SheepMarker marker : sheepMarkerList){
+        for (CustomMapMarker marker : customMapMarkerList){
             paintMarker(g, marker);
         }
         if (!created){
@@ -47,35 +50,14 @@ public class CustomMapViewer extends JMapViewer{
         created = true;
         }
     }
-        
-    /**
-     *
-     * @param id
-     */
-    public void removeSheepMarker(String id){
-        for (SheepMarker marker : sheepMarkerList){
-            if (marker.getId().equals(id)){
-                sheepMarkerList.remove(marker);
-            }
-        }
-    }
-    
-    /**
-     *
-     * @param ids
-     */
-    public void removeSheepMarkers(ArrayList<String> ids){
-        for (String id : ids){
-            removeSheepMarker(id);
-        }
-    }
     
     /**
      *
      */
-    @Override
-    public void removeAllMapMarkers(){
-        sheepMarkerList.clear();
+    public void clearMap(){
+        customMapMarkerList.clear();
+        removeAllMapMarkers();
+        removeAllMapPolygons();
         repaint();
     }
     
@@ -83,28 +65,22 @@ public class CustomMapViewer extends JMapViewer{
      *
      * @param coords
      */
-    public void addPath(ArrayList<Coordinate> coords){
+    public void addArea(ArrayList<Coordinate> coords){
         if (coords.isEmpty())
             return;
         addMapPolygon(new MapPolygonImpl(coords));
     }
     
-    /**
-     *
-     * @param coords
-     */
-    public void removePath(ArrayList<Coordinate> coords){
-        for (MapPolygon polygon : mapPolygonList){
-            if (coords.equals(polygon.getPoints()))
-                removeMapPolygon(polygon);
-        }
-    }
-    
-    /**
-     *
-     */
-    public void removeAllPaths(){
-        removeAllMapPolygons();
+    public void addPath(List<Coordinate> coords){
+        if (coords.isEmpty())
+                return;
+        List<Coordinate> reversedCoords = new ArrayList<>(coords);
+        Collections.reverse(reversedCoords);
+        reversedCoords.remove(0);
+        coords.addAll(reversedCoords);
+        MapPolygonImpl pol = new MapPolygonImpl(coords);
+        pol.setColor(Color.red);
+        addMapPolygon(pol);
     }
     
     /**
@@ -116,11 +92,10 @@ public class CustomMapViewer extends JMapViewer{
      * @param p
      * @return
      */
-    public SheepMarker getClickedSheep(Point p){
-        for (SheepMarker sheepMarker : sheepMarkerList){
-            SheepMarker sheep = sheepMarker;
-            if (sheep.containsPoint(p))
-                    return sheep;
+    public CustomMapMarker getClickedMarker(Point p){
+        for (CustomMapMarker mapMarker : customMapMarkerList){
+            if (mapMarker.containsPoint(p))
+                    return mapMarker;
         }
         return null;
     }
@@ -131,15 +106,40 @@ public class CustomMapViewer extends JMapViewer{
      */
     public void addSheep(Sheep sheep){
         SheepMarker sMarker = new SheepMarker(sheep);
-        sheepMarkerList.add(sMarker);
+        customMapMarkerList.add(sMarker);
         repaint();
-    }      
+    }     
     
-    public void initializeMap(Farmer farmer){
+    public void addAllAttacks(){
+        for (Sheep sheep : farmer.getSheeps()){
+            for(Coordinate coord : sheep.getAttacks()){
+                customMapMarkerList.add(new AttackMarker(coord, sheep.getId()));
+            }
+        }
+    }
+    
+    public void addAttack(String sheepId){
+        for (Sheep sheep : farmer.getSheeps()){
+            if (sheep.getId().equals(sheepId)){
+                for (Coordinate coord : sheep.getAttacks()){
+                    customMapMarkerList.add(new AttackMarker(coord, sheep.getId()));
+                }
+            }
+        }
+    }
+    
+    public final void refreshMap(){
         for (Sheep sheep : farmer.getSheeps()){
             this.addSheep(sheep);
         }
-        this.addPath((ArrayList<Coordinate>)farmer.getCoordinates());
+        this.addArea((ArrayList<Coordinate>)farmer.getCoordinates());
+    }
+    
+    public void createPopup(int x, int y){
+        //create popup for new sheep withou
+    }
+    public void createPopup(int x, int y, CustomMapMarker marker){
+        //create popup with info from clicked sheep
     }
     
 }
