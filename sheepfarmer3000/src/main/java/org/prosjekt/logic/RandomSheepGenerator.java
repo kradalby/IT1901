@@ -32,17 +32,16 @@ public class RandomSheepGenerator {
     
     public ArrayList<Sheep> generateSheep(int amount){
         ArrayList<Sheep> result = new ArrayList<>();
-        int currentTriangle;
-        Triangle triangle1 = new Triangle(path.get(0), path.get(1), path.get(2));
-        Triangle triangle2 = new Triangle(path.get(0), path.get(3), path.get(2));
+        Triangle currentTriangle;
+        ArrayList<Triangle> triangles = new ArrayList<>();
+        
+        for (int i = 1; i < path.size() - 1; i++){
+            triangles.add(new Triangle(path.get(0), path.get(i), path.get(i + 1)));
+        }
+        
         for (int i = 0; i < amount; i++){
-            currentTriangle = generator.nextInt() % 2;
-            if (currentTriangle == 0){
-                result.add(new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), triangle1.generateContainedCoordinate()));
-            }
-            else{
-                result.add(new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), triangle2.generateContainedCoordinate()));
-            }
+            currentTriangle = triangles.get(generator.nextInt(9999999) % triangles.size());
+            result.add(new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), currentTriangle.generateContainedCoordinate()));
         }
         
         return result;

@@ -109,8 +109,8 @@ public class Gui implements ActionListener, ItemListener {
 	protected void passwordConfirmed(Farmer user){
 		this.currentUser = user;
 		frame.remove(passwordBox);
-		kart = new CustomMapViewer(this);
-                initializeMap(kart);
+		kart = new CustomMapViewer();
+                kart.initializeMap(currentUser);
 		frame.add(kart);
 		//Lager en meny og legger til elementer i menyen
 		menuBar = new JMenuBar();
@@ -381,13 +381,6 @@ public class Gui implements ActionListener, ItemListener {
 		
 		
 	}
-        
-        private void initializeMap(CustomMapViewer map){
-            for (Sheep sheep : currentUser.getSheeps()){
-                map.addSheep(sheep);
-            }
-            map.addPath((ArrayList<Coordinate>)currentUser.getCoordinates());
-        }
 	
 	
 	
