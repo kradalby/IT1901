@@ -28,6 +28,7 @@ public class SheepFarmerConnection {
     }
     
     public static Connection getInstance() {
+        if (instance == null) createInstance();
         return instance;
     }
 
