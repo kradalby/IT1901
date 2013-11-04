@@ -17,16 +17,18 @@ public class Alert {
 	private boolean mail = true;
 	private String subject;
 	private String message;
-        private Map map;
+        private String gMapsLink;
 	private ArrayList<String> emailRecipient = new ArrayList<String>();
 
 	private ArrayList<String> smsRecipient = new ArrayList<String>();
 	
 	public Alert(Sheep sheep) {
 		this.sheep = sheep;
-                Point loc = new Point(sheep.getCurrentCordinate().getLat(),sheep.getCurrentCordinate().getLon());
-                map = new Map(loc, 15, 400, 400);
-                map.addMarker(loc);
+                gMapsLink = "https://maps.google.com/maps?z=18&q="
+                                  + sheep.getCurrentCordinate().getLat()
+                                  + ","
+                                  + sheep.getCurrentCordinate().getLon(); 
+                        
 	}
 	
 	/**
@@ -53,8 +55,8 @@ public class Alert {
 				+ "er under angrep. De siste kjente kordinatene til sauen er:\n"
 				+ this.sheep.getCurrentCordinate().getLat() + " " 
 				+ this.sheep.getCurrentCordinate().getLon()
-                                + "\nDu kan sjekke hvor den var på "
-                                + map
+                                + "\nDu kan sjekke hvor den var på: "
+                                + gMapsLink
 				+ "\n du kan ogsaa logge inn paa sheepwatcher aa sjekke der.\n"
 				+ "mvh Sheepwatcher";
 		
