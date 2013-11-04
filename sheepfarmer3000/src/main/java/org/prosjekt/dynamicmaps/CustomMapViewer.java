@@ -8,7 +8,6 @@ import java.util.List;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -71,13 +70,14 @@ public class CustomMapViewer extends JMapViewer{
         addMapPolygon(new MapPolygonImpl(coords));
     }
     
-    public void addPath(ArrayList<Coordinate> coords){
+    public void addPath(List<Coordinate> coords){
         if (coords.isEmpty())
                 return;
-        ArrayList<Coordinate> reversedCoords = coords;
+        List<Coordinate> reversedCoords = new ArrayList<>(coords);
         Collections.reverse(reversedCoords);
-        coords.remove(0);
-        coords.addAll(reversedCoords);        
+        reversedCoords.remove(0);
+        coords.addAll(reversedCoords);
+        addMapPolygon(new MapPolygonImpl(coords));
     }
     
     /**
