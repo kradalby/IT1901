@@ -56,7 +56,8 @@ public class CustomMapViewer extends JMapViewer{
      */
     public void clearMap(){
         customMapMarkerList.clear();
-        removeAll();
+        removeAllMapMarkers();
+        removeAllMapPolygons();
         repaint();
     }
     
