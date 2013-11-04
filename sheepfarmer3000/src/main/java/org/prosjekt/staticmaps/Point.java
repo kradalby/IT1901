@@ -5,15 +5,15 @@ package org.prosjekt.staticmaps;
  * @author Alfredo
  */
 public class Point {
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     
     /**
      *
      * @param latitude
      * @param longitude
      */
-    public Point(float latitude, float longitude){
+    public Point(double latitude, double longitude){
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -22,7 +22,7 @@ public class Point {
      *
      * @return
      */
-    public float getLatitude(){
+    public double getLatitude(){
         return this.latitude;
     }
     
@@ -30,7 +30,7 @@ public class Point {
      *
      * @return
      */
-    public float getLongitude(){
+    public double getLongitude(){
         return this.longitude;
     }
     
