@@ -10,6 +10,7 @@ import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import org.prosjekt.client.Gui;
 import org.prosjekt.helperclasses.Coordinate;
+import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
@@ -22,28 +23,17 @@ public class CustomMapViewer extends JMapViewer{
     private final int DEFAULT_SIZE_Y = 600;
     private boolean created = false;
     private CustomMapController mapController;
-    private static Gui gui;
     private List<SheepMarker> sheepMarkerList;
     
     /**
      * Class constructor
      * 
-     * @param gui
      */
-    public CustomMapViewer(Gui gui){
+    public CustomMapViewer(){
         super(new MemoryTileCache(), 8);
-        CustomMapViewer.gui = gui;
         sheepMarkerList = new ArrayList<>();
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
         mapController = new CustomMapController(this);
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public final Gui getGui(){
-        return CustomMapViewer.gui;
     }
     
     @Override
@@ -143,5 +133,13 @@ public class CustomMapViewer extends JMapViewer{
         SheepMarker sMarker = new SheepMarker(sheep);
         sheepMarkerList.add(sMarker);
         repaint();
-    }    
+    }      
+    
+    public void initializeMap(Farmer farmer){
+        for (Sheep sheep : farmer.getSheeps()){
+            this.addSheep(sheep);
+        }
+        this.addPath((ArrayList<Coordinate>)farmer.getCoordinates());
+    }
+    
 }
