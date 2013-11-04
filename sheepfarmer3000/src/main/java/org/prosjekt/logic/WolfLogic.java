@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import org.joda.time.DateTime;
 
 import org.prosjekt.helperclasses.Alert;
-import org.prosjekt.helperclasses.Attack;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
