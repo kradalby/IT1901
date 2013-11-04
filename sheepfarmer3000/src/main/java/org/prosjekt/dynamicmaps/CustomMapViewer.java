@@ -1,5 +1,6 @@
 package org.prosjekt.dynamicmaps;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -77,7 +78,9 @@ public class CustomMapViewer extends JMapViewer{
         Collections.reverse(reversedCoords);
         reversedCoords.remove(0);
         coords.addAll(reversedCoords);
-        addMapPolygon(new MapPolygonImpl(coords));
+        MapPolygonImpl pol = new MapPolygonImpl(coords);
+        pol.setColor(Color.red);
+        addMapPolygon(pol);
     }
     
     /**
