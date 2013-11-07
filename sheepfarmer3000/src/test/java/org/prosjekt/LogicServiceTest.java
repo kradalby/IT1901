@@ -7,14 +7,18 @@ package org.prosjekt;
 import com.google.common.collect.Lists;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.prosjekt.database.LogicService;
 import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.database.SheepService;
+import org.prosjekt.database.repository.FarmerRepository;
 import org.prosjekt.database.repository.LogicRepository;
 import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Coordinate;
@@ -130,4 +134,39 @@ public class LogicServiceTest  {
         }
         org.junit.Assert.assertEquals(2+sheepArrBeforeTest.length, sheepArr.length);
     }
+    
+    @Test
+    public void attack() throws SQLException{
+        setup();
+        farmerid = -97;
+        Sheep sheep = new Sheep("testSheep11", new DateTime(2013, 1, 1,0,0), farmerid, new Coordinate(2.0, 2.0, new DateTime()));
+        Coordinate attack = new Coordinate(5.0, 3.0222, new DateTime());
+        String attackid = null;
+        List<Coordinate> getAttack = Lists.newArrayList();
+        try{
+            ss.addSheep(sheep, sheep.getCurrentCordinate());
+            attackid = ls.addAttack(sheep.getId(), attack);
+
+             getAttack = ss.getSheepAllCordinates(sheep.getId()).getAttacks();
+        
+         } catch(Exception e){
+            e.printStackTrace();
+        } finally{
+            try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement("delete from coordinate where id = ?");) {
+                ps.setString(1, attackid);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(LogicServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ss.removeSheep("testSheep11");
+            
+        }
+        //CLEANUP
+        org.junit.Assert.assertEquals(1,getAttack.size());
+        org.junit.Assert.assertEquals(5.0,getAttack.get(0).getLat(), 0.001);
+        org.junit.Assert.assertEquals(3.0222,getAttack.get(0).getLon(), 0.001);
+        
+    }
+    
 }
+

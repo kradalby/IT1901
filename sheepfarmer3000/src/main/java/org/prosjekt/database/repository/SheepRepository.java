@@ -33,7 +33,12 @@ public class SheepRepository extends AbstractProperties implements SheepService{
     }
     
 
-    public Sheep getSheep(String sheepid){
+    /**
+     * 
+     * @param sheepid
+     * @return Sheep with last coordinate.  
+     */
+    private Sheep getSheep(String sheepid){
         Sheep sheep = null;
         String sql = "select s.alive as alive, s.birth as birth, s.farmerid as farmerid, c.latitude as lat, c.longitude as lon, c.dateevent as dateevent from sheep s " +
                     "join coordinate c on c.id = s.lastcoordinateid " +
@@ -52,7 +57,7 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         return sheep;
     }
     
-    public List<Coordinate> getCoordinatesBySheep(String sheepid){
+    private List<Coordinate> getCoordinatesBySheep(String sheepid){
         List<Coordinate> coordinates = Lists.newArrayList();
         String sql = "select c.latitude as lat, c.longitude as lon, c.dateevent as dateevent from sheepcoordinate sc " +
                      "join coordinate c on c.id = sc.coordinate_id " +
@@ -71,12 +76,31 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         return coordinates;
     }
 
+    private List<Coordinate> getAttacksBySheep(String sheepid){
+        List<Coordinate> coordinates = Lists.newArrayList();
+        String sql = "select c.latitude as lat, c.longitude as lon, c.dateevent as dateevent from attack a " +
+                     "join coordinate c on c.id = a.coordinate_id " +
+                     "join sheep s on s.id = a.sheep_id " +
+                     "where s.id=?";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setString(1, sheepid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                coordinates.add(new Coordinate(rs.getDouble("lat"), rs.getDouble("lon"), new DateTime(rs.getTimestamp("dateevent").getTime())));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SheepRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Collections.sort(coordinates);
+        return coordinates;
+    }
     
     
     @Override
     public Sheep getSheepAllCordinates(String sheepid) {
         Sheep sheep = getSheep(sheepid);
         sheep.setCordinates(getCoordinatesBySheep(sheepid));
+        sheep.setAttacks(getAttacksBySheep(sheepid));
         return sheep;
     }
 

@@ -19,7 +19,7 @@ public interface LogicService {
      * @return coordinate id of this movement.  
      */
     public String addSheepMovement(Sheep sheep,Coordinate coordiante);
-    public void updateSheepAttack(Sheep sheep, Coordinate coordinate);
+    public String addAttack(String sheepid, Coordinate coordiante);
     
     
     public Sheep[] getAllSheeps();

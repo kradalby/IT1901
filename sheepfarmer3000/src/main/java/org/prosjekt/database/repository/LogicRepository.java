@@ -38,7 +38,7 @@ public class LogicRepository extends AbstractProperties implements LogicService{
             ps.setTimestamp(4, new java.sql.Timestamp(c.getDate().getMillis()));
             ps.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         //INSERT NEW SHEEP COORDINATES
         String insertSheepCoordinate = "insert into sheepcoordinate (id, coordinate_id, sheep_id) values (?,?,?)";
@@ -48,7 +48,7 @@ public class LogicRepository extends AbstractProperties implements LogicService{
             ps.setString(3, sheep.getId());
             ps.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         //UPDATE LASTEST COORDINATE IN SHEEP
          String updateSheepLastCoordinate = "update sheep set lastcoordinateid=? where id=?";
@@ -57,11 +57,37 @@ public class LogicRepository extends AbstractProperties implements LogicService{
             ps.setString(2, sheep.getId());
             ps.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cid;
     }
 
+    @Override
+    public String addAttack(String sheepid, Coordinate coordinate){
+        String aid = UUID.randomUUID().toString();
+        String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setString(1, aid);
+            ps.setDouble(2,coordinate.getLat());
+            ps.setDouble(3, coordinate.getLon());
+            ps.setTimestamp(4, new java.sql.Timestamp(coordinate.getDate().getMillis()));
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //INSERT NEW SHEEP COORDINATES
+        String insertSheepCoordinate = "insert into attack (id, coordinate_id, sheep_id) values (?,?,?)";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(insertSheepCoordinate);) {
+            ps.setString(1, aid);
+            ps.setString(2, aid);
+            ps.setString(3, sheepid);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return aid;
+    }
 
     @Override
     public Sheep[] getAllSheeps() {
@@ -75,7 +101,7 @@ public class LogicRepository extends AbstractProperties implements LogicService{
                 sheeps.add(sheep);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SheepRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         Sheep[] sheepsArr = new Sheep[sheeps.size()];
         for (int i = 0; i < sheepsArr.length; i++) {
@@ -84,12 +110,5 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         return sheepsArr;
     }
     
-    
-    
-    
-    
-    @Override
-    public void updateSheepAttack(Sheep sheep, Coordinate coordinate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 }
