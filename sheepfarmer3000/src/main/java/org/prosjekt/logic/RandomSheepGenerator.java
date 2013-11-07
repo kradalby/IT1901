@@ -42,7 +42,7 @@ public class RandomSheepGenerator {
         return result;
     }
     
-    private ArrayList<Coordinate> generateCoords(int amount){
+    public ArrayList<Coordinate> generateCoords(int amount){
         
         ArrayList<Coordinate> result = new ArrayList<>();
         RandomSheepGenerator.Triangle currentTriangle;
@@ -52,7 +52,6 @@ public class RandomSheepGenerator {
         for (int i = 1; i < (path.size() - 1); i++){
             triangles.add(new RandomSheepGenerator.Triangle(path.get(0), path.get(i), path.get(i + 1)));
         }
-        
         for (int i = 0; i < amount; i++){
             currentTriangleIndex = generator.nextInt(9999999); 
             currentTriangle = triangles.get(currentTriangleIndex % triangles.size() );
@@ -80,7 +79,7 @@ public class RandomSheepGenerator {
                 alpha = Math.random();
                 beta = Math.random();
             }
-            return new Coordinate((alpha * vector1.getLat() + (beta * vector2.getLat())) + origin.getLat(), (alpha * vector1.getLon() + (beta * vector2.getLon()) + origin.getLon()) , null);
+            return new Coordinate((alpha * vector1.getLat() + (beta * vector2.getLat())) + origin.getLat(), (alpha * vector1.getLon() + (beta * vector2.getLon()) + origin.getLon()) , new DateTime());
         }
     }
 }

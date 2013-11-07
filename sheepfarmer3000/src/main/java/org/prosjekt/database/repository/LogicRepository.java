@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.prosjekt.database.LogicService;
 import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.helperclasses.Coordinate;
+import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
@@ -29,7 +30,6 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         
         String cid = UUID.randomUUID().toString();
          //INSERT NEW COORDINATES. 
-        System.out.println(c);
         String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             ps.setString(1, cid);
@@ -109,6 +109,33 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         }
         return sheepsArr;
     }
+
+    
+    public List<Integer> getFarmerids() {
+        String sql = "select id as fid from farmer";
+        List<Integer> farmerids = Lists.newArrayList();
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                farmerids.add(rs.getInt("fid"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return farmerids;
+    }
+
+    @Override
+    public List<Farmer> getAllFarmers() {
+        List<Farmer> farmers = Lists.newArrayList();
+        FarmerRepository fr = new FarmerRepository();
+        List<Integer> farmerids = getFarmerids();
+        for (Integer i : farmerids){
+            farmers.add(fr.getFarmer(i));
+        }
+        return farmers;
+    }
+    
     
   
 }

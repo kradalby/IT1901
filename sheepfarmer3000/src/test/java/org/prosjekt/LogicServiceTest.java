@@ -71,10 +71,10 @@ public class LogicServiceTest  {
         try {
             ss.addSheep(sheep, c);
             sheepTest = ss.getSheepAllCordinates(sheepid);
-            movements = sheepTest.getAllCoordinates();
+            movements = sheepTest.getCordinates();
             ls.addSheepMovement(sheep, new Coordinate(61.111, 5.0, new DateTime()));
             sheepUpdated = ss.getSheepAllCordinates(sheepid);
-            movements2 = sheepUpdated.getAllCoordinates();
+            movements2 = sheepUpdated.getCordinates();
         } catch(Exception e){
             e.printStackTrace();
         } finally{
@@ -85,7 +85,7 @@ public class LogicServiceTest  {
                 //swallow. 
             }
         }
-        System.out.println(sheepTest);
+//        System.out.println(sheepTest);
         
         org.junit.Assert.assertEquals(1, movements.size());
         Coordinate cActual = movements.get(0);
