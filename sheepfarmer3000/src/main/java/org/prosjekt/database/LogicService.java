@@ -29,4 +29,6 @@ public interface LogicService {
      */
     public List<Farmer> getAllFarmers();
     public Sheep[] getAllSheeps();
+    
+     public List<Integer> getFarmerids();
 }
