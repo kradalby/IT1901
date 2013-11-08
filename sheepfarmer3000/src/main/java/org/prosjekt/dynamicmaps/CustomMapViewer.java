@@ -142,7 +142,7 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     public void createPopup(int x, int y){
-        new AddSheep(farmer);
+        new AddSheep(farmer, getPosition(x, y).getLat(), getPosition(x, y).getLon());
     }
     public void createPopup(int x, int y, CustomMapMarker marker){
         //create popup with info from clicked sheep

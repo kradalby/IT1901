@@ -24,14 +24,16 @@ import org.prosjekt.helperclasses.Sheep;
 
 public class AddSheep extends JFrame implements ActionListener{
 	private static String OK = "ok";
-    private static String CANCEL = "cancel";
+        private static String CANCEL = "cancel";
 	private Farmer user;
 	
 	private Font headerFont = new Font("kalinga", Font.PLAIN, 24);
-    private Font smallHeaderFont = new Font("kalinga", Font.PLAIN, 22);
-    private Font font = new Font("kalinga", Font.PLAIN, 17);
-    private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
+        private Font smallHeaderFont = new Font("kalinga", Font.PLAIN, 22);
+        private Font font = new Font("kalinga", Font.PLAIN, 17);
+        private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
 	private Color textColor = new Color(32, 87, 0);
+        private String lat;
+        private String lon;
 	
 	private JTextField idField;
 	private JTextField longitudeField;
@@ -43,6 +45,26 @@ public class AddSheep extends JFrame implements ActionListener{
 		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
+                this.lat = "";
+                this.lon = "";
+		
+		createContentPanel();
+		pack();
+		
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setSize(400, 250);
+		setVisible(true);
+		
+	}
+        
+        public AddSheep(Farmer user, double lat, double lon){
+		super("Add new sheep");
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
+		setLayout(new BorderLayout());
+		this.user = user;
+                this.lat = Double.toString(lat);
+                this.lon = Double.toString(lon);
 		
 		createContentPanel();
 		pack();
@@ -158,14 +180,14 @@ public class AddSheep extends JFrame implements ActionListener{
 		idField.setActionCommand(OK);
 		idField.addActionListener(this);
 		
-		longitudeField = new JTextField();
+		longitudeField = new JTextField(lon);
 		longitudeField.setOpaque(false);
 		longitudeField.setForeground(textColor);
 		longitudeField.setFont(fontTextField);
 		longitudeField.setActionCommand(OK);
 		longitudeField.addActionListener(this);
 		
-		latitudeField = new JTextField();
+		latitudeField = new JTextField(lat);
 		latitudeField.setOpaque(false);
 		latitudeField.setForeground(textColor);
 		latitudeField.setFont(fontTextField);
