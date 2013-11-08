@@ -167,12 +167,10 @@ public class ServerWorker {
 		int id = (int) request.getItem("farmerid");
 		response.addItem("passhash", fs.getPasshash(id));
 	}
-
         
     private static void getFarmerIds(Response response, Request request) {
         LogicService ls = new LogicRepository();
         ls.getFarmerids();
         
     }
-	
 }
