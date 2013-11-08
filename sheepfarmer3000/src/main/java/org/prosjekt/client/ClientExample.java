@@ -57,7 +57,7 @@ public class ClientExample {
 	public static Sheep getSheepById(int id) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.GETSHEEPBYID);
+			request.setCommand(RequestEnum.GetSheepById);
 			request.addItem("sheepid", id);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
@@ -87,7 +87,7 @@ public class ClientExample {
 	
 	/**
 	 * Fjerne en sau.
-	 * @param sheeo 	tar inn et saueobjekt som skal fjernes.
+	 * @param sheep 	tar inn et saueobjekt som skal fjernes.
 	 * @return			returnerer true hvis det er suksess og false om ikke.
 	 */
 	public static boolean removeSheep(Sheep sheep) {
@@ -111,7 +111,7 @@ public class ClientExample {
 	public static Farmer getUser(int id) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.GETUSER);
+			request.setCommand(RequestEnum.GetFarmer);
 			request.addItem("farmerid", id);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
@@ -129,7 +129,7 @@ public class ClientExample {
 	public static boolean updateUser(Farmer farmer) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.UPDATEUSER);
+			request.setCommand(RequestEnum.UpdateFarmer);
 			request.addItem("farmer", farmer);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
@@ -148,7 +148,7 @@ public class ClientExample {
 	public static boolean setPasshash(int farmerid, String passhash) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.SETPASSHASH);
+			request.setCommand(RequestEnum.SetPasshash);
 			request.addItem("farmerid", farmerid);
 			request.addItem("passhash", passhash);
 			connection.sendPackage(request);
@@ -167,7 +167,7 @@ public class ClientExample {
 	public static Passhash getPasshash(int farmerid) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.GETPASSHASH);
+			request.setCommand(RequestEnum.GetPasshash);
 			request.addItem("farmerid", farmerid);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
