@@ -99,7 +99,7 @@ public class LogicRepository extends AbstractProperties implements LogicService{
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 java.sql.Timestamp d = rs.getTimestamp("dateevent");
-                Coordinate current = new Coordinate(rs.getDouble("lat"),rs.getDouble("lat"), new DateTime(d));
+                Coordinate current = new Coordinate(rs.getDouble("lat"),rs.getDouble("lon"), new DateTime(d));
                 Sheep sheep = new Sheep(rs.getString("id"), new DateTime(rs.getDate("birth").getTime()), rs.getInt("farmerid"), current); 
                 sheep.setAlive(rs.getBoolean("alive"));
                 sheeps.add(sheep);
