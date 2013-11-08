@@ -18,6 +18,8 @@ public enum RequestEnum {
         GetFarmer,
         UpdateFarmer,
         UpdateFarmerArea,
+        
+        UpdateHelper,
         AddHelper,
         RemoveHelper,
         GetFarmerIds,
