@@ -2,6 +2,7 @@ package org.prosjekt.logic;
 
 import java.util.ArrayList;
 import org.joda.time.DateTime;
+import org.prosjekt.database.repository.LogicRepository;
 
 import org.prosjekt.helperclasses.Alert;
 import org.prosjekt.helperclasses.Sheep;
@@ -34,12 +35,12 @@ public class WolfLogic {
 		
 		// 70% sjanse for at sauen doer.
 		if (chance > 30) {
+                    System.out.println("ATTACK SHEEP IS DEAD.");
 			sheep.setAlive(false);
-			Alert alert = new Alert(sheep);
-			alert.sendAttackAlarm();
-			// jeg antar at denne maa dyttes inn i databasen paa en eller annen maate.
-//			Attack attack = new Attack(sheep, sheep.getCurrentCordinate().getLat(), sheep.getCurrentCordinate().getLon());
-			// Det maa ogsaa legges til et kall mot alert funksjonen naar den eksisterer.
 		} 	
+                //Alarm sendes ut uansett om sauen overlever eller ikke. 
+                Alert alert = new Alert(sheep);
+                alert.sendAttackAlarm();
+                new LogicRepository().addAttack(sheep.getId(), sheep.getCurrentCordinate());
 	}
 }

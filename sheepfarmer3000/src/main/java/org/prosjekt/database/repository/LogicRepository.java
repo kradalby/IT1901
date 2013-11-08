@@ -92,11 +92,15 @@ public class LogicRepository extends AbstractProperties implements LogicService{
     @Override
     public Sheep[] getAllSheeps() {
        List<Sheep>  sheeps  = Lists.newArrayList();
-        String sql = "select * from sheep";
+        String sql = "select c.latitude as lat, c.longitude as lon, c.dateevent as dateevent "
+                + ", s.id as id, s.birth as birth, s.farmerid as farmerid, s.alive as alive  "
+                + " from sheep s join coordinate c on c.id = s.lastcoordinateid";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                Sheep sheep = new Sheep(rs.getString("id"), new DateTime(rs.getDate("birth").getTime()), rs.getInt("farmerid"), null); 
+                java.sql.Timestamp d = rs.getTimestamp("dateevent");
+                Coordinate current = new Coordinate(rs.getDouble("lat"),rs.getDouble("lat"), new DateTime(d));
+                Sheep sheep = new Sheep(rs.getString("id"), new DateTime(rs.getDate("birth").getTime()), rs.getInt("farmerid"), current); 
                 sheep.setAlive(rs.getBoolean("alive"));
                 sheeps.add(sheep);
             }
@@ -107,6 +111,7 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         for (int i = 0; i < sheepsArr.length; i++) {
             sheepsArr[i] = sheeps.get(i);
         }
+        
         return sheepsArr;
     }
 

@@ -22,6 +22,6 @@ public class Server {
 		
 		Simulator simulator;
 		simulator = new Simulator();
-//		simulator.start();
+		simulator.start();
 	}
 }
