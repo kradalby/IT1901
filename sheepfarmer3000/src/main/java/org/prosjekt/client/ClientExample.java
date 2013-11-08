@@ -1,5 +1,6 @@
 package org.prosjekt.client;
 
+import com.google.common.collect.Lists;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -16,7 +17,9 @@ import org.prosjekt.helperclasses.Sms;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.prosjekt.database.Admin;
 import org.prosjekt.gui.LoginBox;
+import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Helper;
 
 /**
@@ -31,15 +34,26 @@ public class ClientExample {
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
+            updateFarmerArea(Admin.farmerOppdal());
+            updateFarmerArea(Admin.farmerMeldal());
+            
+            Farmer farmer = getFarmer(1001);
+            Admin.addSheep(farmer, farmer.getCoordinates(), 9);
+            
             List<Integer> ids = getFarmerIds();
             System.out.println("farmerids: " + ids);
             
-            Passhash ph = getPasshash(1);
-            System.out.println(ph.getPasshash());
+//            Passhash ph = getPasshash(1);
+//            System.out.println(ph.getPasshash());
             
-            Farmer farmer = getFarmer(1);
             System.out.println(farmer);
+            for (Coordinate c : farmer.getCoordinates()){
+                System.out.println(c);
+            }
             
+            
+//            Farmer farmerUpd = getFarmer(1);
+//            System.out.println(farmerUpd);
 //            ids = getFarmerIds();
 //		Sheep[] sheeps = getAllSheeps();
 //		for (int i = 0; i < sheeps.length; i++) {
@@ -266,6 +280,8 @@ public class ClientExample {
             return null;
         }
     }
+
+ 
     
 }
 

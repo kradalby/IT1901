@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -182,6 +183,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Collections.sort(area);
         return area;
     }
     
@@ -305,6 +307,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     
 
 
+  
     
     
     

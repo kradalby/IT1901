@@ -22,12 +22,14 @@ public enum RequestEnum {
         UpdateHelper,
         AddHelper,
         RemoveHelper,
-        GetFarmerIds,
-    
+
         //SheepService
 	GetSheepById,
 	REMOVESHEEP,
 	ADDSHEEP,
+    
+        //LogicService
+        GetFarmerIds,
     
     
 	
