@@ -47,18 +47,20 @@ public class ServerWorker {
 				break;
 			case GetSheepById:
 				getSheepById(response, request);
+                                break;
+                        case UpdateFarmer:
+                            updateFarmer(response, request);
+                        case REMOVESHEEP:
+                            removeSheep(response, request);
+                            break;
+                        case ADDSHEEP:
+                            addSheep(response, request);
 				break;
-            case UpdateFarmer:
-                updateFarmer(response, request);
-            case REMOVESHEEP:
-				removeSheep(response, request);
-				break;
-			case ADDSHEEP:
-				addSheep(response, request);
-				break;
-            case GetFarmerIds:
-                getFarmerIds(response, request);
-                           
+                        case GetFarmerIds:
+                            getFarmerIds(response, request);
+                            break;
+                        case GetFarmer:
+                            getUser(response, request);
 			default:
 				response.addItem("error", "Unknown request");
 				break;

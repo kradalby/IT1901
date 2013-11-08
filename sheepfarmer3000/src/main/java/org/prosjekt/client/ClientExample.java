@@ -22,7 +22,17 @@ public class ClientExample {
 	static ClientConnection connection = new ClientConnection("127.0.0.1", 4455);
 	static boolean connected = connection.openServerConnection();
 	
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
+            List<Integer> ids = getFarmerIds();
+            System.out.println("farmerids: " + ids);
+            
+            Passhash ph = getPasshash(1);
+            System.out.println(ph.getPasshash());
+            
+            Farmer farmer = getFarmer(1);
+            System.out.println(farmer);
+            
+//            ids = getFarmerIds();
 //		Sheep[] sheeps = getAllSheeps();
 //		for (int i = 0; i < sheeps.length; i++) {
 //			System.out.println(sheeps[i].getId());
@@ -33,7 +43,7 @@ public class ClientExample {
 //		
 //		Sms sms = new Sms("4745673429", "Dette er en sauetest!");
 //		sms.sendSMS();
-//	}
+	}
 	
 //	public static Sheep[] getAllSheeps() {
 //		if (connected) {
@@ -57,7 +67,7 @@ public class ClientExample {
 	public static Sheep getSheepById(int id) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.GETSHEEPBYID);
+			request.setCommand(RequestEnum.GetSheepById);
 			request.addItem("sheepid", id);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
@@ -108,10 +118,10 @@ public class ClientExample {
 	 * @param id		id paa farmer som skal hentes ut
 	 * @return			returnerer farmeren eller null
 	 */
-	public static Farmer getUser(int id) {
+	public static Farmer getFarmer(int id) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.GETUSER);
+			request.setCommand(RequestEnum.GetFarmer);
 			request.addItem("farmerid", id);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
@@ -129,7 +139,7 @@ public class ClientExample {
 	public static boolean updateUser(Farmer farmer) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.UPDATEUSER);
+//			request.setCommand(RequestEnum.UPDATEUSER);
 			request.addItem("farmer", farmer);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
@@ -148,7 +158,7 @@ public class ClientExample {
 	public static boolean setPasshash(int farmerid, String passhash) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.SETPASSHASH);
+			request.setCommand(RequestEnum.SetPasshash);
 			request.addItem("farmerid", farmerid);
 			request.addItem("passhash", passhash);
 			connection.sendPackage(request);
@@ -167,7 +177,7 @@ public class ClientExample {
 	public static Passhash getPasshash(int farmerid) {
 		if (connected) {
 			Request request = new Request();
-			request.setCommand(RequestEnum.GETPASSHASH);
+			request.setCommand(RequestEnum.GetPasshash);
 			request.addItem("farmerid", farmerid);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
@@ -188,5 +198,6 @@ public class ClientExample {
             return null;
         }
     }
+    
 }
 

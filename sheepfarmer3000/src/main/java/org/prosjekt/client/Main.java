@@ -29,14 +29,14 @@ public class Main {
             coords.add(new Coordinate(63.418438,10.400444, DateTime.now()));
             farmer.setCoordinates(coords);
             ArrayList<Sheep> sheep = new ArrayList<>();
-            sheep.add(new Sheep(1, DateTime.now(), farmer));
-            sheep.get(0).setMostCurrentCoordinate(coords.get(0));
-            sheep.add(new Sheep(2, DateTime.now(), farmer));
-            sheep.get(1).setMostCurrentCoordinate(coords.get(1));
-            sheep.add(new Sheep(3, DateTime.now(), farmer));
-            sheep.get(2).setMostCurrentCoordinate(coords.get(2));
-            for (Sheep s : sheep)
-                farmer.addSheep(s);
+//            sheep.add(new Sheep(1, DateTime.now(), farmer));
+//            sheep.get(0).setMostCurrentCoordinate(coords.get(0));
+//            sheep.add(new Sheep(2, DateTime.now(), farmer));
+//            sheep.get(1).setMostCurrentCoordinate(coords.get(1));
+//            sheep.add(new Sheep(3, DateTime.now(), farmer));
+//            sheep.get(2).setMostCurrentCoordinate(coords.get(2));
+//            for (Sheep s : sheep)
+//                farmer.addSheep(s);
             gui = new Gui();
             guiFrame = gui.getGui();
 //		testServer = new TestServer();	//Kontakt med serveren kan legges inn her, trenger kun � sende en liste med alle farmer-objekter for at det skal fungere 
