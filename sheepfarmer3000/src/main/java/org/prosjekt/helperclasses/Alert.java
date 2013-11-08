@@ -1,6 +1,8 @@
 package org.prosjekt.helperclasses;
 
 import java.util.ArrayList;
+import org.prosjekt.database.FarmerService;
+import org.prosjekt.database.repository.FarmerRepository;
 import org.prosjekt.staticmaps.Map;
 import org.prosjekt.staticmaps.Point;
 
@@ -22,23 +24,31 @@ public class Alert {
 
 	private ArrayList<String> smsRecipient = new ArrayList<String>();
 	
+        private FarmerService fs;
+        
 	public Alert(Sheep sheep) {
-		this.sheep = sheep;
-                gMapsLink = "https://maps.google.com/maps?z=18&q="
-                                  + sheep.getCurrentCordinate().getLat()
-                                  + ","
-                                  + sheep.getCurrentCordinate().getLon(); 
-                        
+            fs = new FarmerRepository();
+            this.sheep = sheep;
+            String link = "https://maps.google.com/maps?z=18&q="
+                    + sheep.getCurrentCordinate().getLat()
+                    + ","
+                    + sheep.getCurrentCordinate().getLon();
+            gMapsLink = link;
 	}
 	
 	/**
 	 * Metode som genererer mottaker lister basert paa sauen alarmen gjelder.
 	 */
 	public void getRecipients() {
+            Farmer farmer = fs.getFarmer(sheep.getFarmerid());
+            
+            
 		//Denne metoden vil trenge noen endringer naar vi endrer helper.
                 //Hent ut List<Farmer>  og slå opp i farmer. 
-//		emailRecipient.add(this.sheep.getFarmer().getEmail());
-//		emailRecipient.add(this.sheep.getFarmer().getHelperEmail());
+		emailRecipient.add(farmer.getEmail());
+                for (Helper helper : farmer.getHelpers()){
+                    emailRecipient.add(helper.getEmail());
+                }
 //		smsRecipient.add(this.sheep.getFarmer().getPhone());
 //		smsRecipient.add(this.sheep.getFarmer().getHelperPhone());
 	}
@@ -49,7 +59,7 @@ public class Alert {
 	 */
 	public void sendAttackAlarm() {
 		
-		subject = "En av dine sauer er under angrep!";
+                subject = "En av dine sauer er under angrep!";
 		message = "Hei\n"
 				+ "Din sau med ID: " + this.sheep.getId()
 				+ "er under angrep. De siste kjente kordinatene til sauen er:\n"
@@ -64,8 +74,11 @@ public class Alert {
 		this.getRecipients();
 		if (mail) {
 			for (int i = 0; i < emailRecipient.size(); i++) {
+                            if (!emailRecipient.get(i).isEmpty()){   //sender bare mail hvis email er registrert. 
 				Mail mail = new Mail(emailRecipient.get(i), subject, message);
 				mail.sendMail();
+                                System.out.println("mail sendt to " + emailRecipient.get(i));
+                            }
 			}
 		}
 

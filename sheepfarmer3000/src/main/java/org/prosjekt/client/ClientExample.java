@@ -18,9 +18,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.prosjekt.database.Admin;
+import org.prosjekt.database.repository.LogicRepository;
 import org.prosjekt.gui.LoginBox;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Helper;
+import org.prosjekt.logic.WolfLogic;
 
 /**
  * Denne klassen er en placeholder klasse helt til GUI peepsa finner ut hvor de vil ha metodene.
@@ -34,32 +36,24 @@ public class ClientExample {
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
+            LogicRepository lr = new LogicRepository();
+            
             updateFarmerArea(Admin.farmerOppdal());
             updateFarmerArea(Admin.farmerMeldal());
             
-            Farmer farmer = getFarmer(1001);
-            Admin.addSheep(farmer, farmer.getCoordinates(), 9);
+            Farmer farmer = getFarmer(1002);
+            farmer.setEmail("christofferbuvik@gmail.com");
+            updateFarmer(farmer);
             
-            List<Integer> ids = getFarmerIds();
-            System.out.println("farmerids: " + ids);
+//            Admin.addSheep(farmer, farmer.getCoordinates(), 15);
             
-//            Passhash ph = getPasshash(1);
-//            System.out.println(ph.getPasshash());
-            
-            System.out.println(farmer);
-            for (Coordinate c : farmer.getCoordinates()){
-                System.out.println(c);
-            }
+            Sheep s = WolfLogic.getRandomSheep(lr.getAllSheeps());
+//            System.out.println("Random sheep: " + s);
+//            System.out.println(s.getCurrentCordinate());
+            WolfLogic.wolfAttack(s);
+            System.out.println(s);
             
             
-//            Farmer farmerUpd = getFarmer(1);
-//            System.out.println(farmerUpd);
-//            ids = getFarmerIds();
-//		Sheep[] sheeps = getAllSheeps();
-//		for (int i = 0; i < sheeps.length; i++) {
-//			System.out.println(sheeps[i].getId());
-//		}
-//		
 //		Mail mail = new Mail("kradalby@kradalby.no", "test", "dette er en test lol");
 //		mail.sendMail();
 //		
