@@ -53,21 +53,6 @@ public class FarmerServiceTest {
         
     }
     
-    private void populateDB() {
-        File initTest = new File("./src/main/resources/db/initDb.sql");
-        String initTestSql;
-        try {
-            setup();
-            initTestSql = Files.toString(initTest, Charsets.UTF_8);
-            conn.createStatement().executeUpdate(initTestSql);
-        } catch (IOException ex) {
-            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException se){
-            Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, se);
-        }
-        
-        
-    }
   
     int farmerid = -99;
     int farmerid2 = -98;
@@ -78,7 +63,6 @@ public class FarmerServiceTest {
 
     @Test
     public void testPashHash() throws SQLException {
-        populateDB();
         setup();
         String hashpass = null;
         try {

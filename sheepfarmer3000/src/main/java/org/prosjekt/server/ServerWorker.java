@@ -12,6 +12,7 @@ import org.prosjekt.helperclasses.Response;
 import org.prosjekt.helperclasses.Sheep;
 
 import java.util.List;
+import org.prosjekt.helperclasses.Helper;
 
 /**
  * ServerWorker
@@ -38,18 +39,37 @@ public class ServerWorker {
 		if (request == null) {
 			response.addItem("error", "Request was null");
 		} else {
-			switch (request.getCommand()) {
-			case SetPasshash:
-				setPasshash(response, request);
-				break;
-			case GetPasshash:
-				getPasshash(response, request);
-				break;
-			case GetSheepById:
-				getSheepById(response, request);
-                                break;
+                    switch (request.getCommand()) {
+                        case SetPasshash:
+                            setPasshash(response, request);
+                            break;
+                        case GetPasshash:
+                            getPasshash(response, request);
+                            break;
+                        case GetFarmer:
+                            getUser(response, request);
+                            break;
                         case UpdateFarmer:
                             updateFarmer(response, request);
+                            break;
+                        case UpdateFarmerArea:
+                            updateFarmerArea(response, request);
+                            break;
+                            
+                        case UpdateHelper:
+                            updateHelper(response, request);
+                            break;
+                        case AddHelper:
+                            addHelper(response, request);
+                            break;
+                        case RemoveHelper:
+                            removeHelper(response, request);
+                            break;
+                            
+                            
+                        case GetSheepById:
+                            getSheepById(response, request);
+                            break;
                         case REMOVESHEEP:
                             removeSheep(response, request);
                             break;
@@ -59,8 +79,6 @@ public class ServerWorker {
                         case GetFarmerIds:
                             getFarmerIds(response, request);
                             break;
-                        case GetFarmer:
-                            getUser(response, request);
 			default:
 				response.addItem("error", "Unknown request");
 				break;
@@ -145,6 +163,19 @@ public class ServerWorker {
 		fs.updateFarmer(farmer);
 		response.addItem("success", "success");
 	}
+        
+        /**
+	 * Mottar et farmer objekt fra client som skal oppdateres i databasen.
+	 *
+	 * @param response
+	 * @param request
+	 */
+	public static void updateFarmerArea(Response response, Request request) {
+		FarmerService fs = new FarmerRepository();
+		Farmer farmer = (Farmer) request.getItem("farmer");
+		fs.updateFarmerArea(farmer.getCoordinates(), farmer.getId());
+		response.addItem("success", "success");
+	}
 	
 	/**
 	 * Mottar en passhash string og en farmer id som skal settes passhash paa i databasen.
@@ -176,5 +207,27 @@ public class ServerWorker {
         LogicService ls = new LogicRepository();
         List<Integer> farmerIds = ls.getFarmerids();
         response.addItem("farmerids", farmerIds);
+    }
+    
+        
+    public static void updateHelper(Response response, Request request) {
+        FarmerService fs = new FarmerRepository();
+        Helper helper = (Helper) request.getItem("helper");
+        fs.updateHelper(helper);
+        response.addItem("success", "success");
+    }
+    
+    public static void addHelper(Response response, Request request) {
+        FarmerService fs = new FarmerRepository();
+        Helper helper = (Helper) request.getItem("helper");
+        fs.addHelper(helper);
+        response.addItem("success", "success");
+    }
+    
+    public static void removeHelper(Response response, Request request) {
+        FarmerService fs = new FarmerRepository();
+        Helper helper = (Helper) request.getItem("helper");
+        fs.removeHelper(helper);
+        response.addItem("success", "success");
     }
 }
