@@ -1,5 +1,9 @@
 package org.prosjekt.client;
 
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Mail;
 import org.prosjekt.helperclasses.Passhash;
@@ -10,6 +14,10 @@ import org.prosjekt.helperclasses.Sheep;
 import org.prosjekt.helperclasses.Sms;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.prosjekt.gui.LoginBox;
+import org.prosjekt.helperclasses.Helper;
 
 /**
  * Denne klassen er en placeholder klasse helt til GUI peepsa finner ut hvor de vil ha metodene.
@@ -44,20 +52,17 @@ public class ClientExample {
 //		Sms sms = new Sms("4745673429", "Dette er en sauetest!");
 //		sms.sendSMS();
 	}
+
+        public static String getPathToResources(String file){
+             URL resourceUrl = ClientExample.class.getResource("/"+ file);
+             return resourceUrl.getPath();
+        }
+        
+        public static String pathToBackGround(){
+            return getPathToResources("bakgrunn 450x450.jpg");
+        }
 	
-//	public static Sheep[] getAllSheeps() {
-//		if (connected) {
-//			Request request = new Request();
-//			request.setCommand(RequestEnum.GETALLSHEEPS);
-//			connection.sendPackage(request);
-//			Response response = (Response) connection.receivePackage();
-//			return response.getSheeps();
-//		} else {
-//			return null;
-//		}
-//		
-//	}
-	
+        //SheepService
 	/**
 	 * 
 	 * Henter en sau med alle dens kordinater.
@@ -113,6 +118,8 @@ public class ClientExample {
 		}
 	}
 	
+        
+        //FarmerService
 	/**
 	 * Hent ut farmer fra server
 	 * @param id		id paa farmer som skal hentes ut
@@ -136,7 +143,7 @@ public class ClientExample {
 	 * @param farmer	farmer objektet som skal oppdateres.
 	 * @return			returnerer true hvis det er suksess og false om ikke.
 	 */
-	public static boolean updateUser(Farmer farmer) {
+	public static boolean updateFarmer(Farmer farmer) {
 		if (connected) {
 			Request request = new Request();
 			request.setCommand(RequestEnum.UpdateFarmer);
@@ -148,7 +155,65 @@ public class ClientExample {
 			return false;
 		}
 	}
-	
+        
+        /**
+         *  Oppdaterer KUN farmerArea på server siden. 
+         * @param farmer with farmerArea. 
+         * @return 
+         */
+        public static boolean updateFarmerArea(Farmer farmer) {
+		if (connected) {
+			Request request = new Request();
+			request.setCommand(RequestEnum.UpdateFarmerArea);
+			request.addItem("farmer", farmer);
+			connection.sendPackage(request);
+			Response response = (Response) connection.receivePackage();
+			return !response.isErrorInResponse();
+		} else {
+			return false;
+		}
+	}
+        
+        
+	public static boolean updateHelper(Helper helper) {
+		if (connected) {
+			Request request = new Request();
+			request.setCommand(RequestEnum.UpdateHelper);
+			request.addItem("helper", helper);
+			connection.sendPackage(request);
+			Response response = (Response) connection.receivePackage();
+			return !response.isErrorInResponse();
+		} else {
+			return false;
+		}
+	}
+        
+	public static boolean removeHelper(Helper helper) {
+		if (connected) {
+			Request request = new Request();
+			request.setCommand(RequestEnum.RemoveHelper);
+			request.addItem("helper", helper);
+			connection.sendPackage(request);
+			Response response = (Response) connection.receivePackage();
+			return !response.isErrorInResponse();
+		} else {
+			return false;
+		}
+	}
+        
+	public static boolean addHelper(Helper helper) {
+		if (connected) {
+			Request request = new Request();
+			request.setCommand(RequestEnum.AddHelper);
+			request.addItem("helper", helper);
+			connection.sendPackage(request);
+			Response response = (Response) connection.receivePackage();
+			return !response.isErrorInResponse();
+		} else {
+			return false;
+		}
+	}
+        
 	/**
 	 * Setter passhashen til en bruker.
 	 * @param farmerid	id paa brukeren som skal oppdateres
@@ -187,7 +252,10 @@ public class ClientExample {
 		}
 	}
 
-    public static List<Integer> getFarmerIds() {
+        
+        
+        //LogicService
+        public static List<Integer> getFarmerIds() {
         if (connected) {
             Request request = new Request();
             request.setCommand(RequestEnum.GetFarmerIds);
