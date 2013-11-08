@@ -18,6 +18,7 @@ import javax.swing.table.TableModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.gui.AddSheep;
 import org.prosjekt.gui.BackgroundPanel;
 import org.prosjekt.gui.RemoveSheep;
@@ -28,7 +29,6 @@ public class SheepListFrame extends JFrame implements ActionListener{
 	private static JTable sheepTable;
 	private Farmer currentUser;
 	private List<Sheep> sheepList;
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
     private Font headerFont = new Font("kalinga", Font.PLAIN, 30);
     private Color textColor = new Color(32, 87, 0);
     private Font font = new Font("kalinga", Font.PLAIN, 16);
@@ -40,7 +40,7 @@ public class SheepListFrame extends JFrame implements ActionListener{
 	
 	public SheepListFrame(Farmer f){
 		super("Sheep Overwiew");
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.currentUser = f;
 		sheepList = currentUser.getSheeps();

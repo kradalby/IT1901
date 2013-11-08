@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -22,7 +23,6 @@ public class AttackLogFrame extends JFrame {
 	private static AttackTable attackTable;
 	private Farmer user;
 	private List<Sheep> sheepList;
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
 	private Font headerFont = new Font("kalinga", Font.PLAIN, 24);
     private Color textColor = new Color(32, 87, 0);
     private Font font = new Font("kalinga", Font.PLAIN, 16);
@@ -30,7 +30,7 @@ public class AttackLogFrame extends JFrame {
     
     public AttackLogFrame(Farmer user){
     	super("Attack Log");
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		sheepList = this.user.getSheeps();

@@ -14,12 +14,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 public class MapSheepChooser extends JFrame implements ActionListener {
 	private Farmer user;
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
 	private JComboBox chooser;
 	private Font font = new Font("kalinga", Font.PLAIN, 18);
     private Font headerFont = new Font("kalinga", Font.PLAIN, 22);
@@ -27,10 +27,10 @@ public class MapSheepChooser extends JFrame implements ActionListener {
 	private static String OK = "ok";
     private static String CANCEL = "cancel";
     private Sheep currentSheep;
-	
+
 	public MapSheepChooser(Farmer user){
 		super("Choose sheep");
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new FlowLayout());
 		this.user = user;
 		

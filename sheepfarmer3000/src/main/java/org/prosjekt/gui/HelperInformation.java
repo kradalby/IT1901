@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Farmer;
 
 public class HelperInformation extends JFrame implements ActionListener{
@@ -21,12 +22,11 @@ public class HelperInformation extends JFrame implements ActionListener{
     private Font font = new Font("kalinga", Font.PLAIN, 16);
     private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
 	private Color textColor = new Color(32, 87, 0);
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
 	private Farmer user;
 	
 	
 	public HelperInformation(Farmer user){
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		

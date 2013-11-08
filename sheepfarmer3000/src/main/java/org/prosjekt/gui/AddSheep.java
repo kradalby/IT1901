@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import org.joda.time.DateTime;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -25,7 +26,6 @@ public class AddSheep extends JFrame implements ActionListener{
 	private static String OK = "ok";
     private static String CANCEL = "cancel";
 	private Farmer user;
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
 	
 	private Font headerFont = new Font("kalinga", Font.PLAIN, 24);
     private Font smallHeaderFont = new Font("kalinga", Font.PLAIN, 22);
@@ -40,7 +40,7 @@ public class AddSheep extends JFrame implements ActionListener{
 	
 	public AddSheep(Farmer user){
 		super("Add new sheep");
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		

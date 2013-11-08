@@ -6,15 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,22 +15,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import org.prosjekt.client.ClientExample;
 
 public class LoginBox extends JFrame implements ActionListener{
 	
-	private static String OK = "ok";
+    private static String OK = "ok";
     private static String HELP = "help";
     private static String CANCEL = "cancel";
     private Font font = new Font("kalinga", Font.PLAIN, 20);
     private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
-	private Color textColor = new Color(32, 87, 0);
-	private String backgroundImage = "images\\innlogging1.jpg"; 
-	private JPasswordField passwordField;
-	private JTextField usernameField;
-	
+    private Color textColor = new Color(32, 87, 0);
+    private String backgroundImage = "innlogging1.jpg";
+    private JPasswordField passwordField;
+    private JTextField usernameField;
+    
+    
 	public LoginBox(){
-		
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+       
+		setContentPane(new BackgroundPanel(ClientExample.getPathToResources(backgroundImage)));
 		setLayout(new BorderLayout());
 		
 		//lager tomme labels for toppen og venstre av siden
@@ -63,17 +58,17 @@ public class LoginBox extends JFrame implements ActionListener{
 		usernameField = new JTextField(15);
 		usernameField.setOpaque(false);
 		usernameField.setForeground(textColor);
-		usernameField.setFont(fontTextField);
-    	usernameField.setActionCommand(OK);
-    	usernameField.addActionListener(this);
-    	
-    	//lager passordfeltet
-    	passwordField = new JPasswordField(15);
-    	passwordField.setOpaque(false);
-    	passwordField.setForeground(textColor);
-		passwordField.setFont(fontTextField);
-    	passwordField.setActionCommand(OK);
-    	passwordField.addActionListener(this);
+                usernameField.setFont(fontTextField);
+                usernameField.setActionCommand(OK);
+                usernameField.addActionListener(this);
+                
+                //lager passordfeltet
+                passwordField = new JPasswordField(15);
+                passwordField.setOpaque(false);
+                passwordField.setForeground(textColor);
+                passwordField.setFont(fontTextField);
+                passwordField.setActionCommand(OK);
+                passwordField.addActionListener(this);
 		
     	//lager teksten User Name: 
 		JLabel usernameLabel = new JLabel("Username: ");
