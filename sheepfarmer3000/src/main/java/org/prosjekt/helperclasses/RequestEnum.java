@@ -20,7 +20,7 @@ public enum RequestEnum {
         UpdateFarmerArea,
         AddHelper,
         RemoveHelper,
-        farmerids,
+        GetFarmerIds,
     
         //SheepService
 	GetSheepById,
