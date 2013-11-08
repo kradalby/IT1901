@@ -36,7 +36,8 @@ public interface FarmerService {
     
    
     public void updateFarmerArea(List<Coordinate> farmerArea, int farmerid);
-    
+
+    public void updateHelper(Helper helper);
     public void removeHelper(Helper helper);
     public void addHelper(Helper helper);
     

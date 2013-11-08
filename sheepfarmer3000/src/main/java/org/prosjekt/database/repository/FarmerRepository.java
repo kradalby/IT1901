@@ -195,14 +195,30 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
             preparedStatement.setString(2, farmer.getLastName());
             preparedStatement.setString(3, farmer.getEmail());
             preparedStatement.setString(4, farmer.getPhone());
+            preparedStatement.setInt(5, farmer.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         updateFarmerArea(farmer.getCoordinates(), farmer.getId());
-        //@todo update helpers
     } 
 
+    
+    @Override
+    public void updateHelper(Helper helper) {
+        String sql = "update users set firstname=?, lastname=?, email=?, phone=? from helper where helper.id = ? and helper.users_id = users.id";
+        try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            preparedStatement.setString(1, helper.getFirstname());
+            preparedStatement.setString(2, helper.getLastname());
+            preparedStatement.setString(3, helper.getEmail());
+            preparedStatement.setString(4, helper.getPhone());
+            preparedStatement.setString(5, helper.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+    
     //test ok
     @Override
     public void setPasshash(String passhash, int farmerid) {
