@@ -23,6 +23,14 @@ public class Coordinate implements ICoordinate, Serializable, Comparable<Coordin
         longitude = -1;
         date = null;        
     }
+
+    public Coordinate(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.date = new DateTime();
+    }
+    
+    
     
     public Coordinate(double latitude, double longitude, DateTime date){
         this.latitude = latitude;

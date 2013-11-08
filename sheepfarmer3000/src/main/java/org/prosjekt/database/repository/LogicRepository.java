@@ -110,7 +110,7 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         return sheepsArr;
     }
 
-    
+    @Override
     public List<Integer> getFarmerids() {
         String sql = "select id as fid from farmer";
         List<Integer> farmerids = Lists.newArrayList();

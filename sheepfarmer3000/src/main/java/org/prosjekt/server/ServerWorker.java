@@ -37,37 +37,26 @@ public class ServerWorker {
 			response.addItem("error", "Request was null");
 		} else {
 			switch (request.getCommand()) {
-			case SETPASSHASH:
+			case SetPasshash:
 				setPasshash(response, request);
 				break;
-			case GETPASSHASH:
+			case GetPasshash:
 				getPasshash(response, request);
 				break;
-			case GETSHEEPBYID:
+			case GetSheepById:
 				getSheepById(response, request);
 				break;
-			case GETALLSHEEPS:
-				getAllSheeps(response);
-				break;
-			case GETALLUSERSSHEEPS:
-				break;
-			case GETALLUSERSSHEEPSALIVE:
-				break;
-			case GETALLUSERSSHEEPSDEAD:
-				break;
-			case REMOVESHEEP:
+                        case UpdateFarmer:
+                                updateFarmer(response, request);
+                        case REMOVESHEEP:
 				removeSheep(response, request);
-				break;
-			case UPDATEUSER:
-				updateUser(response, request);
-				break;
-			case GETUSER:
-				getUser(response, request);
 				break;
 			case ADDSHEEP:
 				addSheep(response, request);
 				break;
-			
+                        case farmerids:
+                                getFarmerIds(response, request);
+                           
 			default:
 				response.addItem("error", "Unknown request");
 				break;
@@ -146,7 +135,7 @@ public class ServerWorker {
 	 * @param response
 	 * @param request
 	 */
-	public static void updateUser(Response response, Request request) {
+	public static void updateFarmer(Response response, Request request) {
 		FarmerService fs = new FarmerRepository();
 		Farmer farmer = (Farmer) request.getItem("farmer");
 		fs.updateFarmer(farmer);
@@ -178,5 +167,12 @@ public class ServerWorker {
 		int id = (int) request.getItem("farmerid");
 		response.addItem("passhash", fs.getPasshash(id));
 	}
+
+        
+    private static void getFarmerIds(Response response, Request request) {
+        LogicService ls = new LogicRepository();
+        ls.getFarmerids();
+        
+    }
 	
 }

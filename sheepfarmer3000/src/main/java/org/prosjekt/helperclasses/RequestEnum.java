@@ -10,21 +10,24 @@ package org.prosjekt.helperclasses;
  *
  */
 public enum RequestEnum {
+
+        //FarmerService
+	GetPasshash,
+	SetPasshash,
 	
-	SETPASSHASH,
-	GETPASSHASH,
-	GETSHEEPBYID,
-	GETALLSHEEPS,
-	GETALLUSERSSHEEPS,
-	GETALLUSERSSHEEPSALIVE,
-	GETALLUSERSSHEEPSDEAD,
-	REMOVESHEEP,
-	UPDATEUSER,
-	GETUSER,
-	ADDSHEEP,
+        GetFarmer,
+        UpdateFarmer,
         UpdateFarmerArea,
         AddHelper,
         RemoveHelper,
+        farmerids,
+    
+        //SheepService
+	GetSheepById,
+	REMOVESHEEP,
+	ADDSHEEP,
+    
+    
 	
 
 }
