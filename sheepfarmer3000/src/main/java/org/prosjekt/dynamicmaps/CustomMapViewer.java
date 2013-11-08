@@ -36,7 +36,7 @@ public class CustomMapViewer extends JMapViewer{
         customMapMarkerList = new ArrayList<>();
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
         mapController = new CustomMapController(this);
-        this.farmer = farmer;
+        CustomMapViewer.farmer = farmer;
         this.refreshMap();
         this.showAllSheep();
     }
@@ -130,7 +130,7 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
     
-    public void showAllSheep(){
+    public final void showAllSheep(){
         for (Sheep sheep : farmer.getSheeps()){
             this.addSheep(sheep);
         }
