@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.joda.time.DateTime;
+import org.prosjekt.client.ClientExample;
 
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
@@ -26,6 +27,7 @@ public class Main {
 				init();
 			}
 		});
+                
 	}
 	public static void init(){
 		farmerList = new ArrayList<Farmer>();
@@ -40,14 +42,8 @@ public class Main {
 	}
 	
 	//Denne byttes ut med riktig i forhold til henting far server
-	public static ArrayList<Integer> getFarmerIds(){
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		
-		for(Farmer f:farmerList){
-			ids.add(f.getId());
-		}
-		
-		
+	public static List<Integer> getFarmerIds(){
+		List<Integer> ids = ClientExample.getFarmerIds();
 		return ids;
 	}
 	
@@ -140,28 +136,6 @@ public class Main {
 		//new RemoveSheep(currentUser);
 	}
 	
-	private static void loggInSimulator(){
-		Farmer farmer1 = new Farmer(1000, "Ola", "Nordmann", "ola@nordmann.no", "81549300");
-		Farmer farmer2 = new Farmer(2000, "Kari", "Nordmann", "kari@nordmann.no", "81549300");
-		Passhash passord1 = new Passhash(1000);
-		Passhash passord2 = new Passhash(2000);
-		passord1.setPasshash("admin1");
-		passord2.setPasshash("admin2");
-		farmer1.setPasshash(passord1);
-		farmer2.setPasshash(passord2);
-		farmerList.add(farmer1);
-		farmerList.add(farmer2);
-	}
-	
-	private static void mainPageSimulator(){
-		Farmer farmer1 = new Farmer(1000, "Ola", "Nordmann", "ola@nordmann.no", "81549300");
-		Passhash passord1 = new Passhash(1000);
-		passord1.setPasshash("admin1");
-		farmer1.setPasshash(passord1);
-		mainCurrentUser = farmer1;
-		new MainPage();
-	}
-	
 	
 	public static Farmer getCurrentUser(){
 		return mainCurrentUser;
@@ -172,25 +146,21 @@ public class Main {
 	}
 	public static boolean checkFarmerList(int id){
 		boolean tester = false;
-		for (Farmer f: farmerList){
-			if(f.getId()==id){
-				tester = true;
-				break;
+                List<Integer> farmerids = ClientExample.getFarmerIds();
+		for (Integer i: farmerids){
+			if(i==id){
+                            tester = true;
+                            break;
 			}
 		}
 		return tester;
 	}
 	
 	public static Farmer getFarmerById(int id){
-		Farmer tempFarmer=null;
-		for (Farmer f: farmerList){
-			if(f.getId()==id){
-				tempFarmer = f;
-				break;
-			}
-		}
-		return tempFarmer;
+		return ClientExample.getFarmer(id);
 	}
+        
+        
 	public static boolean checkPassword(Farmer f, char[] input){
 		boolean tester = false;
 		Passhash p = f.getPasshash();

@@ -22,7 +22,17 @@ public class ClientExample {
 	static ClientConnection connection = new ClientConnection("127.0.0.1", 4455);
 	static boolean connected = connection.openServerConnection();
 	
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
+            List<Integer> ids = getFarmerIds();
+            System.out.println("farmerids: " + ids);
+            
+            Passhash ph = getPasshash(1);
+            System.out.println(ph.getPasshash());
+            
+            Farmer farmer = getFarmer(1);
+            System.out.println(farmer);
+            
+//            ids = getFarmerIds();
 //		Sheep[] sheeps = getAllSheeps();
 //		for (int i = 0; i < sheeps.length; i++) {
 //			System.out.println(sheeps[i].getId());
@@ -33,7 +43,7 @@ public class ClientExample {
 //		
 //		Sms sms = new Sms("4745673429", "Dette er en sauetest!");
 //		sms.sendSMS();
-//	}
+	}
 	
 //	public static Sheep[] getAllSheeps() {
 //		if (connected) {
@@ -108,7 +118,7 @@ public class ClientExample {
 	 * @param id		id paa farmer som skal hentes ut
 	 * @return			returnerer farmeren eller null
 	 */
-	public static Farmer getUser(int id) {
+	public static Farmer getFarmer(int id) {
 		if (connected) {
 			Request request = new Request();
 			request.setCommand(RequestEnum.GetFarmer);
@@ -188,5 +198,6 @@ public class ClientExample {
             return null;
         }
     }
+    
 }
 
