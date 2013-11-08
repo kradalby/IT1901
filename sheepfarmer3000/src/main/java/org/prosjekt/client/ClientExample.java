@@ -9,6 +9,8 @@ import org.prosjekt.helperclasses.Response;
 import org.prosjekt.helperclasses.Sheep;
 import org.prosjekt.helperclasses.Sms;
 
+import java.util.List;
+
 /**
  * Denne klassen er en placeholder klasse helt til GUI peepsa finner ut hvor de vil ha metodene.
  * 
@@ -174,7 +176,17 @@ public class ClientExample {
 			return null;
 		}
 	}
-	
-	
+
+    public static List<Integer> getFarmerIds() {
+        if (connected) {
+            Request request = new Request();
+            request.setCommand(RequestEnum.GetFarmerIds);
+            connection.sendPackage(request);
+            Response response = (Response) connection.receivePackage();
+            return (List<Integer>) response.getItem("farmerids");
+        } else {
+            return null;
+        }
+    }
 }
 

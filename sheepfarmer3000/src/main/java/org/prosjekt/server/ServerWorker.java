@@ -11,6 +11,8 @@ import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.Response;
 import org.prosjekt.helperclasses.Sheep;
 
+import java.util.List;
+
 /**
  * ServerWorker
  * 
@@ -27,7 +29,7 @@ public class ServerWorker {
 	 * Den får alle request objektene og håndterer dem basert på Enum
 	 * kommandoen som ble lagt ved.
 	 * 
-	 * @param tar inn en request pakke som skal utføres
+	 * @param request tar inn en request pakke som skal utføres
 	 * @return returnerer et responsobjekt som skal sendes tilbake.
 	 */
 	public static Response handlePackage(Request request) {
@@ -46,16 +48,16 @@ public class ServerWorker {
 			case GetSheepById:
 				getSheepById(response, request);
 				break;
-                        case UpdateFarmer:
-                                updateFarmer(response, request);
-                        case REMOVESHEEP:
+            case UpdateFarmer:
+                updateFarmer(response, request);
+            case REMOVESHEEP:
 				removeSheep(response, request);
 				break;
 			case ADDSHEEP:
 				addSheep(response, request);
 				break;
-                        case farmerids:
-                                getFarmerIds(response, request);
+            case GetFarmerIds:
+                getFarmerIds(response, request);
                            
 			default:
 				response.addItem("error", "Unknown request");
@@ -70,7 +72,7 @@ public class ServerWorker {
 	 * Sender alle sauene i hele systemet til clienten.
 	 * 
 	 * @param response
-	 * @param request
+	 *
 	 */
 	public static void getAllSheeps(Response response) {
 		LogicService ss = new LogicRepository();
@@ -167,12 +169,10 @@ public class ServerWorker {
 		int id = (int) request.getItem("farmerid");
 		response.addItem("passhash", fs.getPasshash(id));
 	}
-
         
     private static void getFarmerIds(Response response, Request request) {
         LogicService ls = new LogicRepository();
-        ls.getFarmerids();
-        
+        List<Integer> farmerIds = ls.getFarmerids();
+        response.addItem("farmerids", farmerIds);
     }
-	
 }
