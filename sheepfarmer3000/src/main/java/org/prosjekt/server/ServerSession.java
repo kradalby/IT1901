@@ -1,8 +1,12 @@
 package org.prosjekt.server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.prosjekt.helperclasses.Request;
 import org.prosjekt.helperclasses.Response;
@@ -36,7 +40,9 @@ public class ServerSession extends Thread {
 			System.out.println("Session opened with ID: " + id);
 			
 			while(running) {
-				Response response = ServerWorker.handlePackage(receivePackage()); 
+                                Request packageReceived = receivePackage();
+				Response response = null; 
+                                if (packageReceived != null) response = ServerWorker.handlePackage(packageReceived); 
 				if (response != null) sendPackage(response);
 			}
 			
@@ -52,14 +58,21 @@ public class ServerSession extends Thread {
 	 * @return returnerer true for OK eller false for ikke OK.
 	 */
 	public Request receivePackage() {
+            Request request = null;
 		try {
-			System.out.println("Session " + id + " waiting for object");
+//			System.out.println("Session " + id + " waiting for object");
 			in = new ObjectInputStream(socket.getInputStream());
-			return (Request) in.readObject();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+			request = (Request) in.readObject();
+		} catch (SocketException e) {
+//			e.printStackTrace();
+		} catch (IOException ioe){
+                    ioe.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                return request;
 	}
 	
 	/**
