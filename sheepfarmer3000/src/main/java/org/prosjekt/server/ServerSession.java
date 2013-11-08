@@ -37,7 +37,7 @@ public class ServerSession extends Thread {
 			
 			while(running) {
 				Response response = ServerWorker.handlePackage(receivePackage()); 
-				sendPackage(response);
+				if (response != null) sendPackage(response);
 			}
 			
 			System.out.println("Connection with session id: " + id + " closed.");
