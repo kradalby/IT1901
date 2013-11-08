@@ -26,6 +26,7 @@ public class MapSheepChooser extends JFrame implements ActionListener {
 	private Color textColor = new Color(32, 87, 0);
 	private static String OK = "ok";
     private static String CANCEL = "cancel";
+    private Sheep currentSheep;
 	
 	public MapSheepChooser(Farmer user){
 		super("Choose sheep");
@@ -105,13 +106,29 @@ public class MapSheepChooser extends JFrame implements ActionListener {
 		String cmd = e.getActionCommand();
 		
 		if (cmd.equals(OK)){
-			//MainPage.map.showSingleSheep
+                    if (currentSheep == null)
+                        return;
+                        MainPage.kart.refreshMap();
+			MainPage.kart.addPath(currentSheep.getCordinates());
 			this.dispose();
 		}
 		else if (cmd.equals(CANCEL)){
 			this.dispose();
 		}
+                else{
+		JComboBox cb = (JComboBox) e.getSource();
+		String sheepId = (String)cb.getSelectedItem();
+		setCurrentSheep(sheepId);
+		}
 		
 	}
+        private void setCurrentSheep(String sheepId){
+            
+            for (Sheep s: user.getSheeps()){
+                if(sheepId.equals(s.getId())){
+                    currentSheep = s;
+                }
+            }
+        }
 
 }

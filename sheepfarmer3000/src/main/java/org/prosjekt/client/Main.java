@@ -9,7 +9,7 @@ import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 public class Main {
-	private static Gui gui;
+//	private static Gui gui;
         public static Farmer farmer;
 	private static JFrame guiFrame;
 //	protected static TestServer testServer;
@@ -37,8 +37,8 @@ public class Main {
 //            sheep.get(2).setMostCurrentCoordinate(coords.get(2));
 //            for (Sheep s : sheep)
 //                farmer.addSheep(s);
-            gui = new Gui();
-            guiFrame = gui.getGui();
+//            gui = new Gui();
+//            guiFrame = gui.getGui();
 //		testServer = new TestServer();	//Kontakt med serveren kan legges inn her, trenger kun � sende en liste med alle farmer-objekter for at det skal fungere 
 
 	}

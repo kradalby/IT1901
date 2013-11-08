@@ -97,7 +97,7 @@ public class ClientExample {
 	
 	/**
 	 * Fjerne en sau.
-	 * @param sheeo 	tar inn et saueobjekt som skal fjernes.
+	 * @param sheep 	tar inn et saueobjekt som skal fjernes.
 	 * @return			returnerer true hvis det er suksess og false om ikke.
 	 */
 	public static boolean removeSheep(Sheep sheep) {
@@ -139,7 +139,7 @@ public class ClientExample {
 	public static boolean updateUser(Farmer farmer) {
 		if (connected) {
 			Request request = new Request();
-//			request.setCommand(RequestEnum.UPDATEUSER);
+			request.setCommand(RequestEnum.UpdateFarmer);
 			request.addItem("farmer", farmer);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
