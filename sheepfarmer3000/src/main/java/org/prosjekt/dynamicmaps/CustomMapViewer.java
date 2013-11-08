@@ -9,6 +9,7 @@ import java.util.List;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
+import org.prosjekt.gui.AddSheep;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -35,8 +36,9 @@ public class CustomMapViewer extends JMapViewer{
         customMapMarkerList = new ArrayList<>();
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
         mapController = new CustomMapController(this);
-        this.farmer = farmer;
+        CustomMapViewer.farmer = farmer;
         this.refreshMap();
+        this.showAllSheep();
     }
     
     @Override
@@ -54,7 +56,7 @@ public class CustomMapViewer extends JMapViewer{
     /**
      *
      */
-    public void clearMap(){
+    private void clearMap(){
         customMapMarkerList.clear();
         removeAllMapMarkers();
         removeAllMapPolygons();
@@ -66,13 +68,13 @@ public class CustomMapViewer extends JMapViewer{
      * @param coords
      */
     public void addArea(ArrayList<Coordinate> coords){
-        if (coords.isEmpty())
+        if (coords == null || coords.isEmpty())
             return;
         addMapPolygon(new MapPolygonImpl(coords));
     }
     
     public void addPath(List<Coordinate> coords){
-        if (coords.isEmpty())
+        if (coords == null || coords.isEmpty())
                 return;
         List<Coordinate> reversedCoords = new ArrayList<>(coords);
         Collections.reverse(reversedCoords);
@@ -128,15 +130,19 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
     
-    public final void refreshMap(){
+    public final void showAllSheep(){
         for (Sheep sheep : farmer.getSheeps()){
             this.addSheep(sheep);
         }
+    }
+    
+    public final void refreshMap(){
+        this.clearMap();
         this.addArea((ArrayList<Coordinate>)farmer.getCoordinates());
     }
     
     public void createPopup(int x, int y){
-        //create popup for new sheep withou
+        new AddSheep(farmer);
     }
     public void createPopup(int x, int y, CustomMapMarker marker){
         //create popup with info from clicked sheep
