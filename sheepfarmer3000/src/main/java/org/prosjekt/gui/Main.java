@@ -4,6 +4,10 @@ package org.prosjekt.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +25,7 @@ public class Main {
 	private static ArrayList<Farmer> farmerList;
 	private static Farmer mainCurrentUser;
 
-	public static void main (String args[]){
+	public static void main (String args[]) throws URISyntaxException{
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run(){
 				init();

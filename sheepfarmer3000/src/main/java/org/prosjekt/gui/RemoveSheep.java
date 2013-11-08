@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -24,7 +25,6 @@ public class RemoveSheep extends JFrame implements ActionListener {
 	private static String OK = "ok";
     private static String CANCEL = "cancel";
 	private Farmer user;
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
 	private Sheep currentSheep;
 	
     private Font font = new Font("kalinga", Font.PLAIN, 17);
@@ -40,7 +40,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
 	
 	public RemoveSheep(Farmer user){
 		super("Remove sheep");
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		

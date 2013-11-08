@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -23,7 +24,6 @@ public class SheepLogFrame extends JFrame implements ActionListener{
 	private static CoordinateTable coordinateTable;
 	private Farmer user;
 	private List<Sheep> sheepList;
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
     private Color textColor = new Color(32, 87, 0);
     private Font font = new Font("kalinga", Font.PLAIN, 16);
     private JComboBox chooser;
@@ -32,7 +32,7 @@ public class SheepLogFrame extends JFrame implements ActionListener{
 	
 	public SheepLogFrame(Farmer user){
 		super("Sheep Log");
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		sheepList = this.user.getSheeps();
