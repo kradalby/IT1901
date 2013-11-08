@@ -1,5 +1,6 @@
 package org.prosjekt.gui;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,10 +9,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import org.prosjekt.dynamicmaps.CustomMapViewer;
 
 public class MainPage extends JFrame implements ActionListener{
 	private String backgroundImage = "images\\innlogging1.jpg";
 	private JMenuBar menuBar;
+        public static CustomMapViewer kart;
 	//private static Map map;
 	
 	
@@ -19,6 +22,8 @@ public class MainPage extends JFrame implements ActionListener{
 	public MainPage(){		
 		//super.setContentPane(new BackgroundPanel(backgroundImage));
 		super("Sheep Farmer 3000");
+                setLayout(new BorderLayout());
+                
 		createMain();
 		pack();
 		
@@ -30,6 +35,8 @@ public class MainPage extends JFrame implements ActionListener{
 	
 	//creates top level mainPage items
 	private void createMain(){
+                kart = new CustomMapViewer(Main.getCurrentUser());
+                this.add(kart, BorderLayout.CENTER);
 		createMenuBar();
 	}
 	
@@ -206,7 +213,7 @@ public class MainPage extends JFrame implements ActionListener{
 			new AttackLogFrame(Main.getCurrentUser());
 		}
 		else if (command == "allSheep"){
-			//map.showAllSheep;
+			//kart.
 		}
 		else if (command == "singleSheep"){
 			new MapSheepChooser(Main.getCurrentUser());
