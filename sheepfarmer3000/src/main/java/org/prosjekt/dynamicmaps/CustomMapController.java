@@ -80,6 +80,7 @@ public class CustomMapController extends DefaultMapController{
      */
     public void setPopoupMouseButton(int newButton){
         this.PopoupMouseButton = newButton;
+        return;
     }
     
     /**
