@@ -30,29 +30,16 @@ import org.prosjekt.logic.WolfLogic;
  * @author kradalby
  *
  */
-public class ClientExample {
+public class ClientService {
 
-	static ClientConnection connection = new ClientConnection("127.0.0.1", 4455);
+	static ClientConnection connection = new ClientConnection("84.52.204.230", 4455);
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
             LogicRepository lr = new LogicRepository();
             
-//            updateFarmerArea(Admin.farmerOppdal());
-//            updateFarmerArea(Admin.farmerMeldal());
-            
-//            Farmer farmer = getFarmer(1002);
-//            farmer.setEmail("christofferbuvik@gmail.com");
-//            updateFarmer(farmer);
-//            
-//            Admin.addSheep(farmer, farmer.getCoordinates(), 15);
-            
-//            Sheep s = WolfLogic.getRandomSheep(lr.getAllSheeps());
-//            System.out.println("Random sheep: " + s);
-//            System.out.println(s.getCurrentCordinate());
-//            WolfLogic.wolfAttack(s);
-//            System.out.println(s);
-            
+            updateFarmerArea(Admin.farmerOppdal());
+            updateFarmerArea(Admin.farmerMeldal());
             
 //		Mail mail = new Mail("kradalby@kradalby.no", "test", "dette er en test lol");
 //		mail.sendMail();
@@ -63,7 +50,7 @@ public class ClientExample {
 
         public static String getPathToResources(String file){
 //            return file;
-             URL resourceUrl = ClientExample.class.getResource("/"+ file);
+             URL resourceUrl = ClientService.class.getResource("/"+ file);
              return resourceUrl.getPath();
         }
         
@@ -272,7 +259,9 @@ public class ClientExample {
             request.setCommand(RequestEnum.GetFarmerIds);
             connection.sendPackage(request);
             Response response = (Response) connection.receivePackage();
-            return (List<Integer>) response.getItem("farmerids");
+            List<Integer> ids = (List<Integer>) response.getItem("farmerids");
+            System.out.println("Farmerids: " + ids);
+            return ids;
         } else {
             return null;
         }
