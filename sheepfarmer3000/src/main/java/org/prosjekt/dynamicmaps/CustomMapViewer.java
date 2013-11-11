@@ -10,6 +10,7 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.prosjekt.gui.AddSheep;
+import org.prosjekt.gui.RemoveSheep;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -145,13 +146,14 @@ public class CustomMapViewer extends JMapViewer{
         new AddSheep(farmer, getPosition(x, y).getLat(), getPosition(x, y).getLon());
     }
     public void createPopup(int x, int y, CustomMapMarker marker){
-        int sheepIndex;
-        for (int i = 0; i < farmer.getSheeps().size(); i++){
+        int sheepIndex =0;
+        for (int i = sheepIndex; i < farmer.getSheeps().size(); i++){
             if (farmer.getSheeps().get(i).getId().equals(marker.getId())){
                 sheepIndex = i;
                 break;
             }
         }
+        new RemoveSheep(farmer, sheepIndex);
         
     }
     
