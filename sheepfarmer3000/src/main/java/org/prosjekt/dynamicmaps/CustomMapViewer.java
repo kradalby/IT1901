@@ -27,6 +27,9 @@ public class CustomMapViewer extends JMapViewer{
     private static Farmer farmer;
     private CustomMapController mapController;
     private List<CustomMapMarker> customMapMarkerList;
+    private Sheep showSheepPath = null;
+    private boolean showAllAttacks;
+    private boolean showAllSheeps;
     
     /**
      * Class constructor
@@ -38,8 +41,9 @@ public class CustomMapViewer extends JMapViewer{
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
         mapController = new CustomMapController(this);
         CustomMapViewer.farmer = farmer;
+        showAllAttacks = false;
+        showAllSheeps = true;
         this.refreshMap();
-        this.showAllSheep();
     }
     
     @Override
@@ -74,7 +78,8 @@ public class CustomMapViewer extends JMapViewer{
         addMapPolygon(new MapPolygonImpl(coords));
     }
     
-    public void addPath(List<Coordinate> coords){
+    private void addPath(Sheep sheep){
+        List<Coordinate> coords = sheep.getCordinates();
         if (coords == null || coords.isEmpty())
                 return;
         List<Coordinate> reversedCoords = new ArrayList<>(coords);
@@ -84,6 +89,7 @@ public class CustomMapViewer extends JMapViewer{
         MapPolygonImpl pol = new MapPolygonImpl(coords);
         pol.setColor(Color.red);
         addMapPolygon(pol);
+        addAttack(sheep);        
     }
     
     /**
@@ -107,13 +113,13 @@ public class CustomMapViewer extends JMapViewer{
      *
      * @param sheep
      */
-    public void addSheep(Sheep sheep){
+    private void addSheep(Sheep sheep){
         SheepMarker sMarker = new SheepMarker(sheep);
         customMapMarkerList.add(sMarker);
         repaint();
     }     
     
-    public void addAllAttacks(){
+    private void addAllAttacks(){
         for (Sheep sheep : farmer.getSheeps()){
             for(Coordinate coord : sheep.getAttacks()){
                 customMapMarkerList.add(new AttackMarker(coord, sheep.getId()));
@@ -121,7 +127,8 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
     
-    public void addAttack(String sheepId){
+    private void addAttack(Sheep attackedSheep){
+        String sheepId = attackedSheep.getId();
         for (Sheep sheep : farmer.getSheeps()){
             if (sheep.getId().equals(sheepId)){
                 for (Coordinate coord : sheep.getAttacks()){
@@ -131,15 +138,34 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
     
-    public final void showAllSheep(){
+    private final void addAllSheep(){
         for (Sheep sheep : farmer.getSheeps()){
             this.addSheep(sheep);
         }
     }
     
+    public void showSheepPath(Sheep sheep){
+        this.showSheepPath = sheep;
+    }
+    
+    public void showAllAttacks(boolean value){
+        this.showAllAttacks = value;
+    }
+    
+    public void showAllSheep(boolean value){
+        this.showAllSheeps = true;
+    }
+    
     public final void refreshMap(){
         this.clearMap();
         this.addArea((ArrayList<Coordinate>)farmer.getCoordinates());
+        if (showAllAttacks)
+            addAllAttacks();
+        if (showSheepPath != null)
+            addPath(showSheepPath);
+        if (showAllSheeps)
+            addAllSheep();
+            
     }
     
     public void createPopup(int x, int y){

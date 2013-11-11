@@ -214,13 +214,23 @@ public class MainPage extends JFrame implements ActionListener{
 			new AttackLogFrame(Main.getCurrentUser());
 		}
 		else if (command == "allSheep"){
-			//kart.
+			MainPage.kart.showAllAttacks(false);
+			MainPage.kart.showSheepPath(null);
+                        MainPage.kart.showAllSheep(true);
+                        MainPage.kart.refreshMap();
 		}
 		else if (command == "singleSheep"){
-			new MapSheepChooser(Main.getCurrentUser());
+			MapSheepChooser msc = new MapSheepChooser(Main.getCurrentUser());
+                        MainPage.kart.showSheepPath(msc.getCurrentSheep());
+                        MainPage.kart.showAllAttacks(false);
+                        MainPage.kart.showAllSheep(true);
+                        MainPage.kart.refreshMap();
 		}
 		else if (command == "viewAttacks"){
-			//map.showAttacks;
+			MainPage.kart.showAllAttacks(true);
+			MainPage.kart.showSheepPath(null);
+                        MainPage.kart.showAllSheep(true);
+                        MainPage.kart.refreshMap();
 		}
 		else if (command == "about"){
 			//new AboutWindow();
