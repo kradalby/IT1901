@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import org.prosjekt.client.ClientExample;
+import org.prosjekt.client.ClientService;
 
 public class LoginBox extends JFrame implements ActionListener{
 	
@@ -32,7 +32,7 @@ public class LoginBox extends JFrame implements ActionListener{
     
 	public LoginBox(){
        
-		setContentPane(new BackgroundPanel(ClientExample.getPathToResources(backgroundImage)));
+		setContentPane(new BackgroundPanel(ClientService.getPathToResources(backgroundImage)));
 		setLayout(new BorderLayout());
 		
 		//lager tomme labels for toppen og venstre av siden

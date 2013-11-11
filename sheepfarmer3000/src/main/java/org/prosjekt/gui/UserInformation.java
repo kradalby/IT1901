@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import org.prosjekt.client.ClientExample;
+import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Passhash;
 
@@ -48,7 +48,7 @@ public class UserInformation extends JFrame implements ActionListener {
 	
 	
 	public UserInformation(Farmer f){	
-		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
 		setLayout(new BorderLayout());
 		tempUser = f;
 		createContent();
