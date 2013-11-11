@@ -58,7 +58,9 @@ public class ClientConnection {
 	public Response receivePackage() {
 		try {
 			in = new ObjectInputStream(socket.getInputStream());
-			return (Response) in.readObject();
+                        Response res = (Response) in.readObject();
+                        System.out.println("Package received: " + res);
+			return res;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
