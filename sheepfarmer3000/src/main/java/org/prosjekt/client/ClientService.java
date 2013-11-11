@@ -32,32 +32,30 @@ import org.prosjekt.logic.WolfLogic;
  */
 public class ClientService {
 
-	static ClientConnection connection = new ClientConnection("84.52.204.230", 4455);
+//	static ClientConnection connection = new ClientConnection("84.52.204.230", 4455);
+	static ClientConnection connection = new ClientConnection("localhost", 4455);
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
-            LogicRepository lr = new LogicRepository();
-            
-            updateFarmerArea(Admin.farmerOppdal());
-            updateFarmerArea(Admin.farmerMeldal());
+//            updateFarmerArea(Admin.farmerOppdal());
+//            updateFarmerArea(Admin.farmerMeldal());
+	}
             
 //		Mail mail = new Mail("kradalby@kradalby.no", "test", "dette er en test lol");
 //		mail.sendMail();
 //		
 //		Sms sms = new Sms("4745673429", "Dette er en sauetest!");
 //		sms.sendSMS();
-	}
 
         public static String getPathToResources(String file){
-//            return file;
-             URL resourceUrl = ClientService.class.getResource("/"+ file);
-             return resourceUrl.getPath();
+            return file;
+//             URL resourceUrl = ClientService.class.getResource("/"+ file);
+//             return resourceUrl.getPath();
         }
         
         public static String pathToBackGround(){
-//            return "bakgrunn 450x450.jpg";
-//            return "";
-            return getPathToResources("bakgrunn 450x450.jpg");
+            return "bakgrunn 450x450.jpg";
+//            return getPathToResources("bakgrunn 450x450.jpg");
         }
 	
         //SheepService
@@ -170,6 +168,7 @@ public class ClientService {
 		} else {
 			return false;
 		}
+//                return false;
 	}
         
         
