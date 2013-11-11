@@ -26,6 +26,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
     private static String CANCEL = "cancel";
 	private Farmer user;
 	private Sheep currentSheep;
+        private int sheepIndex;
 	
     private Font font = new Font("kalinga", Font.PLAIN, 17);
     private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
@@ -43,6 +44,22 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
+                this.sheepIndex = 0;
+		
+		createContentPanel();
+		pack();
+		
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setSize(400, 280);	//y var opprinnelig 250
+		setVisible(true);
+		
+	}public RemoveSheep(Farmer user, int sheepIndex){
+		super("Remove sheep");
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
+		setLayout(new BorderLayout());
+		this.user = user;
+                this.sheepIndex = sheepIndex;
 		
 		createContentPanel();
 		pack();
@@ -114,7 +131,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		
 		chooser.addActionListener(this);
 		chooser.setAlignmentY(LEFT_ALIGNMENT);
-		chooser.setSelectedIndex(0);
+		chooser.setSelectedIndex(sheepIndex);
 		return chooser;
 	}
 	
