@@ -38,20 +38,20 @@ public class ClientExample {
 	public static void main(String[] args) {
             LogicRepository lr = new LogicRepository();
             
-            updateFarmerArea(Admin.farmerOppdal());
-            updateFarmerArea(Admin.farmerMeldal());
+//            updateFarmerArea(Admin.farmerOppdal());
+//            updateFarmerArea(Admin.farmerMeldal());
             
-            Farmer farmer = getFarmer(1002);
-            farmer.setEmail("christofferbuvik@gmail.com");
-            updateFarmer(farmer);
-            
+//            Farmer farmer = getFarmer(1002);
+//            farmer.setEmail("christofferbuvik@gmail.com");
+//            updateFarmer(farmer);
+//            
 //            Admin.addSheep(farmer, farmer.getCoordinates(), 15);
             
-            Sheep s = WolfLogic.getRandomSheep(lr.getAllSheeps());
+//            Sheep s = WolfLogic.getRandomSheep(lr.getAllSheeps());
 //            System.out.println("Random sheep: " + s);
 //            System.out.println(s.getCurrentCordinate());
-            WolfLogic.wolfAttack(s);
-            System.out.println(s);
+//            WolfLogic.wolfAttack(s);
+//            System.out.println(s);
             
             
 //		Mail mail = new Mail("kradalby@kradalby.no", "test", "dette er en test lol");
@@ -62,11 +62,14 @@ public class ClientExample {
 	}
 
         public static String getPathToResources(String file){
+//            return file;
              URL resourceUrl = ClientExample.class.getResource("/"+ file);
              return resourceUrl.getPath();
         }
         
         public static String pathToBackGround(){
+//            return "bakgrunn 450x450.jpg";
+//            return "";
             return getPathToResources("bakgrunn 450x450.jpg");
         }
 	

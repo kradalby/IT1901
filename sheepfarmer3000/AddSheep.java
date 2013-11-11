@@ -1,5 +1,4 @@
 package org.prosjekt.gui;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,11 +6,12 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,55 +21,62 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.prosjekt.client.ClientExample;
+import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
-public class RemoveSheep extends JFrame implements ActionListener {
+public class AddSheep extends JFrame implements ActionListener{
 	private static String OK = "ok";
-    private static String CANCEL = "cancel";
+        private static String CANCEL = "cancel";
 	private Farmer user;
-	private Sheep currentSheep;
-        private int sheepIndex;
 	
-    private Font font = new Font("kalinga", Font.PLAIN, 17);
-    private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
+	private Font headerFont = new Font("kalinga", Font.PLAIN, 24);
+        private Font smallHeaderFont = new Font("kalinga", Font.PLAIN, 22);
+        private Font font = new Font("kalinga", Font.PLAIN, 17);
+        private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
 	private Color textColor = new Color(32, 87, 0);
-	
+        private String lat;
+        private String lon;
+	private String datetime;
+        
 	private JTextField idField;
 	private JTextField longitudeField;
 	private JTextField latitudeField;
 	private JTextField birthField;
 	
-	private JComboBox chooser;
-	
-	public RemoveSheep(Farmer user){
-		super("Remove sheep");
+	public AddSheep(Farmer user){
+		super("Add new sheep");
 		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
-                this.sheepIndex = 0;
+                this.lat = "";
+                this.lon = "";
 		
 		createContentPanel();
 		pack();
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(400, 280);	//y var opprinnelig 250
+		setSize(400, 250);
 		setVisible(true);
 		
-	}public RemoveSheep(Farmer user, int sheepIndex){
-		super("Remove sheep");
+	}
+        
+        public AddSheep(Farmer user, double lat, double lon){
+		super("Add new sheep");
 		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
-                this.sheepIndex = sheepIndex;
+                this.lat = Double.toString(lat);
+                this.lon = Double.toString(lon);
+                this.datetime = new DateTime().toString();
 		
 		createContentPanel();
 		pack();
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(400, 280);	//y var opprinnelig 250
+		setSize(400, 250);
 		setVisible(true);
 		
 	}
@@ -120,56 +127,11 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		return content;
 	}
 	
-	private JComboBox createChooser(){
-		ArrayList<String> sheepArrayList = new ArrayList<String>();
-		
-		for(Sheep s: user.getSheeps()){
-			sheepArrayList.add(s.getId());
-		}
-		
-		String [] sheepArray = new String[user.getSheeps().size()];
-		sheepArrayList.toArray(sheepArray);
-		
-		chooser = new JComboBox(sheepArray);
-		
-		chooser.addActionListener(this);
-		chooser.setAlignmentY(LEFT_ALIGNMENT);
-		chooser.setSelectedIndex(sheepIndex);
-		return chooser;
-	}
-	
-	private void updateView(String sheepId){
-		
-		Sheep selectedSheep = null;
-		
-		for(Sheep s: user.getSheeps()){
-			if(s.getId().equals(sheepId)){
-				selectedSheep = s;
-			}
-		}
-		
-		idField.setText(selectedSheep.getId());
-		String longitude = String.valueOf(selectedSheep.getCurrentCordinate().getLon());
-		String latitude = String.valueOf(selectedSheep.getCurrentCordinate().getLat());
-		longitudeField.setText(longitude);
-		latitudeField.setText(latitude);
-
-                DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
-                String date = fmt.print(selectedSheep.getBirth());
-		birthField.setText(date);
-		
-		currentSheep = selectedSheep;	//trengs for at riktig sau skal bli slettet
-	}
-	
 	private JPanel createLeftSide(){
 		JPanel leftSide = new JPanel();
 		leftSide.setLayout(new BoxLayout(leftSide, BoxLayout.Y_AXIS));
 		leftSide.setOpaque(false);
 		leftSide.setPreferredSize(new Dimension(180,100));
-		
-		JLabel chooser = new JLabel("Choose Sheep: ");
-		chooser.setFont(font);
-		chooser.setForeground(textColor);
 		
 		JLabel idLabel = new JLabel("Sheep ID:");
 		idLabel.setFont(font);
@@ -186,9 +148,6 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		JLabel birthLabel = new JLabel("Birth date:");
 		birthLabel.setFont(font);
 		birthLabel.setForeground(textColor);
-		
-		chooser.setAlignmentY(LEFT_ALIGNMENT);
-		leftSide.add(chooser);
 		
 		idLabel.setAlignmentY(LEFT_ALIGNMENT);
 		leftSide.add(idLabel);
@@ -210,7 +169,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
 	
 	/*
 	 * 
-	 * textfeltene må instansieres med det formatet de skal ha
+	 * textfeltene m? instansieres med det formatet de skal ha
 	 * 
 	 */
 	private JPanel createRightSide(){
@@ -219,31 +178,26 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		rightSide.setOpaque(false);
 		rightSide.setPreferredSize(new Dimension(180,100));
 		
-		
-		
-		idField = new JTextField();
+		idField = new JTextField(UUID.randomUUID().hashCode());
 		idField.setOpaque(false);
 		idField.setForeground(textColor);
 		idField.setFont(fontTextField);
 		idField.setActionCommand(OK);
 		idField.addActionListener(this);
-		idField.setEditable(false);
 		
-		longitudeField = new JTextField();
+		longitudeField = new JTextField(lon);
 		longitudeField.setOpaque(false);
 		longitudeField.setForeground(textColor);
 		longitudeField.setFont(fontTextField);
 		longitudeField.setActionCommand(OK);
 		longitudeField.addActionListener(this);
-		longitudeField.setEditable(false);
 		
-		latitudeField = new JTextField();
+		latitudeField = new JTextField(lat);
 		latitudeField.setOpaque(false);
 		latitudeField.setForeground(textColor);
 		latitudeField.setFont(fontTextField);
 		latitudeField.setActionCommand(OK);
 		latitudeField.addActionListener(this);
-		latitudeField.setEditable(false);
 		
 		birthField = new JTextField("dd.mm.yyyy");
 		birthField.setOpaque(false);
@@ -251,9 +205,6 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		birthField.setFont(fontTextField);
 		birthField.setActionCommand(OK);
 		birthField.addActionListener(this);
-		birthField.setEditable(false);
-		
-		rightSide.add(createChooser());
 		
 		idField.setAlignmentY(LEFT_ALIGNMENT);
 		rightSide.add(idField);
@@ -314,14 +265,13 @@ public class RemoveSheep extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		
-		
-		
 		if(OK.equals(cmd)){
-			if (!saveChanges("04.11.2013")){	//husk at dataTime antagelig må legges til her her
+                    this.setVisible(false);
+			if (!saveChanges(birthField.getText())){	//husk at dataTime antagelig m? legges til her her
+                                this.setVisible(true);
 				JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
 						"", JOptionPane.ERROR_MESSAGE);
-				
+                                
 			}
 			else{
 				SheepListFrame.updateData();
@@ -333,42 +283,59 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		else if (CANCEL.equals(cmd)){
 			this.dispose();
 		}
-		else{
-			JComboBox cb = (JComboBox) e.getSource();
-			String sheepId = (String)cb.getSelectedItem();
-			updateView(sheepId);
-		}
 		
 	}
 	
-	private boolean saveChanges(String date){	//date må byttes ut med datetime
-//            DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
-//            DateTime dt = fmt.parseDateTime(date);
-		
-		List<Sheep> tempSheepList = user.getSheeps();
-		Farmer tempUser = user;
-		this.setVisible(false);
-                for(Sheep s: tempSheepList){
-                    
-                    if(s.equals(currentSheep)){
-                        tempSheepList.remove(s);
-                        tempUser.setSheeps(tempSheepList);
-                        if(Main.saveChangesToFarmer(tempUser)){
-                            user = tempUser;
-                            return true;
-                        }
-                    }
+	private boolean saveChanges(String date){	//date m� byttes ut med datetime
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
+            DateTime dt = fmt.parseDateTime(date);
+            
+            if (testIfValidId()){
+                Coordinate c = null;
+                try{
+                    c = new Coordinate(Double.parseDouble(latitudeField.getText()),
+                            Double.parseDouble(longitudeField.getText()));
                 }
-		boolean success = ClientExample.removeSheep(currentSheep);
-		
-		return success;
+                catch (NumberFormatException e){
+                    return false;
+                }
+                
+                Sheep newSheep = new Sheep(idField.getText(), dt,user.getId(), c);
+                List<Sheep> newSheeps = user.getSheeps();
+                newSheeps.add(newSheep);
+                
+                Farmer tempFarmer = user;
+                tempFarmer.setSheeps(newSheeps);
+                System.out.println("\n\n\n newsheep: " + newSheep);
+                boolean success = ClientExample.addSheep(newSheep);
+                Main.updateMainUser(user);
+                return success;
+                //			if(Main.saveChangesToFarmer(tempFarmer)){
+                //				user = tempFarmer;
+                //				return true;
+                //			}
+                //			else{
+                //				return false;
+                //			}
+                
+            }
+            else{
+                return false;
+            }
+            
+            //burde kanskje teste om birht er riktig skrevet inn, men dette kan jo takles p? server
+            
+            //m? her legge til dateTime ved coordinate objektet
 	}
-		
-		//burde kanskje teste om birht er riktig skrevet inn, men dette kan jo takles på server
-		
-		//må her legge til dateTime ved coordinate objektet
 	
+	private boolean testIfValidId(){
+		boolean tester = true;
+		for (Sheep s:user.getSheeps()){
+			if(s.getId().equals(idField.getText())){
+				tester = false;
+			}
+		}
+		return tester;
+	}
 
 }
-
-
