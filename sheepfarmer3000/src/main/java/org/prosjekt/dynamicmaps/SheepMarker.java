@@ -3,7 +3,7 @@ package org.prosjekt.dynamicmaps;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import org.prosjekt.client.ClientExample;
+import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
@@ -26,7 +26,7 @@ public class SheepMarker extends CustomMapMarker{
      */
     public SheepMarker(Sheep sheep) {
         super();
-        fileLocation = ClientExample.getPathToResources("sheep.png");
+        fileLocation = ClientService.getPathToResources("sheep.png");
         try{
             img = ImageIO.read(new File(fileLocation));
         }
