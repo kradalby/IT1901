@@ -1,1 +1,1 @@
-mvn compile exec:java -Dexec.mainClass="org.prosjekt.client.ClientExample"
+mvn compile exec:java -Dexec.mainClass="org.prosjekt.client.ClientService"
