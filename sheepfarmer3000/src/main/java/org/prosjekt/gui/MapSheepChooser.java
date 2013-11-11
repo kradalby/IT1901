@@ -100,6 +100,9 @@ public class MapSheepChooser extends JFrame implements ActionListener {
 		return chooser;
 	}
 	
+        public Sheep getCurrentSheep(){
+            return this.currentSheep;
+        }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -108,9 +111,8 @@ public class MapSheepChooser extends JFrame implements ActionListener {
 		if (cmd.equals(OK)){
                     if (currentSheep == null)
                         return;
-                        MainPage.kart.refreshMap();
-			MainPage.kart.addPath(currentSheep.getCordinates());
-			this.dispose();
+                    
+                    this.dispose();
 		}
 		else if (cmd.equals(CANCEL)){
 			this.dispose();
