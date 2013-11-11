@@ -17,9 +17,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.prosjekt.client.ClientService;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -43,7 +44,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
 	
 	public RemoveSheep(Farmer user){
 		super("Remove sheep");
-		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
                 this.sheepIndex = 0;
@@ -58,7 +59,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		
 	}public RemoveSheep(Farmer user, int sheepIndex){
 		super("Remove sheep");
-		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
                 this.sheepIndex = sheepIndex;
@@ -358,7 +359,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
                         }
                     }
                 }
-		boolean success = ClientService.removeSheep(currentSheep);
+		boolean success = ClientExample.removeSheep(currentSheep);
 		
 		return success;
 	}

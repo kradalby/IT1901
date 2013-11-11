@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.prosjekt.client.ClientExample.updateFarmerArea;
 import org.prosjekt.database.repository.AbstractProperties;
 import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Coordinate;

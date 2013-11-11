@@ -9,7 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
-import org.prosjekt.client.ClientService;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
 
 public class MainPage extends JFrame implements ActionListener{
@@ -22,7 +22,7 @@ public class MainPage extends JFrame implements ActionListener{
 	
 	public MainPage(){		
 		super("Sheep Farmer 3000");
-		setContentPane(new BackgroundPanel(ClientService.getPathToResources(backgroundImage)));
+		setContentPane(new BackgroundPanel(ClientExample.getPathToResources(backgroundImage)));
                 setLayout(new BorderLayout());
                 
 		createMain();

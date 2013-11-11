@@ -16,7 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import org.prosjekt.client.ClientService;
+import org.joda.time.DateTime;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -41,7 +42,7 @@ public class AddSheep extends JFrame implements ActionListener{
 	
 	public AddSheep(Farmer user){
 		super("Add new sheep");
-		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
                 this.lat = "";
@@ -59,7 +60,7 @@ public class AddSheep extends JFrame implements ActionListener{
         
         public AddSheep(Farmer user, double lat, double lon){
 		super("Add new sheep");
-		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
                 this.lat = Double.toString(lat);

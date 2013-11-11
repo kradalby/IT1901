@@ -2,7 +2,9 @@ package org.prosjekt.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import org.prosjekt.client.ClientService;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Passhash;
 
@@ -45,7 +48,7 @@ public class UserInformation extends JFrame implements ActionListener {
 	
 	
 	public UserInformation(Farmer f){	
-		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		tempUser = f;
 		createContent();

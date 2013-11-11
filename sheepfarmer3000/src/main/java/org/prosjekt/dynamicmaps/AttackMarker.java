@@ -7,7 +7,7 @@ package org.prosjekt.dynamicmaps;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import org.prosjekt.client.ClientService;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Coordinate;
 
 
@@ -19,7 +19,7 @@ public class AttackMarker extends CustomMapMarker{
     
     public AttackMarker(Coordinate coord, String id){
         super();
-         fileLocation = ClientService.getPathToResources("crossmark.png");
+         fileLocation = ClientExample.getPathToResources("crossmark.png");
         try{
             img = ImageIO.read(new File(fileLocation));
         }

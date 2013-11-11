@@ -4,14 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import org.prosjekt.client.ClientService;
+import org.prosjekt.client.ClientExample;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -26,7 +30,7 @@ public class AttackLogFrame extends JFrame {
     
     public AttackLogFrame(Farmer user){
     	super("Attack Log");
-		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		sheepList = this.user.getSheeps();
