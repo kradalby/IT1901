@@ -15,7 +15,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.joda.time.DateTime;
-import org.prosjekt.client.ClientExample2;
+import org.prosjekt.client.ClientExample;
 
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
@@ -43,7 +43,7 @@ public class Main {
 	
 	//Denne byttes ut med riktig i forhold til henting far server
 	public static List<Integer> getFarmerIds(){
-		List<Integer> ids = ClientExample2.getFarmerIds();
+		List<Integer> ids = ClientExample.getFarmerIds();
 		return ids;
 	}
 	
@@ -54,10 +54,11 @@ public class Main {
 	public static void updateMainUser(Farmer f){
 		//Her burde det også komme et kall til map som oppdaterer
 		mainCurrentUser = f;
+                MainPage.kart.refreshMap();
 	}
 	public static boolean checkFarmerList(int id){
 		boolean tester = false;
-                List<Integer> farmerids = ClientExample2.getFarmerIds();
+                List<Integer> farmerids = ClientExample.getFarmerIds();
 		for (Integer i: farmerids){
 			if(i==id){
                             tester = true;
@@ -68,7 +69,7 @@ public class Main {
 	}
 	
 	public static Farmer getFarmerById(int id){
-		return ClientExample2.getFarmer(id);
+		return ClientExample.getFarmer(id);
 	}
         
         
@@ -89,14 +90,8 @@ public class Main {
 	}
 	
 	public static boolean saveChangesToFarmer(Farmer f){
-		boolean confirmedChange = true;
-		
-		//confirmedChange må settes til riktig bool når svar fra server er kommet
-		//Her må det legges kode som endrer farmer på server
-		//foreløpig erstatter bare koden et farmerobjekt med et annet
-		mainCurrentUser = f;
-		
-		return confirmedChange;
+                boolean confirmChange = ClientExample.updateFarmer(f);
+                return confirmChange;
 	}
 	
 
