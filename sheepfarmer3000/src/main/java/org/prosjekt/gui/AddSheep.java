@@ -263,6 +263,7 @@ public class AddSheep extends JFrame implements ActionListener{
 		
 		if(OK.equals(cmd)){
 			if (!saveChanges("04.11.2013")){	//husk at dataTime antagelig m� legges til her her
+                            
 				JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
 						"", JOptionPane.ERROR_MESSAGE);
 				
