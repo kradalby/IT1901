@@ -14,7 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import org.prosjekt.client.ClientExample;
+import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -30,7 +30,7 @@ public class MapSheepChooser extends JFrame implements ActionListener {
 
 	public MapSheepChooser(Farmer user){
 		super("Choose sheep");
-		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
 		setLayout(new FlowLayout());
 		this.user = user;
 		

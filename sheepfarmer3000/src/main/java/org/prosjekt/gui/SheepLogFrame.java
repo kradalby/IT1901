@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import org.prosjekt.client.ClientExample;
+import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -32,7 +32,7 @@ public class SheepLogFrame extends JFrame implements ActionListener{
 	
 	public SheepLogFrame(Farmer user){
 		super("Sheep Log");
-		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		sheepList = this.user.getSheeps();

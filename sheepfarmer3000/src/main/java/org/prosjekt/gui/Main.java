@@ -2,25 +2,15 @@ package org.prosjekt.gui;
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import org.joda.time.DateTime;
-import org.prosjekt.client.ClientExample;
+import org.prosjekt.client.ClientService;
 
-import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Passhash;
-import org.prosjekt.helperclasses.Sheep;
 public class Main {
 	private static ArrayList<Farmer> farmerList;
 	private static Farmer mainCurrentUser;
@@ -43,7 +33,7 @@ public class Main {
 	
 	//Denne byttes ut med riktig i forhold til henting far server
 	public static List<Integer> getFarmerIds(){
-		List<Integer> ids = ClientExample.getFarmerIds();
+		List<Integer> ids = ClientService.getFarmerIds();
 		return ids;
 	}
 	
@@ -58,7 +48,7 @@ public class Main {
 	}
 	public static boolean checkFarmerList(int id){
 		boolean tester = false;
-                List<Integer> farmerids = ClientExample.getFarmerIds();
+                List<Integer> farmerids = ClientService.getFarmerIds();
 		for (Integer i: farmerids){
 			if(i==id){
                             tester = true;
@@ -69,7 +59,7 @@ public class Main {
 	}
 	
 	public static Farmer getFarmerById(int id){
-		return ClientExample.getFarmer(id);
+		return ClientService.getFarmer(id);
 	}
         
         
@@ -90,7 +80,7 @@ public class Main {
 	}
 	
 	public static boolean saveChangesToFarmer(Farmer f){
-                boolean confirmChange = ClientExample.updateFarmer(f);
+                boolean confirmChange = ClientService.updateFarmer(f);
                 return confirmChange;
 	}
 	

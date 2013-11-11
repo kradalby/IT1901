@@ -13,15 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import org.prosjekt.client.ClientExample;
-import org.prosjekt.gui.AddSheep;
-import org.prosjekt.gui.BackgroundPanel;
-import org.prosjekt.gui.RemoveSheep;
+import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
@@ -40,7 +34,7 @@ public class SheepListFrame extends JFrame implements ActionListener{
 	
 	public SheepListFrame(Farmer f){
 		super("Sheep Overwiew");
-		super.setContentPane(new BackgroundPanel(ClientExample.pathToBackGround()));
+		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.currentUser = f;
 		sheepList = currentUser.getSheeps();
