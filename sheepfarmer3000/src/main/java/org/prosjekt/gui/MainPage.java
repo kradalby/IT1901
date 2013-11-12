@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import org.prosjekt.client.ClientService;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
+import org.prosjekt.helperclasses.Farmer;
 
 public class MainPage extends JFrame implements ActionListener{
 	private String backgroundImage = "innlogging1.jpg";
@@ -56,6 +57,10 @@ public class MainPage extends JFrame implements ActionListener{
 	//Creates the file menu -- Finished
 	private JMenu createFileMenu(){
 		JMenu file = new JMenu("File");
+                
+                JMenuItem refresh = new JMenuItem("Refresh");
+                refresh.addActionListener(this);
+                refresh.setActionCommand("refresh");
 			
 		JMenuItem logOut = new JMenuItem("Log out");
 		logOut.addActionListener(this);
@@ -238,6 +243,10 @@ public class MainPage extends JFrame implements ActionListener{
 		else if (command == "userManual"){
 			//open user manual
 		}
+                else if (command == "refresh"){
+                    Farmer newFarmer = Main.getFarmerById(Main.getCurrentUser().getId());
+                    Main.updateMainUser(newFarmer);
+                }
 		
 		
 	}
