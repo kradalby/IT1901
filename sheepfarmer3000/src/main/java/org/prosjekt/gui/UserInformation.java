@@ -433,6 +433,7 @@ public class UserInformation extends JFrame implements ActionListener {
 				||!Arrays.equals(newPasswordField.getPassword(), empty)
 				||!Arrays.equals(retypePasswordField.getPassword(), empty)){
 			if(passwordTest()){
+                                changeSaved = ClientService.setPasshash(tempUser.getId(), tempUser.getPasshash().getPasshash());
 				changeSaved = Main.saveChangesToFarmer(tempUser);
 			}			
 		}
