@@ -6,9 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -22,35 +21,37 @@ import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Sheep;
 
 public class HelperInformation extends JFrame implements ActionListener{
-	private static String SAVE = "save";
-        private static String CLOSE = "close";
-        private static String REMOVE = "remove";
-        private static String NEWHELPER  = "newHelper";
+    private static String SAVE = "save";
+    private static String CLOSE = "close";
+    private static String REMOVE = "remove";
+    private static String NEWHELPER  = "newHelper";
     
-	private Farmer user;
-	private String backgroundImage = "images\\bakgrunn 450x450.jpg";
-	private Sheep currentSheep;
-	private Helper currentHelper;
+    private Farmer user;
+    private String backgroundImage = "images\\bakgrunn 450x450.jpg";
+    private Sheep currentSheep;
+    private Helper currentHelper;
 	
-        private Font font = new Font("kalinga", Font.PLAIN, 17);
-        private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
-        private Font buttonFont = new Font("kalinga", Font.PLAIN, 15);
-	private Color textColor = new Color(32, 87, 0);
+    private Font font = new Font("kalinga", Font.PLAIN, 17);
+    private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
+    private Font buttonFont = new Font("kalinga", Font.PLAIN, 15);
+    private Color textColor = new Color(32, 87, 0);	
+    private JTextField firstNameField;
+    private JTextField lastNameField;
+    private JTextField phoneField;
+    private JTextField emailField;	
+    private JComboBox<Helper> chooser;
+    private DefaultComboBoxModel<Helper> comboBoxModel;
+    private int currentlySelectedIndex;
+    private boolean newHelperListener;
 	
-	private JTextField firstNameField;
-	private JTextField lastNameField;
-	private JTextField phoneField;
-	private JTextField emailField;
 	
-	private JComboBox chooser;
-	
-	
-	
-	public HelperInformation(Farmer user){
+    public HelperInformation(Farmer user){
 		super("Helper Information");
 		super.setContentPane(new BackgroundPanel(backgroundImage));
 		setLayout(new BorderLayout());
 		this.user = user;
+		currentlySelectedIndex = 0;
+		newHelperListener = false;
 		
 		createContentPanel();
 		pack();
@@ -59,6 +60,7 @@ public class HelperInformation extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(400, 280);	
 		setVisible(true);
+		
 	}
 
 
@@ -108,47 +110,33 @@ public class HelperInformation extends JFrame implements ActionListener{
 			return content;
 		}
 		
-		private JComboBox createChooser(){
-			ArrayList<String> helperArrayList = new ArrayList<String>();
+		private JComboBox<Helper> createChooser(){
 			
-			for(Helper h: user.getHelpers()){
-				helperArrayList.add(h.getFirstname()+" "+h.getLastname());
-			}
-			
-			String [] helperArray = new String[user.getHelpers().size()];
-			helperArrayList.toArray(helperArray);
-			
-			chooser = new JComboBox(helperArray);
+			chooser = new JComboBox<Helper>();
+			comboBoxModel = new DefaultComboBoxModel<Helper>();
+			fillChooser();
 			
 			chooser.addActionListener(this);
 			chooser.setAlignmentY(LEFT_ALIGNMENT);
 			chooser.setSelectedIndex(0);
 			return chooser;
 		}
-		
-		private void updateView(String helperFirstnameLastName){
-			
-			Helper selectedHelper = null;
-			
-			String [] firstNameLastnamelist = helperFirstnameLastName.split(" ");
-			
-			String firstName = firstNameLastnamelist[0];
-			String lastName = firstNameLastnamelist[1];
-			
-			
+		private void fillChooser(){
+			//comboBoxModel.removeAllElements();
 			for(Helper h: user.getHelpers()){
-				if(h.getFirstname().equals(firstName)&&h.getLastname().equals(lastName)){
-					selectedHelper = h;
-						break;
-				}
+				comboBoxModel.addElement(h);
 			}
+			chooser.setModel(comboBoxModel);
+			chooser.setRenderer(new CustomComboBoxRenderer());
+		}
+		
+		private void updateView(){
 			
-			firstNameField.setText(selectedHelper.getFirstname());
-			lastNameField.setText(selectedHelper.getLastname());
-			phoneField.setText(selectedHelper.getPhone());
-			emailField.setText(selectedHelper.getEmail());
-			
-			currentHelper = selectedHelper;	//trengs for at riktig helper skal bli slettet
+			firstNameField.setText(currentHelper.getFirstname());
+			lastNameField.setText(currentHelper.getLastname());
+			phoneField.setText(currentHelper.getPhone());
+			emailField.setText(currentHelper.getEmail());
+
 		}
 		
 		private JPanel createLeftSide(){
@@ -341,7 +329,12 @@ public class HelperInformation extends JFrame implements ActionListener{
 			
 			
 			if(SAVE.equals(cmd)){
-				saveHelperInfo();
+				//saveHelperInfo();
+				
+				if(newHelperListener){
+					saveNewHelper();
+					newHelperListener = false;
+				}
 				
 				if (!saveChanges()){	//husk at dataTime antagelig må legges til her her
 					JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
@@ -353,91 +346,81 @@ public class HelperInformation extends JFrame implements ActionListener{
 							"", JOptionPane.INFORMATION_MESSAGE);
 				}
 				
+				
 			}
 			else if (CLOSE.equals(cmd)){
 				this.dispose();
+				//chooser.setSelectedItem(0);
 			}
 			else if (NEWHELPER.equals(cmd)){
 				newHelper();
-				chooser.setSelectedItem(user.getHelpers().size());
+				//chooser.setSelectedItem(user.getHelpers().size());
 			}
 			else if (REMOVE.equals(cmd)){
 				removeHelper();
 			}
 			else{
-				JComboBox cb = (JComboBox) e.getSource();
-				String helperFirstnameLastName = (String)cb.getSelectedItem();
-				updateView(helperFirstnameLastName);	//Denne må legges til igjen
+				//currentlySelectedIndex = chooser.getSelectedIndex();
+				JComboBox<Helper> cb = (JComboBox<Helper>) e.getSource();
+				Helper focusedHelper = (Helper)cb.getSelectedItem();
+				currentHelper = focusedHelper;
+				updateView();	//Denne må legges til igjen
+				
 			}
 			
 		}
 		
-		//--Finished--//
 		private void removeHelper(){
 			if(!(user.getHelpers().size()==1)){
-				user.getHelpers().remove(currentHelper);
-				ArrayList<String> helperArrayList = new ArrayList<String>();
-				
-				for(Helper h: user.getHelpers()){
-					helperArrayList.add(h.getFirstname()+" "+h.getLastname());
-				}
-				
-				String [] helperArray = new String[user.getHelpers().size()];
-				helperArrayList.toArray(helperArray);
-				this.chooser.setModel(new JComboBox(helperArray).getModel());
-				String helperFirstnameLastName = (String)chooser.getSelectedItem();
-				updateView(helperFirstnameLastName);
-				
+				Helper tempHelper = (Helper) comboBoxModel.getSelectedItem();
+				comboBoxModel.removeElement(tempHelper);
+
+				user.getHelpers().remove(tempHelper);
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "You must have at least one helper registered",
 						"Error", JOptionPane.ERROR_MESSAGE);
 			}
-			
 		}
 		
 		private void newHelper(){
-			Helper newHelper = new Helper(user.getId(),"new","helper","","");
-			List<Helper> helperList =  new ArrayList<Helper>();
-			helperList = user.getHelpers();
-			helperList.add(newHelper);
-			user.setHelpers(helperList);
+			chooser.setEnabled(false);
 			
-			ArrayList<String> helperArrayList = new ArrayList<String>();
-			for(Helper h: user.getHelpers()){
-				helperArrayList.add(h.getFirstname()+" "+h.getLastname());
-			}
+			newHelperListener = true;
+			
+			firstNameField.setText("");
+			lastNameField.setText("");
+			phoneField.setText("");
+			emailField.setText("");
 			
 			
-			String [] helperArray = new String[user.getHelpers().size()];
-			helperArrayList.toArray(helperArray);
-			
-			this.chooser.setModel(new JComboBox(helperArray).getModel());
-			String helperFirstnameLastName = (String)chooser.getSelectedItem();
-			updateView(helperFirstnameLastName);
 			
 			
+			//her skal må feltene fylles og deretter lagres til helper objektet
 		}
 		
-		private void saveHelperInfo(){
-			//user.getHelpers().remove(currentHelper);
-			//Helper newHelper = new Helper(user.getId(),"new","helper","","");
-			String firstName = firstNameField.getText();
-			String lastName = lastNameField.getText();
+		private void saveNewHelper(){
+			
+			String fn = firstNameField.getText();
+			String ln = lastNameField.getText();
 			String phone = phoneField.getText();
 			String email = emailField.getText();
 			
-			currentHelper.setFirstname(firstName);
-			currentHelper.setLastname(lastName);
-			currentHelper.setPhone(phone);
-			currentHelper.setEmail(email);
-			//user.getHelpers().add(newHelper);
-			updateView(firstName+" "+lastName);
+			
+			
+			Helper tempNewHelper = new Helper(user.getId(),fn, ln, phone, email);
+			
+			user.getHelpers().add(tempNewHelper);
+			
+			comboBoxModel.addElement(tempNewHelper);
+			chooser.setModel(comboBoxModel);
+			chooser.setRenderer(new CustomComboBoxRenderer());
+
 		}
 		
 		
 		private boolean saveChanges(){	//date må byttes ut med datetime
-			
+			chooser.setEnabled(true);
 			Farmer tempUser = user;
 
 			if(Main.saveChangesToFarmer(tempUser)){
@@ -448,5 +431,6 @@ public class HelperInformation extends JFrame implements ActionListener{
 			
 			return false;
 		}
-
+		
+	
 }
