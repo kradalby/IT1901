@@ -65,7 +65,7 @@ public class ClientService {
 	 * @param id 	paa sauen
 	 * @return 		en sau og alle dens kordinater
 	 */
-	public static Sheep getSheepById(int id) {
+	public static Sheep getSheepById(String id) {
 		if (connected) {
 			Request request = new Request();
 			request.setCommand(RequestEnum.GetSheepById);
@@ -266,7 +266,7 @@ public class ClientService {
         }
     }
 
- 
+      
     
 }
 

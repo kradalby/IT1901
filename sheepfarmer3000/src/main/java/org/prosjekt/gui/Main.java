@@ -16,6 +16,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.prosjekt.client.ClientService;
 
 import org.prosjekt.helperclasses.Coordinate;
@@ -25,7 +27,10 @@ import org.prosjekt.helperclasses.Sheep;
 public class Main {
 	private static ArrayList<Farmer> farmerList;
 	private static Farmer mainCurrentUser;
-
+        public static DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
+        public static DateTimeFormatter fmtCoord = DateTimeFormat.forPattern("yyyy.MM.dd.kk.mm.ss.SSS");
+         
+            
 	public static void main (String args[]) throws URISyntaxException{
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run(){

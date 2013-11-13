@@ -318,7 +318,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		
 		
 		if(OK.equals(cmd)){
-			if (!saveChanges("04.11.2013")){	//husk at dataTime antagelig må legges til her her
+			if (!saveChanges(birthField.getText())){	//husk at dataTime antagelig må legges til her her
 				JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
 						"", JOptionPane.ERROR_MESSAGE);
 				
@@ -326,7 +326,8 @@ public class RemoveSheep extends JFrame implements ActionListener {
 			else{
 				SheepListFrame.updateData();
 				Main.updateMainUser(user);
-				this.dispose();
+				MainPage.kart.refreshMap();
+                                this.dispose();
 			}
 			
 		}
@@ -353,7 +354,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
                     if(s.equals(currentSheep)){
                         tempSheepList.remove(s);
                         tempUser.setSheeps(tempSheepList);
-                        if(Main.saveChangesToFarmer(tempUser)){
+                        if(ClientService.removeSheep(s)){
                             user = tempUser;
                             return true;
                         }
