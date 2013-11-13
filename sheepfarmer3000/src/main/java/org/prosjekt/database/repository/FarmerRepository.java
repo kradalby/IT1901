@@ -63,6 +63,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                 Coordinate currentCoordinate = new Coordinate(rs.getDouble("latitude"), rs.getDouble("longitude"), new DateTime(d));
                 Sheep sheep = new Sheep(rs.getString("s_id"), new DateTime(rs.getDate("s_birth").getTime()), farmerid, currentCoordinate);
                 sheep.setAlive(rs.getBoolean("s_alive"));
+                addAttacksToSheep(sheep);
                 sheeps.add(sheep);
                 
             }
@@ -106,7 +107,6 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         farmer.setSheeps(getAllSheepWithLastCoordinate(id));
         farmer.setCoordinates(getFarmerArea(id));
         farmer.setHelpers(getHelpers(id));
-        addAttacksToSheeps(farmer.getSheeps());
         return farmer; 
     }
     
@@ -307,8 +307,22 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         return list;
     }
 
-    private void addAttacksToSheeps(List<Sheep> sheeps) {
-        
+    private void addAttacksToSheep(Sheep sheep) {
+        String sql = "select c.dateevent as dateevent, c.latitude as lat, c.longitude as lon from attack a " +
+                    "join sheep s on s.id = a.sheep_id " +
+                    "join coordinate c on c.id = a.coordinate_id "
+                    + "where s.id = ?";
+       try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setString(1, sheep.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                java.sql.Timestamp d = rs.getTimestamp("dateevent");
+                Coordinate attackCoordinate = new Coordinate(rs.getDouble("lat"), rs.getDouble("lon"), new DateTime(d));
+                sheep.getAttacks().add(attackCoordinate);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }
