@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.prosjekt.client.ClientService.updateFarmerArea;
 import org.prosjekt.database.repository.AbstractProperties;
+import org.prosjekt.database.repository.FarmerRepository;
 import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
@@ -32,12 +33,14 @@ public class Admin extends AbstractProperties{
     public static void main(String args[]){
         int farmers = 100;
         int startsequence = 1000;
-        for (int i = startsequence; i<farmers + startsequence; i++){
-//            insertFarmer(i);
-        }
-        insertFarmer(1001);
-        insertFarmer(1002);
-        insertFarmer(1003);
+        
+//        insertFarmer(1001);
+//        insertFarmer(1002);
+//        insertFarmer(1003);
+//        updateFarmerArea(farmerMeldal());
+//        updateFarmerArea(farmerOppdal());
+        Farmer f = new FarmerRepository().getFarmer(1002);
+        addSheep(f, f.getCoordinates(), 1, 500);
         
     }
     
@@ -95,9 +98,9 @@ public class Admin extends AbstractProperties{
     }
        
        
-    public static void addSheep(Farmer farmer, List<Coordinate> area, int antall){
+    public static void addSheep(Farmer farmer, List<Coordinate> area, int start, int ant){
         RandomSheepGenerator rsg = new RandomSheepGenerator(area, farmer);
-        ArrayList<Sheep> sheeps = rsg.generateSheep(antall);
+        ArrayList<Sheep> sheeps = rsg.generateSheep(start, ant, "f1_");
         SheepRepository sr = new SheepRepository();
         
         for (Sheep s : sheeps){

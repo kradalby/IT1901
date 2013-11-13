@@ -2,6 +2,7 @@ package org.prosjekt.gui;
 
 
 
+import com.google.common.base.Stopwatch;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.net.URISyntaxException;
@@ -69,7 +70,12 @@ public class Main {
 	}
 	
 	public static Farmer getFarmerById(int id){
-		return ClientService.getFarmer(id);
+                Stopwatch s = new Stopwatch();
+                s.start();
+                Farmer f = ClientService.getFarmer(id);
+                s.stop();
+                System.out.println("Time getFarmer: " + s.elapsedMillis());
+                return f;
 	}
         
         
