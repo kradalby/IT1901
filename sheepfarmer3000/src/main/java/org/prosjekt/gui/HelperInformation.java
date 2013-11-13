@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Sheep;
@@ -124,7 +125,8 @@ public class HelperInformation extends JFrame implements ActionListener{
 		private void fillChooser(){
 			//comboBoxModel.removeAllElements();
 			for(Helper h: user.getHelpers()){
-				comboBoxModel.addElement(h);
+                            System.out.println(h);
+                            comboBoxModel.addElement(h);
 			}
 			chooser.setModel(comboBoxModel);
 			chooser.setRenderer(new CustomComboBoxRenderer());
@@ -329,12 +331,15 @@ public class HelperInformation extends JFrame implements ActionListener{
 			
 			
 			if(SAVE.equals(cmd)){
-				//saveHelperInfo();
 				
 				if(newHelperListener){
 					saveNewHelper();
+                                        chooser.setSelectedIndex(0);
 					newHelperListener = false;
 				}
+                                else{
+                                    saveHelperInfo();
+                                }
 				
 				if (!saveChanges()){	//husk at dataTime antagelig må legges til her her
 					JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
@@ -363,12 +368,31 @@ public class HelperInformation extends JFrame implements ActionListener{
 				//currentlySelectedIndex = chooser.getSelectedIndex();
 				JComboBox<Helper> cb = (JComboBox<Helper>) e.getSource();
 				Helper focusedHelper = (Helper)cb.getSelectedItem();
+                                System.out.println("focused helper: " + focusedHelper);
 				currentHelper = focusedHelper;
 				updateView();	//Denne må legges til igjen
 				
 			}
 			
 		}
+                
+                private void saveHelperInfo(){
+                    for (Helper h : user.getHelpers()){
+                        if (h.getFirstname().equals(currentHelper.getFirstname()) &&
+                                h.getLastname().equals(currentHelper.getLastname())){
+                            
+                            h.setFirstname(firstNameField.getText());
+                            h.setLastname(lastNameField.getText());
+                            h.setEmail(emailField.getText());
+                            h.setPhone(phoneField.getText());
+                            currentHelper = h;
+                            break;
+                        }
+                    }
+                    System.out.println("Current id: " + currentHelper.getId());
+                    ClientService.updateHelper(currentHelper);
+                }
+                
 		
 		private void removeHelper(){
 			if(!(user.getHelpers().size()==1)){
@@ -376,6 +400,7 @@ public class HelperInformation extends JFrame implements ActionListener{
 				comboBoxModel.removeElement(tempHelper);
 
 				user.getHelpers().remove(tempHelper);
+                                ClientService.removeHelper(tempHelper);
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "You must have at least one helper registered",
@@ -409,7 +434,7 @@ public class HelperInformation extends JFrame implements ActionListener{
 			
 			
 			Helper tempNewHelper = new Helper(user.getId(),fn, ln, phone, email);
-			
+			ClientService.addHelper(tempNewHelper);
 			user.getHelpers().add(tempNewHelper);
 			
 			comboBoxModel.addElement(tempNewHelper);
@@ -421,10 +446,12 @@ public class HelperInformation extends JFrame implements ActionListener{
 		
 		private boolean saveChanges(){	//date må byttes ut med datetime
 			chooser.setEnabled(true);
-			Farmer tempUser = user;
-
+			
+                        Farmer tempUser = user;
+                        
 			if(Main.saveChangesToFarmer(tempUser)){
 				user = tempUser;
+                                
 				return true;
 			}
 

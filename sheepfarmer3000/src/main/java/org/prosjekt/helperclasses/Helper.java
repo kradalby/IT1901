@@ -4,13 +4,14 @@
  */
 package org.prosjekt.helperclasses;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class Helper {
+public class Helper implements Serializable{
     private String id;
     private int farmerid;
     private String firstname;
@@ -20,6 +21,15 @@ public class Helper {
 
     public Helper(int farmerid, String firstname, String lastname, String phone, String email) {
         id = UUID.randomUUID().toString();
+        this.farmerid = farmerid;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.email = email;
+    }
+    
+    public Helper(String id, int farmerid, String firstname, String lastname, String phone, String email) {
+        this.id = id;
         this.farmerid = farmerid;
         this.firstname = firstname;
         this.lastname = lastname;

@@ -106,6 +106,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         farmer.setSheeps(getAllSheepWithLastCoordinate(id));
         farmer.setCoordinates(getFarmerArea(id));
         farmer.setHelpers(getHelpers(id));
+        addAttacksToSheeps(farmer.getSheeps());
         return farmer; 
     }
     
@@ -208,6 +209,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     
     @Override
     public void updateHelper(Helper helper) {
+        System.out.println("\n\nhelper: " + helper);
         String sql = "update users set firstname=?, lastname=?, email=?, phone=? from helper where helper.id = ? and helper.users_id = users.id";
         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             preparedStatement.setString(1, helper.getFirstname());
@@ -297,12 +299,18 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
             ps.setInt(1, farmerid);
             ResultSet rs = ps.executeQuery();
              while (rs.next()) {
-                list.add(new Helper(farmerid, rs.getString("fn"), rs.getString("ln"), rs.getString("phone"), rs.getString("email")));
+                list.add(new Helper(rs.getString("hid"), farmerid, rs.getString("fn"), rs.getString("ln"), rs.getString("phone"), rs.getString("email")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    private void addAttacksToSheeps(List<Sheep> sheeps) {
+        
+        
+        
     }
     
 

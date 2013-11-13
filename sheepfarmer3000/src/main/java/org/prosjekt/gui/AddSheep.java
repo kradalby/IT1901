@@ -262,7 +262,7 @@ public class AddSheep extends JFrame implements ActionListener{
 		String cmd = e.getActionCommand();
 		
 		if(OK.equals(cmd)){
-			if (!saveChanges("04.11.2013")){	//husk at dataTime antagelig m� legges til her her
+			if (!saveChanges(birthField.getText())){	//husk at dataTime antagelig m� legges til her her
                             
 				JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
 						"", JOptionPane.ERROR_MESSAGE);
@@ -282,6 +282,9 @@ public class AddSheep extends JFrame implements ActionListener{
 	}
 	
 	private boolean saveChanges(String date){	//date må byttes ut med datetime
+               DateTime dt = Main.fmt.parseDateTime(date);
+               
+               
 		if (testIfValidId()){
 			Coordinate c = null;
 			try{
@@ -292,14 +295,14 @@ public class AddSheep extends JFrame implements ActionListener{
 				return false;
 			}
 			
-			Sheep newSheep = new Sheep(idField.getText(),null,user.getId(), c);
+			Sheep newSheep = new Sheep(idField.getText(),dt,user.getId(), c);
 			List<Sheep> newSheeps = user.getSheeps();
 			newSheeps.add(newSheep);
 			
 			Farmer tempFarmer = user;
 			tempFarmer.setSheeps(newSheeps);
 			
-			if(Main.saveChangesToFarmer(tempFarmer)){
+			if(ClientService.addSheep(newSheep)){
 				user = tempFarmer;
 				return true;
 			}

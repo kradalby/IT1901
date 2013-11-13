@@ -41,7 +41,7 @@ public class CoordinateTableModel extends AbstractTableModel {
 			return currentCoordinate.getLon();
 		}
 		else if (column == 2){
-			return "implementer datetime";
+			return Main.fmtCoord.print(currentCoordinate.getDate());
 		}
 		return null;
 	}
