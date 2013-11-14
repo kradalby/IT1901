@@ -4,6 +4,7 @@
  */
 package org.prosjekt.database.repository;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.sql.DriverManager;
@@ -103,10 +104,18 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     
     @Override
     public Farmer getFarmer(int id){
+        Stopwatch s1 = new Stopwatch();
+        s1.start();
         Farmer farmer = getFarmerPlain(id);
+        Stopwatch s2 = new Stopwatch();
+        s2.start();
         farmer.setSheeps(getAllSheepWithLastCoordinate(id));
+        s1.stop();
         farmer.setCoordinates(getFarmerArea(id));
         farmer.setHelpers(getHelpers(id));
+        s2.stop();
+        System.out.println(id +  " Time1: " + s1.elapsedMillis());
+        System.out.println(id + " Time2: " + s2.elapsedMillis());
         return farmer; 
     }
     
