@@ -57,7 +57,7 @@ public class AttackTableModel extends AbstractTableModel {
 			return currentCoordinate.getLon();
 		}
 		else if (column == 3){
-			return "implementer datetime";
+			return Main.fmtCoord.print(currentCoordinate.getDate());
 		}
 		return null;
 	}

@@ -46,10 +46,11 @@ public class ClientService {
 //		
 //		Sms sms = new Sms("4745673429", "Dette er en sauetest!");
 //		sms.sendSMS();
-
+//
         public static String getPathToResources(String file){
+            file = "classes/" +file;
             return file;
-//             URL resourceUrl = ClientService.class.getResource("/"+ file);
+//             URL resourceUrl = ClientService.class.getResource( file);
 //             return resourceUrl.getPath();
         }
         
