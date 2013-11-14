@@ -55,7 +55,7 @@ public class ClientService {
         }
         
         public static String pathToBackGround(){
-            return "bakgrunn 450x450.jpg";
+            return "classes/bakgrunn 450x450.jpg";
 //            return getPathToResources("bakgrunn 450x450.jpg");
         }
 	
