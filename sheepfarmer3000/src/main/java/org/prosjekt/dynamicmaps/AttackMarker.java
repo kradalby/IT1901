@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.prosjekt.dynamicmaps;
 
 import java.io.File;
@@ -12,11 +8,19 @@ import org.prosjekt.helperclasses.Coordinate;
 
 
 /**
- *
+ * This class is used to represent attacks on the map.
+ * They are represented with a red crossmark.
+ * 
  * @author Alfredo
  */
 public class AttackMarker extends CustomMapMarker{
     
+    /**
+     * Returns a new AttackMarker instance.
+     * 
+     * @param coord
+     * @param id
+     */
     public AttackMarker(Coordinate coord, String id){
         super();
          fileLocation = ClientService.getPathToResources("crossmark.png");

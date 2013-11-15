@@ -17,8 +17,9 @@ public class CustomMapController extends DefaultMapController{
     private int PopoupMouseButton = MouseEvent.BUTTON3;
     
     /**
-     * Class constructor, changes the default button used
+     * Changes the default button used
      * to move the map to MouseEvent.BUTTON1(left mouse button)
+     * and returns a new CustomMapController instance.
      * 
      * @param map
      */
@@ -29,10 +30,11 @@ public class CustomMapController extends DefaultMapController{
     }
     
     /**
-     * This method handles clicks with the current
+     * Handles clicks with the current
      * PopupMouseButton(right mouse button). If a sheep is
-     * clicked on, then a popup with its ID is requested
-     * from the parentMap. If not, a popup with no ID is requested.
+     * clicked on, then a popup with the marker representing
+     * the sheep is requested. If not then a general popup
+     * is requested
      * 
      * @param e 
      */
@@ -75,14 +77,17 @@ public class CustomMapController extends DefaultMapController{
   
     
     /**
+     * Changes the popup button.
      *
      * @param newButton
      */
     public void setPopoupMouseButton(int newButton){
         this.PopoupMouseButton = newButton;
+        return;
     }
     
     /**
+     * Returns the popup button.
      *
      * @return
      */
