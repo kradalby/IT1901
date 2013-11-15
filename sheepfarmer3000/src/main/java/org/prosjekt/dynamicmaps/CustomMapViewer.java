@@ -108,7 +108,8 @@ public class CustomMapViewer extends JMapViewer{
         MapPolygonImpl pol = new MapPolygonImpl(coords);
         pol.setColor(Color.red);
         addMapPolygon(pol);
-        addAttack(sheep);        
+        addAttack(sheep);     
+        addSheep(sheep);
     }
     
     /**
@@ -200,7 +201,7 @@ public class CustomMapViewer extends JMapViewer{
      * @param value
      */
     public void showAllSheep(boolean value){
-        this.showAllSheeps = true;
+        this.showAllSheeps = value;
     }
     
     /**
