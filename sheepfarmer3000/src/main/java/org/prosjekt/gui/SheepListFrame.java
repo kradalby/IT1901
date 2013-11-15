@@ -73,6 +73,7 @@ public class SheepListFrame extends JFrame implements ActionListener{
 	}
 	
 	public static void updateData(){
+//            if(openedFrom)
 		sheepTable.updateUI();
 	}
 	

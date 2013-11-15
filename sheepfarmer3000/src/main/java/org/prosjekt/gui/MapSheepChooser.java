@@ -111,7 +111,13 @@ public class MapSheepChooser extends JFrame implements ActionListener {
 		if (cmd.equals(OK)){
                     if (currentSheep == null)
                         return;
+                    Sheep s = this.getCurrentSheep();
+                    Sheep swithcoords = ClientService.getSheepById(s.getId());
+                    MainPage.kart.showSheepPath(swithcoords);
+                    MainPage.kart.showAllAttacks(false);
+                    MainPage.kart.showAllSheep(false);
                     
+                    MainPage.kart.refreshMap();
                     this.dispose();
 		}
 		else if (cmd.equals(CANCEL)){

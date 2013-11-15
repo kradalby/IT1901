@@ -127,7 +127,7 @@ public class SheepLogFrame extends JFrame implements ActionListener{
 		
 		for (Sheep s: sheepList){
 			if (s.getId().equals(sheepId)){
-				currentSheep = s;
+				currentSheep = ClientService.getSheepById(s.getId());
 				break;
 			}
 		}
@@ -140,7 +140,7 @@ public class SheepLogFrame extends JFrame implements ActionListener{
 		
 		for (Sheep s: sheepList){
 			if (s.getId().equals(sheepId)){
-				currentSheep = s;
+				currentSheep = ClientService.getSheepById(s.getId());
 				break;
 			}
 		}

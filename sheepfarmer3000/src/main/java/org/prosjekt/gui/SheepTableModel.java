@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+import org.joda.time.format.DateTimeFormatter;
 import org.prosjekt.helperclasses.Sheep;
 
 public class SheepTableModel extends AbstractTableModel{
@@ -40,7 +41,8 @@ public class SheepTableModel extends AbstractTableModel{
 			return currentSheep.getId();
 		}
 		else if (column == 1){
-			return currentSheep.getBirth();
+                         String str = Main.fmt.print(currentSheep.getBirth());
+			return str;
 		}
 		else if (column == 2){
 			return currentSheep.getCurrentCordinate().getLon();

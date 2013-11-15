@@ -4,6 +4,7 @@
  */
 package org.prosjekt.database.repository;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.sql.DriverManager;
@@ -63,6 +64,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                 Coordinate currentCoordinate = new Coordinate(rs.getDouble("latitude"), rs.getDouble("longitude"), new DateTime(d));
                 Sheep sheep = new Sheep(rs.getString("s_id"), new DateTime(rs.getDate("s_birth").getTime()), farmerid, currentCoordinate);
                 sheep.setAlive(rs.getBoolean("s_alive"));
+                addAttacksToSheep(sheep);
                 sheeps.add(sheep);
                 
             }
@@ -102,10 +104,18 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     
     @Override
     public Farmer getFarmer(int id){
+        Stopwatch s1 = new Stopwatch();
+        s1.start();
         Farmer farmer = getFarmerPlain(id);
+        Stopwatch s2 = new Stopwatch();
+        s2.start();
         farmer.setSheeps(getAllSheepWithLastCoordinate(id));
+        s1.stop();
         farmer.setCoordinates(getFarmerArea(id));
         farmer.setHelpers(getHelpers(id));
+        s2.stop();
+        System.out.println(id +  " Time1: " + s1.elapsedMillis());
+        System.out.println(id + " Time2: " + s2.elapsedMillis());
         return farmer; 
     }
     
@@ -208,6 +218,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     
     @Override
     public void updateHelper(Helper helper) {
+        System.out.println("\n\nhelper: " + helper);
         String sql = "update users set firstname=?, lastname=?, email=?, phone=? from helper where helper.id = ? and helper.users_id = users.id";
         try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             preparedStatement.setString(1, helper.getFirstname());
@@ -297,12 +308,32 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
             ps.setInt(1, farmerid);
             ResultSet rs = ps.executeQuery();
              while (rs.next()) {
-                list.add(new Helper(farmerid, rs.getString("fn"), rs.getString("ln"), rs.getString("phone"), rs.getString("email")));
+                list.add(new Helper(rs.getString("hid"), farmerid, rs.getString("fn"), rs.getString("ln"), rs.getString("phone"), rs.getString("email")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    private void addAttacksToSheep(Sheep sheep) {
+        String sql = "select c.dateevent as dateevent, c.latitude as lat, c.longitude as lon from attack a " +
+                    "join sheep s on s.id = a.sheep_id " +
+                    "join coordinate c on c.id = a.coordinate_id "
+                    + "where s.id = ?";
+       try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setString(1, sheep.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                java.sql.Timestamp d = rs.getTimestamp("dateevent");
+                Coordinate attackCoordinate = new Coordinate(rs.getDouble("lat"), rs.getDouble("lon"), new DateTime(d));
+                sheep.getAttacks().add(attackCoordinate);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
     
 

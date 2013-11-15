@@ -22,8 +22,10 @@ public class Simulator extends Thread {
 	
 	private boolean running;
 	LogicService ls = new LogicRepository();
-	private int timeBetweenMoves = 600000; //10 min
-	private int timeBetweenAttacks = 172800000; // 48 timer
+//	private int timeBetweenMoves = 600000; //10 min
+//	private int timeBetweenAttacks = 172800000; // 48 timer
+	private int timeBetweenMoves = 60000; //1 min
+	private int timeBetweenAttacks = 120000; // 2 min
 	
 	public void run() {
 		running = true;

@@ -30,11 +30,11 @@ public class RandomSheepGenerator {
         generator = new Random(date.getTime());
     }
     
-    public ArrayList<Sheep> generateSheep(int amount){
+    public ArrayList<Sheep> generateSheep(int start, int amount, String id){
         ArrayList<Sheep> result = new ArrayList<>();
         ArrayList<Coordinate> randomCoords = generateCoords(amount);
-        for (int i = 0; i < amount; i++){
-            Sheep currentSheep = new Sheep(UUID.randomUUID().toString(), DateTime.now(), farmer.getId(), randomCoords.get(i));
+        for (int i = start; i < amount; i++){
+            Sheep currentSheep = new Sheep(id + i, DateTime.now(), farmer.getId(), randomCoords.get(i-start));
             currentSheep.setAttacks(generateCoords(generator.nextInt(2)));
             result.add(currentSheep);
         }

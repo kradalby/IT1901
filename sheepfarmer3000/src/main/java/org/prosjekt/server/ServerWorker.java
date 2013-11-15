@@ -79,6 +79,7 @@ public class ServerWorker {
                         case GetFarmerIds:
                             getFarmerIds(response, request);
                             break;
+                      
 			default:
 				response.addItem("error", "Unknown request");
 				break;
@@ -148,7 +149,9 @@ public class ServerWorker {
 	public static void getUser(Response response, Request request) {
 		FarmerService fs = new FarmerRepository();
 		int id = (int) request.getItem("farmerid");
-		response.setFarmer(fs.getFarmer(id));
+                Farmer f = fs.getFarmer(id);
+                System.out.println("\n\n" + f);
+		response.setFarmer(f);
 	}
 	
 	/**
@@ -213,6 +216,7 @@ public class ServerWorker {
     public static void updateHelper(Response response, Request request) {
         FarmerService fs = new FarmerRepository();
         Helper helper = (Helper) request.getItem("helper");
+        System.out.println("server: " + helper);
         fs.updateHelper(helper);
         response.addItem("success", "success");
     }
@@ -230,4 +234,6 @@ public class ServerWorker {
         fs.removeHelper(helper);
         response.addItem("success", "success");
     }
+
+    
 }

@@ -13,9 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.prosjekt.client.ClientService.updateFarmerArea;
 import org.prosjekt.database.repository.AbstractProperties;
+import org.prosjekt.database.repository.FarmerRepository;
 import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Sheep;
 import org.prosjekt.logic.RandomSheepGenerator;
 
@@ -30,14 +32,25 @@ public class Admin extends AbstractProperties{
      */
     
     public static void main(String args[]){
+        FarmerRepository fr = new FarmerRepository();
+        
         int farmers = 100;
         int startsequence = 1000;
-        for (int i = startsequence; i<farmers + startsequence; i++){
-//            insertFarmer(i);
-        }
-        insertFarmer(1001);
-        insertFarmer(1002);
-        insertFarmer(1003);
+        
+//        insertFarmer(1001);
+//        insertFarmer(1002);
+//        insertFarmer(1003);
+         Farmer f = fr.getFarmer(1003);
+//        new FarmerRepository().addHelper(new Helper(1001, "", "", "", ""));
+//        new FarmerRepository().addHelper(new Helper(1002, "", "", "", ""));
+//        new FarmerRepository().addHelper(new Helper(1003, "", "", "", ""));
+//        updateFarmerArea(farmerMeldal());
+        updateFarmerArea(farmerOppdal());
+        addSheep(f, f.getCoordinates(), 1, 10);
+        
+//         String id = "9640a2fb-7796-43c0-899e-b366a6663ba7";
+//         fr.removeHelper(new Helper(id, 1003, null,null,null,null));
+        
         
     }
     
@@ -58,10 +71,14 @@ public class Admin extends AbstractProperties{
         } catch (SQLException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        Farmer f = new FarmerRepository().getFarmer(id);
+        f.getHelpers().add(new Helper(id, "", "", "", ""));
+
     }
     
     public static Farmer farmerOppdal() {
-        int id = 1001;
+        int id = 1003;
         Farmer farmer = new Farmer(id);
         //OPPDAL
         List<Coordinate> farmerArea = Lists.newArrayList();
@@ -95,9 +112,9 @@ public class Admin extends AbstractProperties{
     }
        
        
-    public static void addSheep(Farmer farmer, List<Coordinate> area, int antall){
+    public static void addSheep(Farmer farmer, List<Coordinate> area, int start, int ant){
         RandomSheepGenerator rsg = new RandomSheepGenerator(area, farmer);
-        ArrayList<Sheep> sheeps = rsg.generateSheep(antall);
+        ArrayList<Sheep> sheeps = rsg.generateSheep(start, ant, "f3_");
         SheepRepository sr = new SheepRepository();
         
         for (Sheep s : sheeps){

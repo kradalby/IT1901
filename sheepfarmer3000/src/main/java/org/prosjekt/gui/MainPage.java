@@ -12,6 +12,7 @@ import javax.swing.JSeparator;
 import org.prosjekt.client.ClientService;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.helperclasses.Sheep;
 
 public class MainPage extends JFrame implements ActionListener{
 	private String backgroundImage = "innlogging1.jpg";
@@ -69,7 +70,9 @@ public class MainPage extends JFrame implements ActionListener{
 		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener(this);
 		quit.setActionCommand("quit");
-			
+		file.add(refresh);
+                file.add(new JSeparator());
+                
 		file.add(logOut);
 		file.add(new JSeparator());
 		file.add(quit);
@@ -179,11 +182,6 @@ public class MainPage extends JFrame implements ActionListener{
 	
 	//Creates the settings menu
 
-	
-
-
-	
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -226,10 +224,12 @@ public class MainPage extends JFrame implements ActionListener{
 		}
 		else if (command == "singleSheep"){
 			MapSheepChooser msc = new MapSheepChooser(Main.getCurrentUser());
-                        MainPage.kart.showSheepPath(msc.getCurrentSheep());
-                        MainPage.kart.showAllAttacks(false);
-                        MainPage.kart.showAllSheep(true);
-                        MainPage.kart.refreshMap();
+//                        Sheep s = msc.getCurrentSheep();
+//                        Sheep swithcoords = ClientService.getSheepById(s.getId());
+//                        MainPage.kart.showSheepPath(swithcoords);
+//                        MainPage.kart.showAllAttacks(false);
+//                        MainPage.kart.showAllSheep(true);
+//                        MainPage.kart.refreshMap();
 		}
 		else if (command == "viewAttacks"){
 			MainPage.kart.showAllAttacks(true);
