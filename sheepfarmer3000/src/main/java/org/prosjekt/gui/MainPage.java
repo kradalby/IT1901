@@ -9,13 +9,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
-import org.prosjekt.client.ClientService;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
 import org.prosjekt.helperclasses.Farmer;
-import org.prosjekt.helperclasses.Sheep;
 
 public class MainPage extends JFrame implements ActionListener{
-	private String backgroundImage = "innlogging1.jpg";
+	private String backgroundImage = "images/innlogging1.jpg";
 	private JMenuBar menuBar;
         public static CustomMapViewer kart;
 	//private static Map map;
@@ -24,7 +22,7 @@ public class MainPage extends JFrame implements ActionListener{
 	
 	public MainPage(){		
 		super("Sheep Farmer 3000");
-		setContentPane(new BackgroundPanel(ClientService.getPathToResources(backgroundImage)));
+		setContentPane(new BackgroundPanel(backgroundImage));
                 setLayout(new BorderLayout());
                 
 		createMain();

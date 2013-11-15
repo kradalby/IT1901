@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -14,7 +15,8 @@ public class BackgroundPanel extends JPanel{
 	
 	public BackgroundPanel(String fileAdress){
 		try{
-			img = ImageIO.read(new File(fileAdress));
+                    final URL url = Thread.currentThread().getContextClassLoader().getResource(fileAdress);
+			img = ImageIO.read(url);
 		}
 		catch(IOException e){
 			e.printStackTrace();

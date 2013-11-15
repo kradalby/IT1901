@@ -2,6 +2,7 @@ package org.prosjekt.dynamicmaps;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Sheep;
@@ -26,9 +27,9 @@ public class SheepMarker extends CustomMapMarker{
      */
     public SheepMarker(Sheep sheep) {
         super();
-        fileLocation = ClientService.getPathToResources("sheep.png");
+         final URL url = Thread.currentThread().getContextClassLoader().getResource("images/sheep.png");
         try{
-            img = ImageIO.read(new File(fileLocation));
+            img = ImageIO.read(url);
         }
         catch(IOException e){
             img = null;
