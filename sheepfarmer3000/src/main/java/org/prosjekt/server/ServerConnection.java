@@ -20,9 +20,9 @@ public class ServerConnection extends Thread{
 	public void run() {
 		running = true;
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
 			int sessionId = 0;
 			while(running) {
+                                ServerSocket serverSocket = new ServerSocket(port);
 				Socket socket;
 				socket = (Socket) serverSocket.accept();
 				
@@ -31,9 +31,9 @@ public class ServerConnection extends Thread{
 				ServerSession serverSession;
 				serverSession = new ServerSession(socket, sessionId);
 				serverSession.start();
+                            serverSocket.close();
 			} 
 			
-			serverSocket.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

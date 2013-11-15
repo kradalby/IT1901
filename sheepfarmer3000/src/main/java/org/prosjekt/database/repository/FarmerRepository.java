@@ -48,18 +48,20 @@ public class FarmerRepository implements FarmerService {
         String sql = "select s.id as s_id, s.birth as s_birth, s.alive as s_alive "
                 + ", s.lastcoordinateid as lastcoordinate "
                 +",c.latitude as latitude, c.longitude as longitude, c.dateevent as dateevent "
-                + "from sheepcoordinate sc "
+                + "from sheep s "
+                +"join sheepcoordinate sc on sc.id = s.lastcoordinateid "
                 +"join coordinate c on c.id = sc.coordinate_id "
-                +"join sheep s on s.id = sc.sheep_id "
-                +"join farmer f on f.id = s.farmerid "
-                +"join users u on u.id = f.users_id "
-                +"where s.lastcoordinateid = sc.id and f.id=?"
+//                +"join farmer f on f.id = s.farmerid "
+//                +"join users u on u.id = f.users_id "
+                +"where s.lastcoordinateid = sc.id and s.farmerid=?"
                 ;
+        ResultSet rs = null;
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
-            ps.setFetchSize(500);
+            ps.setFetchSize(100);
             ps.setInt(1, farmerid);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()){
+                
                 
                 java.sql.Timestamp d = rs.getTimestamp("dateevent");
                 Coordinate currentCoordinate = new Coordinate(rs.getDouble("latitude"), rs.getDouble("longitude"), new DateTime(d));
@@ -68,6 +70,7 @@ public class FarmerRepository implements FarmerService {
                 sheeps.add(sheep);
                 
             }
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }

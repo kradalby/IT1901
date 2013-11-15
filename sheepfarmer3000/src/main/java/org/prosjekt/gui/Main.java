@@ -69,7 +69,7 @@ public class Main {
                 s.start();
                 Farmer f = ClientService.getFarmer(id);
                 s.stop();
-                System.out.println("Time getFarmer: " + s.elapsedMillis());
+                System.out.println("Time getFarmer: "+ f.getId()+ "\t" + s.elapsedMillis());
                 return f;
 	}
         

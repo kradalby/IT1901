@@ -29,35 +29,47 @@ import org.prosjekt.logic.WolfLogic;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Admin extends AbstractProperties{
-     
+     //1005 = 50k
+     //1004 = 1k
+     //1003 = 10k
     
     public static void main(String args[]){
         FarmerRepository fr = new FarmerRepository();
         
-        
         int farmerid = 1005;
+//        updateFarmerCoordinates(farmerid);
+//        System.exit(0);
+        Farmer f = fr.getFarmer(farmerid);
+//        Farmer f = ClientService.getFarmer(farmerid);
+        System.exit(0);
         
-//        Farmer f = fr.getFarmer(farmerid);
         
-        SheepLogic.moveSheeps();
-//        fr.getAllSheepWithLastCoordinate(1005);
-        
-/*        Sheep s = ClientService.getSheepById("1005_sheep1");
-        for (int i=0; i < 5; i++){
-            WolfLogic.wolfAttack(s);
-            sleep();
-        }
-*/ 
- 
-        
-        /*
-        updateFarmerArea(farmerOppdal(farmerid));
-        ClientService.updateFarmerArea(f);
-        addSheep(f, f.getCoordinates(), 1, 10000, farmerid);
+        addSheep(f, f.getCoordinates(), 0, 10001, farmerid);
         for (Sheep s : f.getSheeps()){
             ClientService.addSheep(s);
         }
-        */
+        
+        
+//        SheepLogic.moveSheeps();
+//        fr.getAllSheepWithLastCoordinate(1005);
+        
+///*
+        Sheep s = ClientService.getSheepById("1005_sheep1");
+        for (int i=0; i < 5; i++){
+//            WolfLogic.wolfAttack(s);
+//            sleep();
+        }
+//*/ 
+ 
+        
+        
+    }
+    
+    private static void updateFarmerCoordinates(int farmerid){
+        Farmer f = farmerOppdal(farmerid);
+        System.out.println(f.getCoordinates());
+        ClientService.updateFarmerArea(f);
+        
         
     }
 
