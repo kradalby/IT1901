@@ -1,15 +1,11 @@
 package org.prosjekt.logic;
 
 import com.google.common.base.Stopwatch;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.SSLContext;
-import org.joda.time.DateTime;
 
 import org.prosjekt.database.LogicService;
 import org.prosjekt.database.repository.LogicRepository;
-import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;

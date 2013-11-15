@@ -3,8 +3,6 @@ package org.prosjekt.helperclasses;
 import java.util.ArrayList;
 import org.prosjekt.database.FarmerService;
 import org.prosjekt.database.repository.FarmerRepository;
-import org.prosjekt.staticmaps.Map;
-import org.prosjekt.staticmaps.Point;
 
 /**
  * Denne klassen haandterer alle alerts som skal sendes ut.
