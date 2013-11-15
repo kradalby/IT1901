@@ -5,10 +5,12 @@
 package org.prosjekt.database.repository;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -170,6 +172,62 @@ public class LogicRepository implements LogicService{
             farmers.add(fr.getFarmer(i));
         }
         return farmers;
+    }
+
+    /**
+     *  Batch update of new coordinate
+     * @param sheeps 
+     */
+    @Override
+    public void addSheepMovements(List<Sheep> sheeps) {
+        Map<String, UUID> coordids = Maps.newHashMap();
+        for (Sheep s: sheeps){
+            coordids.put(s.getId(), UUID.randomUUID());
+        }
+        
+        String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            for (Sheep s : sheeps){
+                ps.setString(1, coordids.get(s.getId()).toString());
+                ps.setDouble(2, s.getCurrentCordinate().getLat());
+                ps.setDouble(3, s.getCurrentCordinate().getLon());
+                ps.setTimestamp(4, new java.sql.Timestamp(s.getCurrentCordinate().getDate().getMillis()));
+                ps.executeUpdate();
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //INSERT NEW SHEEP COORDINATES
+        String insertSheepCoordinate = "insert into sheepcoordinate (id, coordinate_id, sheep_id) values (?,?,?)";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(insertSheepCoordinate);) {
+            for (Sheep s : sheeps){
+                String cid = coordids.get(s.getId()).toString();
+                ps.setString(1, cid);
+                ps.setString(2, cid);
+                ps.setString(3, s.getId());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException ex) {
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //UPDATE LASTEST COORDINATE IN SHEEP
+         String updateSheepLastCoordinate = "update sheep set lastcoordinateid=? where id=?";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(updateSheepLastCoordinate);) {
+            for (Sheep s : sheeps){
+                String cid = coordids.get(s.getId()).toString();
+                ps.setString(1, cid);
+                ps.setString(2, s.getId());
+                ps.executeUpdate();
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException ex) {
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
+  
     }
     
     

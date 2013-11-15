@@ -10,6 +10,8 @@ import com.google.common.collect.Maps;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +56,7 @@ public class FarmerRepository implements FarmerService {
                 +"where s.lastcoordinateid = sc.id and f.id=?"
                 ;
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
+            ps.setFetchSize(500);
             ps.setInt(1, farmerid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -62,7 +65,6 @@ public class FarmerRepository implements FarmerService {
                 Coordinate currentCoordinate = new Coordinate(rs.getDouble("latitude"), rs.getDouble("longitude"), new DateTime(d));
                 Sheep sheep = new Sheep(rs.getString("s_id"), new DateTime(rs.getDate("s_birth").getTime()), farmerid, currentCoordinate);
                 sheep.setAlive(rs.getBoolean("s_alive"));
-                addAttacksToSheep(sheep);
                 sheeps.add(sheep);
                 
             }
@@ -94,8 +96,6 @@ public class FarmerRepository implements FarmerService {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        farmer.setSheeps(getAllSheepWithLastCoordinate(id));
-        farmer.setCoordinates(getFarmerArea(id));
         return farmer;
     }
     
@@ -113,9 +113,10 @@ public class FarmerRepository implements FarmerService {
         Stopwatch s2 = new Stopwatch();
         s2.start();
         farmer.setSheeps(getAllSheepWithLastCoordinate(id));
-        s1.stop();
         farmer.setCoordinates(getFarmerArea(id));
         farmer.setHelpers(getHelpers(id));
+        addAttacksToSheep(farmer.getSheeps(), farmer.getId());
+        s1.stop();
         s2.stop();
         System.out.println(id +  " Time1: " + s1.elapsedMillis());
         System.out.println(id + " Time2: " + s2.elapsedMillis());
@@ -361,24 +362,33 @@ public class FarmerRepository implements FarmerService {
      * Legger til alle angrep en sau har for en sau.  
      * @param sheep 
      */
-    private void addAttacksToSheep(Sheep sheep) {
-        String sql = "select c.dateevent as dateevent, c.latitude as lat, c.longitude as lon from attack a " +
+    private void addAttacksToSheep(List<Sheep> sheeps, int farmerid) {
+        Map<String, List<Coordinate>> attacks = Maps.newHashMap();
+        
+        String sql = "select s.id as sid, c.dateevent as dateevent, c.latitude as lat, c.longitude as lon from attack a " +
                     "join sheep s on s.id = a.sheep_id " +
                     "join coordinate c on c.id = a.coordinate_id "
-                    + "where s.id = ?";
+                    + "where s.farmerid = ?";
        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
-            ps.setString(1, sheep.getId());
+            ps.setInt(1, farmerid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 java.sql.Timestamp d = rs.getTimestamp("dateevent");
                 Coordinate attackCoordinate = new Coordinate(rs.getDouble("lat"), rs.getDouble("lon"), new DateTime(d));
-                sheep.getAttacks().add(attackCoordinate);
+                String sheepid = rs.getString("sid");
+                if (attacks.get(sheepid) == null) attacks.put(sheepid, new ArrayList<Coordinate>(Arrays.asList(attackCoordinate)));
+                else {
+                    attacks.get(sheepid).add(attackCoordinate);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+        //kan refaktoriseres ut og optimaliseres
+       for (Sheep s : sheeps){
+           if (attacks.get(s.getId()) != null) s.setAttacks(attacks.get(s.getId()));
+       }
+       
     }
     
 

@@ -39,6 +39,7 @@ public class ClientService {
 	public static void main(String[] args) {
 //            updateFarmerArea(Admin.farmerOppdal());
 //            updateFarmerArea(Admin.farmerMeldal());
+//            getFarmer(1005);
 	}
             
 //		Mail mail = new Mail("kradalby@kradalby.no", "test", "dette er en test lol");

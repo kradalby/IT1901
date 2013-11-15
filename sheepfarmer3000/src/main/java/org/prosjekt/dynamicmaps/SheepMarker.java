@@ -1,5 +1,6 @@
 package org.prosjekt.dynamicmaps;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -25,15 +26,10 @@ public class SheepMarker extends CustomMapMarker{
      * 
      * @param sheep
      */
-    public SheepMarker(Sheep sheep) {
+    public SheepMarker(Sheep sheep, Image sheepimg) {
         super();
-         final URL url = Thread.currentThread().getContextClassLoader().getResource("images/sheep.png");
-        try{
-            img = ImageIO.read(url);
-        }
-        catch(IOException e){
-            img = null;
-        }
+        img = sheepimg;
+        
         this.lon = sheep.getCurrentCordinate().getLon();
         this.lat = sheep.getCurrentCordinate().getLat();
         this.id = sheep.getId();

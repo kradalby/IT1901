@@ -21,6 +21,8 @@ import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Sheep;
 import org.prosjekt.logic.RandomSheepGenerator;
+import org.prosjekt.logic.SheepLogic;
+import org.prosjekt.logic.WolfLogic;
 
 /**
  * Klassen forenkler vedlikehold og generering av databasen. 
@@ -32,15 +34,30 @@ public class Admin extends AbstractProperties{
     public static void main(String args[]){
         FarmerRepository fr = new FarmerRepository();
         
-        int farmerid = 1001;
-         Farmer f = fr.getFarmer(farmerid);
-        updateFarmerArea(farmerOppdal(farmerid));
-        addSheep(f, f.getCoordinates(), 1, 10, farmerid);
-        for (Sheep s : f.getSheeps()){
-//            ClientService.addSheep(s);
-        }
-//        ClientService.updateFarmerArea(f);
         
+        int farmerid = 1005;
+        
+//        Farmer f = fr.getFarmer(farmerid);
+        
+        SheepLogic.moveSheeps();
+//        fr.getAllSheepWithLastCoordinate(1005);
+        
+/*        Sheep s = ClientService.getSheepById("1005_sheep1");
+        for (int i=0; i < 5; i++){
+            WolfLogic.wolfAttack(s);
+            sleep();
+        }
+*/ 
+ 
+        
+        /*
+        updateFarmerArea(farmerOppdal(farmerid));
+        ClientService.updateFarmerArea(f);
+        addSheep(f, f.getCoordinates(), 1, 10000, farmerid);
+        for (Sheep s : f.getSheeps()){
+            ClientService.addSheep(s);
+        }
+        */
         
     }
 
