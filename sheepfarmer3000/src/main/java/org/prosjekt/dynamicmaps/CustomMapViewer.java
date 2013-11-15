@@ -2,10 +2,14 @@ package org.prosjekt.dynamicmaps;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.imageio.ImageIO;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
@@ -33,7 +37,8 @@ public class CustomMapViewer extends JMapViewer{
     private Sheep showSheepPath = null;
     private boolean showAllAttacks;
     private boolean showAllSheeps;
-    
+    final URL sheepimageURL;
+    private Image sheepimage = null;
     /**
      * Returns a new CustomMapViewer instance and binds a
      * CustomMapController object to the map. By default
@@ -43,6 +48,13 @@ public class CustomMapViewer extends JMapViewer{
      */
     public CustomMapViewer(Farmer farmer){
         super(new MemoryTileCache(), 8);
+        sheepimageURL = Thread.currentThread().getContextClassLoader().getResource("images/sheep.png");
+        try{
+            sheepimage = ImageIO.read(sheepimageURL);
+        }
+        catch(IOException e){
+            sheepimage = null;
+        }
         customMapMarkerList = new ArrayList<>();
         setSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
         mapController = new CustomMapController(this);
@@ -135,7 +147,7 @@ public class CustomMapViewer extends JMapViewer{
      * @param sheep
      */
     private void addSheep(Sheep sheep){
-        SheepMarker sMarker = new SheepMarker(sheep);
+        SheepMarker sMarker = new SheepMarker(sheep, sheepimage);
         customMapMarkerList.add(sMarker);
         repaint();
     }     

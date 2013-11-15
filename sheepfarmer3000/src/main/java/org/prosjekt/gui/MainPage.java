@@ -1,5 +1,6 @@
 package org.prosjekt.gui;
 
+import com.google.common.base.Stopwatch;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,8 +21,10 @@ public class MainPage extends JFrame implements ActionListener{
 	
 	
 	
-	public MainPage(){		
+	public MainPage(){	
 		super("Sheep Farmer 3000");
+                Stopwatch s1 = new Stopwatch();
+                s1.start();
 		setContentPane(new BackgroundPanel(backgroundImage));
                 setLayout(new BorderLayout());
                 
@@ -32,6 +35,9 @@ public class MainPage extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setVisible(true);
+                
+                s1.stop();
+                System.out.println("Time to create main window: " + s1.elapsedMillis());
 	}
 	
 	//creates top level mainPage items

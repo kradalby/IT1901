@@ -66,8 +66,10 @@ public class Alert {
 		//generate recipients lists.
 		this.getRecipients();
 		if (mail) {
+                        System.out.println(emailRecipient);
+                        System.out.println("----");
 			for (int i = 0; i < emailRecipient.size(); i++) {
-                            if (!emailRecipient.get(i).isEmpty()){   //sender bare mail hvis email er registrert. 
+                            if (emailRecipient.get(i) != null && !emailRecipient.get(i).isEmpty()){   //sender bare mail hvis email er registrert. 
 				Mail mail = new Mail(emailRecipient.get(i), subject, message);
 				mail.sendMail();
                                 System.out.println("mail sendt to " + emailRecipient.get(i));

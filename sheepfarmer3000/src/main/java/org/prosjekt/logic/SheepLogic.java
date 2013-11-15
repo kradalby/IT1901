@@ -32,8 +32,10 @@ public class SheepLogic {
                 RandomSheepGenerator rsg = new RandomSheepGenerator(f.getCoordinates(), f);
 //                System.out.println(f.getCoordinates());
                 for (Sheep s : f.getSheeps()){
-                    moveSheep(rsg, s, ls);
+                    Coordinate newcoord = rsg.generateCoords(1).get(0);
+                    s.setCurrentCoordinate(newcoord);
                 }
+                ls.addSheepMovements(f.getSheeps());
             }
             s1.stop();
             System.out.println("");
