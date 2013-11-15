@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class Mail {
 	
-	private final String username = "sheepwatcher3000@kradalby.no";
+	private final String username = "sheepfarmer3000@kradalby.no";
 	private final String password = "sheepwatcher1337";
 	private final String emailHost = "smtp.gmail.com";
 
