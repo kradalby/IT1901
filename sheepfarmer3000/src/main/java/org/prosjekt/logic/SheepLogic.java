@@ -1,5 +1,6 @@
 package org.prosjekt.logic;
 
+import com.google.common.base.Stopwatch;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,16 +29,19 @@ public class SheepLogic {
             
             LogicService ls = new LogicRepository();
             List<Farmer> farmers = ls.getAllFarmers();
-
+            Stopwatch s1 = new Stopwatch();
+            s1.start();
             for (Farmer f : farmers){
                 if (f.getCoordinates().size() == 0) continue;
-                System.out.println(f + "\n" + f.getCoordinates());
                 RandomSheepGenerator rsg = new RandomSheepGenerator(f.getCoordinates(), f);
 //                System.out.println(f.getCoordinates());
                 for (Sheep s : f.getSheeps()){
                     moveSheep(rsg, s, ls);
                 }
             }
+            s1.stop();
+            System.out.println("");
+            System.out.println("Time to move sheeps: " + s1.elapsedMillis());
             
 	}
         
