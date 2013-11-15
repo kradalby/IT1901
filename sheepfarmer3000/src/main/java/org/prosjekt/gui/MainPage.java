@@ -234,7 +234,7 @@ public class MainPage extends JFrame implements ActionListener{
 		else if (command == "viewAttacks"){
 			MainPage.kart.showAllAttacks(true);
 			MainPage.kart.showSheepPath(null);
-                        MainPage.kart.showAllSheep(true);
+                        MainPage.kart.showAllSheep(false);
                         MainPage.kart.refreshMap();
 		}
 		else if (command == "about"){
