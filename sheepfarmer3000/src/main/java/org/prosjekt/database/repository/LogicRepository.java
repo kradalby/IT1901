@@ -85,7 +85,14 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         } catch (SQLException ex) {
             Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        //UPDATE IF SHEEP DIED.
+         String updateSheepLastCoordinate = "update sheep set alive=false where id=?";
+        try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(updateSheepLastCoordinate);) {
+            ps.setString(1, sheepid);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return aid;
     }
 
