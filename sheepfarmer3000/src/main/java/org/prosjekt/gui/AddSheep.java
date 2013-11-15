@@ -262,15 +262,28 @@ public class AddSheep extends JFrame implements ActionListener{
 		String cmd = e.getActionCommand();
 		
 		if(OK.equals(cmd)){
-			if (!saveChanges(birthField.getText())){	//husk at dataTime antagelig m� legges til her her
+                    DateTime dt = null;
+                    try{
+                        dt = Main.fmt.parseDateTime(birthField.getText());
+                    }
+                    catch(Exception exc){
+                        JOptionPane.showMessageDialog(this, "Wrong format on birth date.",
+						"", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    
+			if (!saveChanges(dt)){	//husk at dataTime antagelig m� legges til her her
                             
 				JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
 						"", JOptionPane.ERROR_MESSAGE);
 				
 			}
 			else{
-				SheepListFrame.updateData();
+				//SheepListFrame.updateData();
 				Main.updateMainUser(user);
+                                Farmer newFarmer = Main.getFarmerById(Main.getCurrentUser().getId());
+                                Main.updateMainUser(newFarmer);
+                                MainPage.kart.refreshMap();
 				this.dispose();
 			}
 			
@@ -281,8 +294,10 @@ public class AddSheep extends JFrame implements ActionListener{
 		
 	}
 	
-	private boolean saveChanges(String date){	//date må byttes ut med datetime
-               DateTime dt = Main.fmt.parseDateTime(date);
+	private boolean saveChanges(DateTime dt){	//date må byttes ut med datetime
+            
+           
+               
                
                
 		if (testIfValidId()){
@@ -316,11 +331,11 @@ public class AddSheep extends JFrame implements ActionListener{
 		else{
 			return false;
 		}
-		
+            }
 		//burde kanskje teste om birht er riktig skrevet inn, men dette kan jo takles p� server
 		
 		//m� her legge til dateTime ved coordinate objektet
-	}
+	
 	
 	private boolean testIfValidId(){
 		boolean tester = true;

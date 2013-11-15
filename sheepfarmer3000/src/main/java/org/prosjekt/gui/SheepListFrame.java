@@ -205,6 +205,7 @@ public class SheepListFrame extends JFrame implements ActionListener{
 		
 		if (addS.equals(cmd)){
 			new AddSheep(currentUser);
+                        this.dispose();
 			
 		}
 		else if (removeS.equals(cmd)){
