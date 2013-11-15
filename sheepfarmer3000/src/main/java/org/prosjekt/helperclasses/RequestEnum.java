@@ -29,7 +29,10 @@ public enum RequestEnum {
 	ADDSHEEP,
     
         //LogicService
-        GetFarmerIds,
+        GetFarmerIds, 
+        
+        //Admin
+        Attack,
 
     
     

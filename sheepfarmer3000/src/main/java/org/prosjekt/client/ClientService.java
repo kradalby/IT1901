@@ -266,6 +266,21 @@ public class ClientService {
             return null;
         }
     }
+        
+        
+        public static boolean attack(Sheep sheep) {
+		if (connected) {
+			Request request = new Request();
+			request.setCommand(RequestEnum.Attack);
+			request.addItem("sheep", sheep);
+			connection.sendPackage(request);
+			Response response = (Response) connection.receivePackage();
+			return !response.isErrorInResponse();
+		} else {
+			return false;
+		}
+	}
+        
 
       
     

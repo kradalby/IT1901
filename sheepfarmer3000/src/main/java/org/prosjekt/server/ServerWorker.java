@@ -13,6 +13,7 @@ import org.prosjekt.helperclasses.Sheep;
 
 import java.util.List;
 import org.prosjekt.helperclasses.Helper;
+import org.prosjekt.logic.WolfLogic;
 
 /**
  * ServerWorker
@@ -79,7 +80,10 @@ public class ServerWorker {
                         case GetFarmerIds:
                             getFarmerIds(response, request);
                             break;
-                      
+                        case Attack:
+                            attack(response, request);
+                            break;
+                            
 			default:
 				response.addItem("error", "Unknown request");
 				break;
@@ -233,6 +237,11 @@ public class ServerWorker {
         Helper helper = (Helper) request.getItem("helper");
         fs.removeHelper(helper);
         response.addItem("success", "success");
+    }
+
+    private static void attack(Response response, Request request) {
+        Sheep s = (Sheep) request.getItem("sheep");
+        WolfLogic.wolfAttack(s);
     }
 
     

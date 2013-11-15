@@ -38,6 +38,7 @@ public class WolfLogic {
                     System.out.println("ATTACK SHEEP IS DEAD.");
 			sheep.setAlive(false);
 		} 	
+                else System.out.println("ATTACK SHEEP SURVIVED");
                 //Alarm sendes ut uansett om sauen overlever eller ikke. 
                 Alert alert = new Alert(sheep);
                 alert.sendAttackAlarm();
