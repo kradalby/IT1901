@@ -49,8 +49,11 @@ public class Alert {
                 for (Helper helper : farmer.getHelpers()){
                     emailRecipient.add(helper.getEmail());
                 }
-//		smsRecipient.add(this.sheep.getFarmer().getPhone());
-//		smsRecipient.add(this.sheep.getFarmer().getHelperPhone());
+        smsRecipient.add(farmer.getPhone());
+        for (Helper helper : farmer.getHelpers()) {
+            smsRecipient.add(helper.getPhone());
+        }
+
 	}
 	
 	
@@ -84,8 +87,11 @@ public class Alert {
 
 		if (sms) {
 			for (int i = 0; i < smsRecipient.size(); i++) {
+                            if(!smsRecipient.get(i).isEmpty()) {
 				Sms sms = new Sms(smsRecipient.get(i), message);
 				sms.sendSMS();
+                                System.out.println("sms sent to " + smsRecipient.get(i));
+                            }
 			}
 		}
 
