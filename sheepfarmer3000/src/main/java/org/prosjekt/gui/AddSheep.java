@@ -21,6 +21,7 @@ import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
+import org.prosjekt.logic.RandomSheepGenerator;
 
 public class AddSheep extends JFrame implements ActionListener{
 	private static String OK = "ok";
@@ -180,6 +181,7 @@ public class AddSheep extends JFrame implements ActionListener{
 		idField.setActionCommand(OK);
 		idField.addActionListener(this);
 		
+                
 		longitudeField = new JTextField(lon);
 		longitudeField.setOpaque(false);
 		longitudeField.setForeground(textColor);
@@ -193,7 +195,11 @@ public class AddSheep extends JFrame implements ActionListener{
 		latitudeField.setFont(fontTextField);
 		latitudeField.setActionCommand(OK);
 		latitudeField.addActionListener(this);
-		
+                RandomSheepGenerator rsg = new RandomSheepGenerator(user.getCoordinates(), user);
+                Coordinate newcoord = rsg.generateCoords(1).get(0);
+		longitudeField.setText(String.valueOf(newcoord.getLon()));
+		latitudeField.setText(String.valueOf(newcoord.getLat()));
+                
 		birthField = new JTextField("dd.mm.yyyy");
 		birthField.setOpaque(false);
 		birthField.setForeground(textColor);

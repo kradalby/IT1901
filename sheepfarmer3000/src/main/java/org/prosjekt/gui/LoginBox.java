@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import org.prosjekt.client.ClientService;
 
 public class LoginBox extends JFrame implements ActionListener{
 	
@@ -25,14 +24,14 @@ public class LoginBox extends JFrame implements ActionListener{
     private Font font = new Font("kalinga", Font.PLAIN, 20);
     private Font fontTextField = new Font("kalinga", Font.PLAIN, 12);
     private Color textColor = new Color(32, 87, 0);
-    private String backgroundImage = "innlogging1.jpg";
+    private String backgroundImage = "images/innlogging1.jpg";
     private JPasswordField passwordField;
     private JTextField usernameField;
     
     
 	public LoginBox(){
        
-		setContentPane(new BackgroundPanel(ClientService.getPathToResources(backgroundImage)));
+		setContentPane(new BackgroundPanel(backgroundImage));
 		setLayout(new BorderLayout());
 		
 		//lager tomme labels for toppen og venstre av siden

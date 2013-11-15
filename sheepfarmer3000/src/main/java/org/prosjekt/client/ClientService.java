@@ -48,14 +48,14 @@ public class ClientService {
 //		sms.sendSMS();
 //
         public static String getPathToResources(String file){
-            file = "classes/" +file;
+            file = "images/" +file;
             return file;
 //             URL resourceUrl = ClientService.class.getResource( file);
 //             return resourceUrl.getPath();
         }
         
         public static String pathToBackGround(){
-            return "classes/bakgrunn 450x450.jpg";
+            return "images/bakgrunn 450x450.jpg";
 //            return getPathToResources("bakgrunn 450x450.jpg");
         }
 	
