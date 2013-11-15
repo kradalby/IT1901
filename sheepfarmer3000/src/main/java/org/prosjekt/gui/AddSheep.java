@@ -279,8 +279,11 @@ public class AddSheep extends JFrame implements ActionListener{
 				
 			}
 			else{
-				SheepListFrame.updateData();
+				//SheepListFrame.updateData();
 				Main.updateMainUser(user);
+                                Farmer newFarmer = Main.getFarmerById(Main.getCurrentUser().getId());
+                                Main.updateMainUser(newFarmer);
+                                MainPage.kart.refreshMap();
 				this.dispose();
 			}
 			
