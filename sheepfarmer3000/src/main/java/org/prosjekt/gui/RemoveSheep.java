@@ -342,9 +342,7 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		
 	}
 	
-	private boolean saveChanges(String date){	//date må byttes ut med datetime
-//            DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
-//            DateTime dt = fmt.parseDateTime(date);
+	private boolean saveChanges(String date){	//date trengs ikke
 		
 		List<Sheep> tempSheepList = user.getSheeps();
 		Farmer tempUser = user;
@@ -356,6 +354,8 @@ public class RemoveSheep extends JFrame implements ActionListener {
                         tempUser.setSheeps(tempSheepList);
                         if(ClientService.removeSheep(s)){
                             user = tempUser;
+                            dispose();
+                            MainPage.kart.refreshMap();
                             return true;
                         }
                     }
@@ -365,11 +365,6 @@ public class RemoveSheep extends JFrame implements ActionListener {
 		return success;
 	}
 		
-		//burde kanskje teste om birht er riktig skrevet inn, men dette kan jo takles på server
-		
-		//må her legge til dateTime ved coordinate objektet
-	
-
 }
 
 
