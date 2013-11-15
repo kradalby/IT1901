@@ -5,12 +5,9 @@
 package org.prosjekt.database.repository;
 
 import com.google.common.collect.Lists;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,14 +16,13 @@ import org.joda.time.DateTime;
 import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.database.SheepService;
 import org.prosjekt.helperclasses.Coordinate;
-import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class SheepRepository extends AbstractProperties implements SheepService{
+public class SheepRepository implements SheepService{
 
     
     public SheepRepository() {
@@ -34,9 +30,8 @@ public class SheepRepository extends AbstractProperties implements SheepService{
     
 
     /**
-     * 
      * @param sheepid
-     * @return Sheep with last coordinate.  
+     * @return Sheep med siste koordinat. 
      */
     private Sheep getSheep(String sheepid){
         Sheep sheep = null;
@@ -57,6 +52,11 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         return sheep;
     }
     
+    /**
+     * 
+     * @param sheepid
+     * @return List<Coordinate> med alle koordinater til en sau. 
+     */
     private List<Coordinate> getCoordinatesBySheep(String sheepid){
         List<Coordinate> coordinates = Lists.newArrayList();
         String sql = "select c.latitude as lat, c.longitude as lon, c.dateevent as dateevent from sheepcoordinate sc " +
@@ -76,6 +76,11 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         return coordinates;
     }
 
+    /**
+     * 
+     * @param sheepid
+     * @return alle angrep til en sau. 
+     */
     private List<Coordinate> getAttacksBySheep(String sheepid){
         List<Coordinate> coordinates = Lists.newArrayList();
         String sql = "select c.latitude as lat, c.longitude as lon, c.dateevent as dateevent from attack a " +
@@ -95,7 +100,10 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         return coordinates;
     }
     
-    
+    /**
+     * @param sheepid
+     * @return en sau, alle koordinater til en sau, alle angrep til en sau. 
+     */
     @Override
     public Sheep getSheepAllCordinates(String sheepid) {
         Sheep sheep = getSheep(sheepid);
@@ -104,6 +112,11 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         return sheep;
     }
 
+    /**
+     * Legger til en sau i databasen. 
+     * @param sheep
+     * @param currentCoordinate  nåværende gps lokasjon. 
+     */
     @Override
     public void addSheep(Sheep sheep, Coordinate currentCoordinate) {
         String cid = new LogicRepository().addSheepMovement(sheep, currentCoordinate);
@@ -121,6 +134,10 @@ public class SheepRepository extends AbstractProperties implements SheepService{
         
     }
 
+    /**
+     * Sletter en sau fra databasen. 
+     * @param sheepid 
+     */
     @Override
     public void removeSheep(String sheepid) {
          String deleteAllCoordinatesBySheep = 

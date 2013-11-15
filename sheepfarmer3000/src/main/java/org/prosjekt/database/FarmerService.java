@@ -12,7 +12,7 @@ import org.prosjekt.helperclasses.Passhash;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
- *
+ * Interface tilbyr metoder for å manipulere backendløsning.
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public interface FarmerService {
@@ -20,21 +20,8 @@ public interface FarmerService {
     public Passhash getPasshash(int farmerid);
     
     
-    /**
-     * Updates farmer, overwrites current farmer area coordinates if any. 
-     * NOTE Sheeps is not updated by this method. 
-     * @param farmer 
-     */
     public void updateFarmer(Farmer farmer);
-    
-    /**
-     *   
-     * @param farmerid
-     * @return Farmer object with all sheeps, only last coordinate of each sheep. 
-     */
     public Farmer getFarmer(int farmerid);
-    
-   
     public void updateFarmerArea(List<Coordinate> farmerArea, int farmerid);
 
     public void updateHelper(Helper helper);

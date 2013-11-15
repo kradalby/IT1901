@@ -10,25 +10,14 @@ import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
- *
+ * Interface tilbyr metoder for å manipulere backendløsning.
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public interface LogicService {
-    /**
-     * 
-     * @param sheep
-     * @param coordiante
-     * @return coordinate id of this movement.  
-     */
+
     public String addSheepMovement(Sheep sheep,Coordinate coordiante);
     public String addAttack(String sheepid, Coordinate coordiante);
-    
-    /**
-     * 
-     * @return List<Farmer> with all sheeps of farmer, included farmerArea.  
-     */
     public List<Farmer> getAllFarmers();
     public Sheep[] getAllSheeps();
-    
-     public List<Integer> getFarmerids();
+    public List<Integer> getFarmerids();
 }

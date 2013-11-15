@@ -16,7 +16,7 @@ import java.util.Properties;
 import org.prosjekt.database.SheepFarmerConnection;
 
 /**
- *
+ * Klassen leser inn url, user og password fra properties fil.
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class AbstractProperties {
@@ -24,13 +24,15 @@ public class AbstractProperties {
     private final String user;
     private final String passwd;
     
+    /**
+     * Leser inn properties fra fil. 
+     */
     public AbstractProperties() {
             Properties prop = new Properties();
             try {
                 //load a properties file
                 prop.load(new FileInputStream("config.properties"));
                 
-                //get the property value and print it out
                 url = prop.getProperty("database");
                 user = prop.getProperty("dbuser");
                 passwd = prop.getProperty("dbpassword");
@@ -40,27 +42,30 @@ public class AbstractProperties {
             }
     }
 
+    /**
+     *
+     * @return url til database.
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     *
+     * @return username til database
+     */
     public String getUser() {
         return user;
     }
 
+    /**
+     *
+     * @return passord til database
+     */
     public String getPasswd() {
         return passwd;
     }
 
-    void deleteEntity(int id, String tablename) {
-        String sql = "DELETE FROM "+tablename+" where id =?";
-      try (PreparedStatement preparedStatement = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            //            Logger.getLogger(FarmerRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+ 
     
 }

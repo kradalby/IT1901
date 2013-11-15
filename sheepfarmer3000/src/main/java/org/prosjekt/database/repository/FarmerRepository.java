@@ -7,7 +7,6 @@ package org.prosjekt.database.repository;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +17,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.prosjekt.database.FarmerService;
 import org.prosjekt.database.SheepFarmerConnection;
 import org.prosjekt.helperclasses.Coordinate;
@@ -31,17 +29,17 @@ import org.prosjekt.helperclasses.Sheep;
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class FarmerRepository extends AbstractProperties implements FarmerService {
+public class FarmerRepository implements FarmerService {
     
     
     public FarmerRepository() {
     }
     
 
-    //test ok. 
-    /*
-     *  Helper method to extract all sheeps with last coordinate.
-     *  A farmer object has to execute 2 queries. 1 for getting last coordinates of farmer-area, 1 for getting last coordinate of all sheeps.
+    /**
+     * 
+     * @param farmerid
+     * @return List<Sheep> med siste koordinat og alle angrep for hver sau.  
      */
     public List<Sheep> getAllSheepWithLastCoordinate(int farmerid){
         List<Sheep> sheeps = Lists.newArrayList();
@@ -74,7 +72,7 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         return sheeps;
     }
     
-    public Farmer getFarmerPlain(int id){
+    private Farmer getFarmerPlain(int id){
         Farmer farmer = new Farmer(id);
         String sql = "select f.hashpass as hasspass, u.email as email, u.phone as phone, u.firstname as fn, u.lastname as ln from farmer f"
                 + " join users u on u.id = f.users_id"
@@ -102,6 +100,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     }
     
     
+    /**
+     * 
+     * @param id farmerid
+     * @return Farmer med info om alle hjelpere, alle sauer med siste koordinate og alle angrep, koordinater til bondens område. 
+     */
     @Override
     public Farmer getFarmer(int id){
         Stopwatch s1 = new Stopwatch();
@@ -126,7 +129,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
                 "right join coordinate c on c.id = fc.coordinate_id " +
                 "where fc.farmerid = ?)";
     
-    //test ok
+
+    /**
+     * Sletter alle koordinater til en bonde. 
+     * @param farmerid 
+     */
     public void deleteAllCoordinatesByFarmer(int farmerid){
            //CLEANUP coordinates. 
          try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(deleteAllCoordinatesByFarmerid);) {
@@ -138,7 +145,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     }
     
     
-    //test ok
+    /**
+     * NB! overskriver koordinater til en bonde i databasen. 
+     * @param farmerArea List<Coordinate> 
+     * @param farmerid 
+     */
     @Override
     public void updateFarmerArea(List<Coordinate> farmerArea, int farmerid) {
         //INSERT NEW COORDINATES. 
@@ -178,7 +189,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
     }
     
-    //test ok
+    /**
+     * 
+     * @param farmerid
+     * @return koordinater til bondens område.  
+     */
     public List<Coordinate> getFarmerArea(int farmerid){
         List<Coordinate> area = Lists.newArrayList();
         String sql = "select c.longitude as lon, c.latitude as lat, c.dateevent as dateevent from farmercoordinate fc " +
@@ -198,7 +213,10 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
     }
     
     
-    
+    /**
+     * Oppdaterer firstname, lastname, phone, email til en bonde. 
+     * @param farmer 
+     */
     @Override
     public void updateFarmer(Farmer farmer) {
         String sql = "update users set firstname=?, lastname=?, email=?, phone=? from farmer where farmer.id = ? and farmer.users_id = users.id";
@@ -215,7 +233,10 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         updateFarmerArea(farmer.getCoordinates(), farmer.getId());
     } 
 
-    
+    /**
+     * Oppdaterer firstname, lastname, email og phone for en Helper. 
+     * @param helper 
+     */
     @Override
     public void updateHelper(Helper helper) {
         System.out.println("\n\nhelper: " + helper);
@@ -232,7 +253,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
     } 
     
-    //test ok
+    /**
+     * Setter nytt passord i databasen for en farmer. 
+     * @param passhash nytt passord
+     * @param farmerid 
+     */
     @Override
     public void setPasshash(String passhash, int farmerid) {
         String sql = "update farmer set hashpass = ? where id = ?";
@@ -245,7 +270,11 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
     }
     
-    //test ok
+    /**
+     * Henter passord for en farmer. 
+     * @param farmerid
+     * @return 
+     */
     @Override
     public Passhash getPasshash(int farmerid) {
         Passhash ph = null;
@@ -263,6 +292,10 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         return ph;
     }
 
+    /**
+     * Sletter en hjelper fra databasen. 
+     * @param helper 
+     */
     @Override
     public void removeHelper(Helper helper) {
         String sql = "delete from users where id=?";
@@ -274,6 +307,10 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
     }
 
+    /**
+     * Legger til en hjelper i databasen. 
+     * @param helper 
+     */
     @Override
     public void addHelper(Helper helper) {
         String sql = "insert into users (id, firstname, lastname, email, phone) values (?,?,?,?,?) ";
@@ -298,8 +335,12 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         }
     }
 
-    
-    public List<Helper> getHelpers(int farmerid){
+    /**
+     * Henter ut alle hjelpere en bonde har. 
+     * @param farmerid
+     * @return List<Helper>
+     */
+    private List<Helper> getHelpers(int farmerid){
         List<Helper> list = Lists.newArrayList();
              String sql = "select h.id as hid, u.firstname as fn, u.lastname as ln, u.email as email,u.phone as phone from helper h "
                      + "join users u on u.id = h.users_id "
@@ -316,6 +357,10 @@ public class FarmerRepository extends AbstractProperties implements FarmerServic
         return list;
     }
 
+    /**
+     * Legger til alle angrep en sau har for en sau.  
+     * @param sheep 
+     */
     private void addAttacksToSheep(Sheep sheep) {
         String sql = "select c.dateevent as dateevent, c.latitude as lat, c.longitude as lon from attack a " +
                     "join sheep s on s.id = a.sheep_id " +
