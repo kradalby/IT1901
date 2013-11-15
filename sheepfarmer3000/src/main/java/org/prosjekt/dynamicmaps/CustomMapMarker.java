@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.prosjekt.dynamicmaps;
 
 import java.awt.Color;
@@ -20,15 +16,39 @@ import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
  *
  * @author Alfredo
  */
-public class CustomMapMarker extends MapObjectImpl implements MapMarker{
+public abstract class CustomMapMarker extends MapObjectImpl implements MapMarker{
         
+    /**
+     * Image to be used.
+     */
     protected Image img;
+    /**
+     * Id to be used(sheep id).
+     */
     protected String id;
+    /**
+     * Longitude.
+     */
     protected double lon;
+    /**
+     * Latitude.
+     */
     protected double lat;
+    /**
+     * Default width.
+     */
     protected final int SIZE_X = 20;
+    /**
+     * Default height.
+     */
     protected final int SIZE_Y = 20;
+    /**
+     * Location of the image.
+     */
     protected String fileLocation;
+    /**
+     * Last location where the marker was painted.
+     */
     protected Point lastPainted;
     
     /**
@@ -129,7 +149,8 @@ public class CustomMapMarker extends MapObjectImpl implements MapMarker{
     }
     
     /**
-     *
+     * Draws the marker on the map.
+     * 
      * @param g
      * @param p
      * @param i
@@ -142,7 +163,7 @@ public class CustomMapMarker extends MapObjectImpl implements MapMarker{
     }
     
     /**
-     *
+     * 
      * @return
      */
     @Override

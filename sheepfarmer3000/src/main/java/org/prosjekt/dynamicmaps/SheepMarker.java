@@ -20,7 +20,7 @@ public class SheepMarker extends CustomMapMarker{
     }
     
     /**
-     * Class creator
+     * Returns a new SheepMarker instance for the given sheep.
      * 
      * @param sheep
      */

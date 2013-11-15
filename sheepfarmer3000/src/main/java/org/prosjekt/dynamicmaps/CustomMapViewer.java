@@ -16,6 +16,9 @@ import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
+ * This class is used to store the data needed
+ * for the map and it is also responsible for
+ * drawing the map.
  *
  * @author Alfredo
  */
@@ -32,8 +35,11 @@ public class CustomMapViewer extends JMapViewer{
     private boolean showAllSheeps;
     
     /**
-     * Class constructor
+     * Returns a new CustomMapViewer instance and binds a
+     * CustomMapController object to the map. By default
+     * the map shows all sheep and the area of the farmer.
      * 
+     * @param farmer 
      */
     public CustomMapViewer(Farmer farmer){
         super(new MemoryTileCache(), 8);
@@ -46,6 +52,11 @@ public class CustomMapViewer extends JMapViewer{
         this.refreshMap();
     }
     
+    /*
+     * Loops throught the lists of the different
+     * map objects and calls their paintMarker()
+     * method, effectively drawing them on the map.
+     */
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -59,7 +70,8 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     /**
-     *
+     * Clears all lists of map objects and repaints
+     * the map.
      */
     private void clearMap(){
         customMapMarkerList.clear();
@@ -69,15 +81,22 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     /**
-     *
+     * Sets the area of the farmer to the given
+     * coordinates.
+     * 
      * @param coords
      */
-    public void addArea(ArrayList<Coordinate> coords){
+    private void setArea(ArrayList<Coordinate> coords){
         if (coords == null || coords.isEmpty())
             return;
         addMapPolygon(new MapPolygonImpl(coords));
     }
     
+    /*
+     * Creates a path from the first coordinate
+     * to the last one.
+     * 
+     */
     private void addPath(Sheep sheep){
         List<Coordinate> coords = sheep.getCordinates();
         if (coords == null || coords.isEmpty())
@@ -93,8 +112,8 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     /**
-     * This method iterates over sheepMarkerList and checks
-     * if they contain Point p, if they do then that sheepMarker
+     * This method iterates over all CustomMapMarkers and checks
+     * if they contain Point p, if they do then the CustomMapMarker
      * object is returned.
      *
      * 
@@ -110,7 +129,8 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     /**
-     *
+     * Adds a new Sheep marker to the map.
+     * 
      * @param sheep
      */
     private void addSheep(Sheep sheep){
@@ -119,6 +139,10 @@ public class CustomMapViewer extends JMapViewer{
         repaint();
     }     
     
+    /*
+     * Loops through all the farmer's sheeps and
+     * adds all their attacks to the map.
+     */
     private void addAllAttacks(){
         for (Sheep sheep : farmer.getSheeps()){
             for(Coordinate coord : sheep.getAttacks()){
@@ -126,7 +150,9 @@ public class CustomMapViewer extends JMapViewer{
             }
         }
     }
-    
+    /*
+     * Adds to the map the attacks to the given sheep.
+     */
     private void addAttack(Sheep attackedSheep){
         String sheepId = attackedSheep.getId();
         for (Sheep sheep : farmer.getSheeps()){
@@ -138,27 +164,55 @@ public class CustomMapViewer extends JMapViewer{
         }
     }
     
+    /*
+     * Adds all the farmer's sheep to the map.
+     */
     private final void addAllSheep(){
         for (Sheep sheep : farmer.getSheeps()){
             this.addSheep(sheep);
         }
     }
     
+    /**
+     * Sets the sheep who's path will be shown.
+     * If sheep is null then no path will be shown.
+     * 
+     * @param sheep
+     */
     public void showSheepPath(Sheep sheep){
         this.showSheepPath = sheep;
     }
     
+    /**
+     * If value is true then all attacks are shown,
+     * if it is false then no attacks are shown.
+     * 
+     * @param value
+     */
     public void showAllAttacks(boolean value){
         this.showAllAttacks = value;
     }
     
+    /**
+     * If value is true then all sheep will be shown,
+     * if it is false then no sheep with be shown.
+     * 
+     * @param value
+     */
     public void showAllSheep(boolean value){
         this.showAllSheeps = true;
     }
     
+    /**
+     * Clears the map and then redraws the farmer's area.
+     * It then checks what should be drawn to the map and
+     * draws it. All objects to be drawn to the map are
+     * created using the current information in the 
+     * farmer object.
+     */
     public final void refreshMap(){
         this.clearMap();
-        this.addArea((ArrayList<Coordinate>)farmer.getCoordinates());
+        this.setArea((ArrayList<Coordinate>)farmer.getCoordinates());
         if (showAllAttacks)
             addAllAttacks();
         if (showSheepPath != null)
@@ -168,10 +222,27 @@ public class CustomMapViewer extends JMapViewer{
             
     }
     
+    /**
+     * Creates a new AddSheep popup at the given
+     * point and passes a latitude and longitude
+     * as argument.
+     * 
+     * @param x
+     * @param y
+     */
     public void createPopup(int x, int y){
         new AddSheep(farmer, getPosition(x, y).getLat(), getPosition(x, y).getLon());
     }
+    /**
+     * If marker is a SheepMarker then the sheep is removed
+     * from the farmer's sheep.
+     * 
+     * @param x
+     * @param y
+     * @param marker
+     */
     public void createPopup(int x, int y, CustomMapMarker marker){
+        if (!(marker instanceof SheepMarker)) return;
         int sheepIndex =0;
         for (int i = sheepIndex; i < farmer.getSheeps().size(); i++){
             if (farmer.getSheeps().get(i).getId().equals(marker.getId())){
