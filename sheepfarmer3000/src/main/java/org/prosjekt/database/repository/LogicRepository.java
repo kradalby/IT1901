@@ -23,8 +23,14 @@ import org.prosjekt.helperclasses.Sheep;
  *
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class LogicRepository extends AbstractProperties implements LogicService{
+public class LogicRepository implements LogicService{
 
+    /**
+     * Legger til nytt coordinate til sau. 
+     * @param sheep
+     * @param c coordinate
+     * @return String c.getId()  brukes av testene for å rydde. 
+     */
     @Override
     public String addSheepMovement(Sheep sheep, Coordinate c) {
         
@@ -62,6 +68,12 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         return cid;
     }
 
+    /**
+     * Legger inn nytt angrep i databasen. Oppdaterer sau hvis den ikke er i live. 
+     * @param sheepid
+     * @param coordinate coordinate til angrepet. 
+     * @return 
+     */
     @Override
     public String addAttack(String sheepid, Coordinate coordinate){
         String aid = UUID.randomUUID().toString();
@@ -96,6 +108,10 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         return aid;
     }
 
+    /**
+     * 
+     * @return alle sauer i databasen.  
+     */
     @Override
     public Sheep[] getAllSheeps() {
        List<Sheep>  sheeps  = Lists.newArrayList();
@@ -122,6 +138,10 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         return sheepsArr;
     }
 
+    /**
+     * 
+     * @return  id til alle bonder i databasen. 
+     */
     @Override
     public List<Integer> getFarmerids() {
         String sql = "select id as fid from farmer";
@@ -137,6 +157,10 @@ public class LogicRepository extends AbstractProperties implements LogicService{
         return farmerids;
     }
 
+    /**
+     * Se getFarmer(int id) i FarmerRepository. 
+     * @return alle bønder i databasen.    
+     */
     @Override
     public List<Farmer> getAllFarmers() {
         List<Farmer> farmers = Lists.newArrayList();

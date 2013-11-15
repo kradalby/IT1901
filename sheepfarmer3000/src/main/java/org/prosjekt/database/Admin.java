@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.prosjekt.client.ClientService;
 import static org.prosjekt.client.ClientService.updateFarmerArea;
 import org.prosjekt.database.repository.AbstractProperties;
 import org.prosjekt.database.repository.FarmerRepository;
@@ -22,38 +23,32 @@ import org.prosjekt.helperclasses.Sheep;
 import org.prosjekt.logic.RandomSheepGenerator;
 
 /**
- *
+ * Klassen forenkler vedlikehold og generering av databasen. 
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Admin extends AbstractProperties{
-      /**
-     * Brukes for å legge inn ny farmer. 
-     * @param id 
-     */
+     
     
     public static void main(String args[]){
         FarmerRepository fr = new FarmerRepository();
         
-        int farmers = 100;
-        int startsequence = 1000;
-        
-//        insertFarmer(1001);
-//        insertFarmer(1002);
-//        insertFarmer(1003);
-         Farmer f = fr.getFarmer(1003);
-//        new FarmerRepository().addHelper(new Helper(1001, "", "", "", ""));
-//        new FarmerRepository().addHelper(new Helper(1002, "", "", "", ""));
-//        new FarmerRepository().addHelper(new Helper(1003, "", "", "", ""));
-//        updateFarmerArea(farmerMeldal());
-        updateFarmerArea(farmerOppdal());
-        addSheep(f, f.getCoordinates(), 1, 10);
-        
-//         String id = "9640a2fb-7796-43c0-899e-b366a6663ba7";
-//         fr.removeHelper(new Helper(id, 1003, null,null,null,null));
+        int farmerid = 1001;
+         Farmer f = fr.getFarmer(farmerid);
+        updateFarmerArea(farmerOppdal(farmerid));
+        addSheep(f, f.getCoordinates(), 1, 10, farmerid);
+        for (Sheep s : f.getSheeps()){
+//            ClientService.addSheep(s);
+        }
+//        ClientService.updateFarmerArea(f);
         
         
     }
-    
+
+    /**
+     * Legger inn ny farmer i LOKAL database. 
+     * Legger IKKE inn helper. 
+     * @param id 
+     */
     public static void insertFarmer(int id) {
         String sql = "insert into users (id) values (?) ";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
@@ -71,15 +66,16 @@ public class Admin extends AbstractProperties{
         } catch (SQLException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        Farmer f = new FarmerRepository().getFarmer(id);
-        f.getHelpers().add(new Helper(id, "", "", "", ""));
 
     }
     
-    public static Farmer farmerOppdal() {
-        int id = 1003;
-        Farmer farmer = new Farmer(id);
+    /**
+     * Sleep() garanterer at ett område får riktig rekkefølge.
+     * @param farmerid
+     * @return 
+     */
+    private static Farmer farmerOppdal(int farmerid) {
+        Farmer farmer = new Farmer(farmerid);
         //OPPDAL
         List<Coordinate> farmerArea = Lists.newArrayList();
         farmerArea.add(new Coordinate(62.585715,9.708897));
@@ -93,9 +89,14 @@ public class Admin extends AbstractProperties{
         return farmer;
     }
     
-    public static Farmer farmerMeldal() {
-        int id = 1002;
-        Farmer farmer = new Farmer(id);
+    
+    /**
+     * Sleep() garanterer at ett område får riktig rekkefølge.
+     * @param farmerid
+     * @return 
+     */
+    public static Farmer farmerMeldal(int farmerid) {
+        Farmer farmer = new Farmer(farmerid);
         //OPPDAL
         List<Coordinate> farmerArea = Lists.newArrayList();
         farmerArea.add(new Coordinate(63.055504,9.690773));
@@ -112,9 +113,17 @@ public class Admin extends AbstractProperties{
     }
        
        
-    public static void addSheep(Farmer farmer, List<Coordinate> area, int start, int ant){
+    /**
+     * 
+     * @param farmer 
+     * @param area
+     * @param start interval sheepid starter på. Eg 0 vil gi 1001_sheep0
+     * @param ant antall sauer som skal genereres. 
+     * @param farmerid 
+     */
+    public static void addSheep(Farmer farmer, List<Coordinate> area, int start, int ant, int farmerid){
         RandomSheepGenerator rsg = new RandomSheepGenerator(area, farmer);
-        ArrayList<Sheep> sheeps = rsg.generateSheep(start, ant, "f3_");
+        ArrayList<Sheep> sheeps = rsg.generateSheep(start, ant, farmerid + "_");
         SheepRepository sr = new SheepRepository();
         
         for (Sheep s : sheeps){
@@ -123,6 +132,7 @@ public class Admin extends AbstractProperties{
         
     }
     
+
     private static void sleep(){
         try {
             Thread.sleep(2);

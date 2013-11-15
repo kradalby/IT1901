@@ -8,15 +8,11 @@ import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
- *
+ *  Interface tilbyr metoder for å manipulere backendløsning.
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public interface SheepService {
-    /**
-     * 
-     * @param sheep
-     * @return sheep with all coordinates 
-     */
+
     public Sheep getSheepAllCordinates(String id);
     public void addSheep(Sheep sheep, Coordinate currentCoordinate);
     public void removeSheep(String sheepid);

@@ -3,8 +3,6 @@ package org.prosjekt.helperclasses;
 import java.util.ArrayList;
 import org.prosjekt.database.FarmerService;
 import org.prosjekt.database.repository.FarmerRepository;
-import org.prosjekt.staticmaps.Map;
-import org.prosjekt.staticmaps.Point;
 
 /**
  * Denne klassen haandterer alle alerts som skal sendes ut.
@@ -63,15 +61,7 @@ public class Alert {
 	public void sendAttackAlarm() {
 		
                 subject = "En av dine sauer er under angrep!";
-		message = "Hei\n"
-				+ "Din sau med ID: " + this.sheep.getId()
-				+ "er under angrep. De siste kjente kordinatene til sauen er:\n"
-				+ this.sheep.getCurrentCordinate().getLat() + " " 
-				+ this.sheep.getCurrentCordinate().getLon()
-                                + "\nDu kan sjekke hvor den var på: "
-                                + gMapsLink
-				+ "\n du kan ogsaa logge inn paa sheepwatcher aa sjekke der.\n"
-				+ "mvh Sheepwatcher";
+		message = message();
 		
 		//generate recipients lists.
 		this.getRecipients();
@@ -96,5 +86,22 @@ public class Alert {
 		}
 
 	}
+        
+        private String message(){
+            StringBuilder sb = new StringBuilder();
+            
+            sb.append("Hei\n");
+            sb.append("Din sau med ID: " + this.sheep.getId() 
+                    + "har blitt angrep. De siste kjente kordinatene til sauen er:\n");
+            if (!this.sheep.getAlive()) sb.append("Din sau døde desverre i angrepet.");
+            sb.append(this.sheep.getCurrentCordinate().getLat() + " "
+                    + this.sheep.getCurrentCordinate().getLon()
+                    + "\nDu kan sjekke hvor den var på: " 
+                    + gMapsLink
+                    + "\n du kan ogsaa logge inn paa sheepwatcher aa sjekke der.\n"
+                    + "mvh SheepFarmer3000");
+            
+            return sb.toString();
+        }
 
 }
