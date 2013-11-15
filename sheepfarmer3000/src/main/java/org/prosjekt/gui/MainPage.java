@@ -246,6 +246,7 @@ public class MainPage extends JFrame implements ActionListener{
                 else if (command == "refresh"){
                     Farmer newFarmer = Main.getFarmerById(Main.getCurrentUser().getId());
                     Main.updateMainUser(newFarmer);
+                    MainPage.kart.refreshMap();
                 }
 		
 		
