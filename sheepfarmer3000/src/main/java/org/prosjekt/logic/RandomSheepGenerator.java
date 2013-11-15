@@ -33,7 +33,7 @@ public class RandomSheepGenerator {
         ArrayList<Sheep> result = new ArrayList<>();
         ArrayList<Coordinate> randomCoords = generateCoords(amount);
         for (int i = start; i < amount; i++){
-            Sheep currentSheep = new Sheep(id + i, DateTime.now(), farmer.getId(), randomCoords.get(i-start));
+            Sheep currentSheep = new Sheep(id + "sheep" +i, DateTime.now(), farmer.getId(), randomCoords.get(i-start));
             currentSheep.setAttacks(generateCoords(generator.nextInt(2)));
             result.add(currentSheep);
         }
