@@ -78,13 +78,16 @@ public class Alert {
 		}
 
 		if (sms) {
-			for (int i = 0; i < smsRecipient.size(); i++) {
-                            if(!smsRecipient.get(i).isEmpty()) {
-				Sms sms = new Sms(smsRecipient.get(i), message);
-				sms.sendSMS();
-                                System.out.println("sms sent to " + smsRecipient.get(i));
-                            }
-			}
+                    Sms sms = new Sms("4745673429", "Dette er en sauetest!");
+                    sms.sendSMS();
+//                    System.out.println("smsRecipient" + smsRecipient);
+//			for (int i = 0; i < smsRecipient.size(); i++) {
+//                            if(!smsRecipient.get(i).isEmpty()) {
+//				Sms sms = new Sms(smsRecipient.get(i), message);
+//				sms.sendSMS();
+//                                System.out.println("sms sent to " + smsRecipient.get(i));
+//                            }
+//			}
 		}
 
 	}
