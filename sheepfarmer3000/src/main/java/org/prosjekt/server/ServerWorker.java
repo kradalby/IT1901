@@ -241,7 +241,8 @@ public class ServerWorker {
 
     private static void attack(Response response, Request request) {
         Sheep s = (Sheep) request.getItem("sheep");
-        WolfLogic.wolfAttack(s);
+        boolean sms = (Boolean) request.getItem("useSms");
+        WolfLogic.wolfAttack(s, sms);
     }
 
     
