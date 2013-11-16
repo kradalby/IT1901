@@ -58,8 +58,8 @@ public class Alert {
 	/**
 	 * Metode som sender en alarm paa epost og sms til listen med mottakere
 	 */
-	public void sendAttackAlarm() {
-		
+	public void sendAttackAlarm(boolean useSms) {
+		sms = useSms;
                 subject = "En av dine sauer er under angrep!";
 		message = message();
 		
