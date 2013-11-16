@@ -28,7 +28,6 @@ public class HelperInformation extends JFrame implements ActionListener{
     private static String NEWHELPER  = "newHelper";
     
     private Farmer user;
-    private String backgroundImage = "images\\bakgrunn 450x450.jpg";
     private Sheep currentSheep;
     private Helper currentHelper;
 	
@@ -48,7 +47,7 @@ public class HelperInformation extends JFrame implements ActionListener{
 	
     public HelperInformation(Farmer user){
 		super("Helper Information");
-		super.setContentPane(new BackgroundPanel(backgroundImage));
+		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
 		currentlySelectedIndex = 0;
