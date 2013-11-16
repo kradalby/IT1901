@@ -1,11 +1,6 @@
 package org.prosjekt.dynamicmaps;
 
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
-import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
@@ -25,6 +20,7 @@ public class SheepMarker extends CustomMapMarker{
      * Returns a new SheepMarker instance for the given sheep.
      * 
      * @param sheep
+     * @param sheepimg  
      */
     public SheepMarker(Sheep sheep, Image sheepimg) {
         super();

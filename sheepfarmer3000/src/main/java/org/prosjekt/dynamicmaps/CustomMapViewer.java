@@ -20,7 +20,7 @@ import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
 
 /**
- * This class is used to store the data needed
+ * Used to store the data needed
  * for the map and it is also responsible for
  * drawing the map.
  *
@@ -125,9 +125,7 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     /**
-     * This method iterates over all CustomMapMarkers and checks
-     * if they contain Point p, if they do then the CustomMapMarker
-     * object is returned.
+     * Returns the CustomMapMarker that contains point p.
      *
      * 
      * @param p
@@ -153,8 +151,7 @@ public class CustomMapViewer extends JMapViewer{
     }     
     
     /*
-     * Loops through all the farmer's sheeps and
-     * adds all their attacks to the map.
+     * Adds all attacks to the map.
      */
     private void addAllAttacks(){
         for (Sheep sheep : farmer.getSheeps()){
@@ -197,8 +194,7 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     /**
-     * If value is true then all attacks are shown,
-     * if it is false then no attacks are shown.
+     * Sets ShowAllAttacks to value.
      * 
      * @param value
      */
@@ -207,8 +203,7 @@ public class CustomMapViewer extends JMapViewer{
     }
     
     /**
-     * If value is true then all sheep will be shown,
-     * if it is false then no sheep with be shown.
+     * Sets ShowAllSheep to value.
      * 
      * @param value
      */
@@ -218,10 +213,8 @@ public class CustomMapViewer extends JMapViewer{
     
     /**
      * Clears the map and then redraws the farmer's area.
-     * It then checks what should be drawn to the map and
-     * draws it. All objects to be drawn to the map are
-     * created using the current information in the 
-     * farmer object.
+     * Objects that should be drawn to the map are drawn using
+     * a newly obtained Farmer object.
      */
     public final void refreshMap(){
         this.clearMap();
@@ -247,8 +240,7 @@ public class CustomMapViewer extends JMapViewer{
         new AddSheep(farmer, getPosition(x, y).getLat(), getPosition(x, y).getLon());
     }
     /**
-     * If marker is a SheepMarker then the sheep is removed
-     * from the farmer's sheep.
+     * Removes the right clicked sheep.
      * 
      * @param x
      * @param y
