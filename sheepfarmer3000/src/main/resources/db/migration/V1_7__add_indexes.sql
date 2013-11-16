@@ -1,4 +1,3 @@
-
 CREATE INDEX index_sc_coordinateid
   ON sheepcoordinate
   USING btree
@@ -39,7 +38,7 @@ CREATE INDEX index_sheep_lastcoord
 
 
 
-- Index: coordinate_index_id
+-- Index: coordinate_index_id
 
 -- DROP INDEX coordinate_index_id;
 
