@@ -6,7 +6,7 @@ import org.openstreetmap.gui.jmapviewer.DefaultMapController;
 
 /**
  * 
- * This class handles the event listeners from
+ * Handles the event listeners from
  * its parent CustomMapViewer.
  * 
  * @author Alfredo
@@ -31,10 +31,7 @@ public class CustomMapController extends DefaultMapController{
     
     /**
      * Handles clicks with the current
-     * PopupMouseButton(right mouse button). If a sheep is
-     * clicked on, then a popup with the marker representing
-     * the sheep is requested. If not then a general popup
-     * is requested
+     * PopupMouseButton(right mouse button).
      * 
      * @param e 
      */
@@ -52,11 +49,7 @@ public class CustomMapController extends DefaultMapController{
     }
     
     /**
-     * This method handles double clicks which are used to
-     * zoom in. If a sheep is double clicked, then the map
-     * is zoomed in more than than usual and centered on 
-     * that sheep. If no sheep was double clicked, the zoom
-     * level is increased by one.
+     * Handles double clicks.
      * 
      * @param e 
      */

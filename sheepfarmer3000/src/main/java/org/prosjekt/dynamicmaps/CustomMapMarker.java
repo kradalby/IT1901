@@ -199,8 +199,8 @@ public abstract class CustomMapMarker extends MapObjectImpl implements MapMarker
     }
     
     /**
-     * This method returns whether or not the Point p
-     * is contained in the radius created by this marker.
+     * Returns whether Point p is contained in the
+     * radius created by this marker.
      * 
      * @param p
      * @return
