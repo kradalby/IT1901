@@ -61,7 +61,8 @@ public class Alert {
 	public void sendAttackAlarm(boolean useSms) {
 		sms = useSms;
                 subject = "En av dine sauer er under angrep!";
-		message = message();
+		String emailMessage = message();
+        String smsMessage = smsMessage();
 		
 		//generate recipients lists.
 		this.getRecipients();
@@ -70,7 +71,7 @@ public class Alert {
                         System.out.println("----");
 			for (int i = 0; i < emailRecipient.size(); i++) {
                             if (emailRecipient.get(i) != null && !emailRecipient.get(i).isEmpty()){   //sender bare mail hvis email er registrert. 
-				Mail mail = new Mail(emailRecipient.get(i), subject, message);
+				Mail mail = new Mail(emailRecipient.get(i), subject, emailMessage);
 				mail.sendMail();
                                 System.out.println("mail sendt to " + emailRecipient.get(i));
                             }
@@ -78,16 +79,14 @@ public class Alert {
 		}
 
 		if (sms) {
-                    Sms sms = new Sms("4745673429", "Dette er en sauetest!");
-                    sms.sendSMS();
-//                    System.out.println("smsRecipient" + smsRecipient);
-//			for (int i = 0; i < smsRecipient.size(); i++) {
-//                            if(!smsRecipient.get(i).isEmpty()) {
-//				Sms sms = new Sms(smsRecipient.get(i), message);
-//				sms.sendSMS();
-//                                System.out.println("sms sent to " + smsRecipient.get(i));
-//                            }
-//			}
+            for (int i = 0; i < smsRecipient.size(); i++) {
+                                System.out.println("rec: " + smsRecipient.get(i));
+                                if(!smsRecipient.get(i).isEmpty()) {
+                    Sms smss = new Sms(smsRecipient.get(i), message);
+                    smss.sendSMS();
+                                    System.out.println("sms sent to " + smsRecipient.get(i));
+                                }
+                }
 		}
 
 	}
@@ -108,5 +107,18 @@ public class Alert {
             
             return sb.toString();
         }
+
+        private String smsMessage(){
+            StringBuilder sb = new StringBuilder();
+
+            sb.append("Hei\n");
+            sb.append("Din sau med ID: " + this.sheep.getId()
+                    + "har blitt angrep. De siste kordinatene til sauen er:\n");
+            sb.append("Du kan logge inn på sheepwatcher å sjekke der.\n"
+                    + "mvh SheepFarmer3000");
+
+            return sb.toString();
+        }
+
 
 }
