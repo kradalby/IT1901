@@ -48,7 +48,7 @@ public class ServerSession extends Thread {
 			
 			System.out.println("Connection with session id: " + id + " closed.");
 		} catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 	
@@ -66,11 +66,11 @@ public class ServerSession extends Thread {
 		} catch (SocketException e) {
 //			e.printStackTrace();
 		} catch (IOException ioe){
-                    ioe.printStackTrace();
+//                    ioe.printStackTrace();
                 } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
+//                    ex.printStackTrace();
                 } catch (Exception e){
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
                 return request;
 	}

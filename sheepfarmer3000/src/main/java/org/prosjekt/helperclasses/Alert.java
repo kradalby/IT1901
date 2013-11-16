@@ -80,9 +80,10 @@ public class Alert {
 
 		if (sms) {
             for (int i = 0; i < smsRecipient.size(); i++) {
-                                System.out.println("rec: " + smsRecipient.get(i));
                                 if(!smsRecipient.get(i).isEmpty()) {
-                    Sms smss = new Sms(smsRecipient.get(i), smsMessage);
+                                System.out.println("rec: " + smsRecipient.get(i));
+                                System.out.println(smsRecipient.get(i) + " " + smsMessage);
+                    Sms smss = new Sms((String) smsRecipient.get(i), (String) smsMessage);
                     smss.sendSMS();
                                     System.out.println("sms sent to " + smsRecipient.get(i));
                                 }
@@ -114,7 +115,7 @@ public class Alert {
             sb.append("Hei\n");
             sb.append("Din sau med ID: " + this.sheep.getId()
                     + "har blitt angrep. De siste kordinatene til sauen er:\n");
-            sb.append("Du kan logge inn på sheepwatcher å sjekke der.\n"
+            sb.append("Du kan logge inn paa sheepwatcher aa sjekke der.\n"
                     + "mvh SheepFarmer3000");
 
             return sb.toString();
