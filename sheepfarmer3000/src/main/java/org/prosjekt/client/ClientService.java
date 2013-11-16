@@ -269,11 +269,12 @@ public class ClientService {
     }
         
         
-        public static boolean attack(Sheep sheep) {
+        public static boolean attack(Sheep sheep, boolean useSms) {
 		if (connected) {
 			Request request = new Request();
 			request.setCommand(RequestEnum.Attack);
 			request.addItem("sheep", sheep);
+                        request.addItem("useSms", useSms);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
 			return !response.isErrorInResponse();
