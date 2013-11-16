@@ -82,7 +82,7 @@ public class Alert {
             for (int i = 0; i < smsRecipient.size(); i++) {
                                 System.out.println("rec: " + smsRecipient.get(i));
                                 if(!smsRecipient.get(i).isEmpty()) {
-                    Sms smss = new Sms(smsRecipient.get(i), message);
+                    Sms smss = new Sms(smsRecipient.get(i), smsMessage);
                     smss.sendSMS();
                                     System.out.println("sms sent to " + smsRecipient.get(i));
                                 }
