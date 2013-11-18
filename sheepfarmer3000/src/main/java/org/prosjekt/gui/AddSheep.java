@@ -46,8 +46,10 @@ public class AddSheep extends JFrame implements ActionListener{
 		super.setContentPane(new BackgroundPanel(ClientService.pathToBackGround()));
 		setLayout(new BorderLayout());
 		this.user = user;
-                this.lat = "";
-                this.lon = "";
+                RandomSheepGenerator rsg = new RandomSheepGenerator(user.getCoordinates(), user);
+                Coordinate newcoord = rsg.generateCoords(1).get(0);
+                this.lat = String.valueOf(newcoord.getLat());
+                this.lon = String.valueOf(newcoord.getLon());
 		
 		createContentPanel();
 		pack();
