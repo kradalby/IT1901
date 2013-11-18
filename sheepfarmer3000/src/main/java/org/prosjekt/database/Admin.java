@@ -12,56 +12,42 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.prosjekt.client.ClientService;
-import static org.prosjekt.client.ClientService.updateFarmerArea;
+import static org.prosjekt.database.Admin.addSheep;
 import org.prosjekt.database.repository.AbstractProperties;
 import org.prosjekt.database.repository.FarmerRepository;
-import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
-import org.prosjekt.helperclasses.Helper;
 import org.prosjekt.helperclasses.Sheep;
 import org.prosjekt.logic.RandomSheepGenerator;
-import org.prosjekt.logic.SheepLogic;
-import org.prosjekt.logic.WolfLogic;
 
 /**
  * Klassen forenkler vedlikehold og generering av databasen. 
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Admin extends AbstractProperties{
+    private int farmerid = 1005;
      //1005 = 50k
      //1004 = 1k
      //1003 = 10k
     
+    private static void sendAttack(){
+        Sheep s = ClientService.getSheepById("sau5");
+        ClientService.attack(s, false);
+    }
+    
     public static void main(String args[]){
-        FarmerRepository fr = new FarmerRepository();
-        
-        int farmerid = 1005;
-//        updateFarmerCoordinates(farmerid);
-//        System.exit(0);
-        Farmer f = fr.getFarmer(farmerid);
-//        Farmer f = ClientService.getFarmer(farmerid);
+        sendAttack();
         System.exit(0);
+//        Farmer f = farmerFinnmark(farmerid);
+//        ClientService.updateFarmerArea(f);
+//        System.exit(0);
         
         
-        addSheep(f, f.getCoordinates(), 0, 10001, farmerid);
-        for (Sheep s : f.getSheeps()){
-            ClientService.addSheep(s);
-        }
-        
-        
-//        SheepLogic.moveSheeps();
-//        fr.getAllSheepWithLastCoordinate(1005);
-        
-///*
-        Sheep s = ClientService.getSheepById("1005_sheep1");
-        for (int i=0; i < 5; i++){
-//            WolfLogic.wolfAttack(s);
-//            sleep();
-        }
-//*/ 
- 
-        
+//        Farmer f = ClientService.getFarmer(farmerid);
+//        addSheep(f, f.getCoordinates(), 0, 20000, farmerid);
+//        for (Sheep s : f.getSheeps()){
+//            ClientService.addSheep(s);
+//            ClientService.removeSheep(s);
         
     }
     
@@ -118,6 +104,21 @@ public class Admin extends AbstractProperties{
         return farmer;
     }
     
+     private static Farmer farmerFinnmark(int farmerid) {
+        Farmer farmer = new Farmer(farmerid);
+        //Finnmark
+        List<Coordinate> farmerArea = Lists.newArrayList();
+        farmerArea.add(new Coordinate(69.603549,21.52977));
+        sleep();
+        farmerArea.add(new Coordinate(68.800041,22.716293));
+        sleep();
+        farmerArea.add(new Coordinate(69.029279,25.440903));
+        sleep();
+        farmerArea.add(new Coordinate(70.170201,24.67186));
+        farmer.setCoordinates(farmerArea);
+        return farmer;
+    }
+    
     
     /**
      * Sleep() garanterer at ett område får riktig rekkefølge.
@@ -153,12 +154,7 @@ public class Admin extends AbstractProperties{
     public static void addSheep(Farmer farmer, List<Coordinate> area, int start, int ant, int farmerid){
         RandomSheepGenerator rsg = new RandomSheepGenerator(area, farmer);
         ArrayList<Sheep> sheeps = rsg.generateSheep(start, ant, farmerid + "_");
-        SheepRepository sr = new SheepRepository();
-        
-        for (Sheep s : sheeps){
-            sr.addSheep(s, s.getCurrentCordinate());
-        }
-        
+        farmer.setSheeps(sheeps);
     }
     
 
