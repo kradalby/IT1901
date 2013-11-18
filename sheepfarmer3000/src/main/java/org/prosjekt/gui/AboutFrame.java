@@ -23,7 +23,7 @@ public class AboutFrame extends JFrame {
     private Font font = new Font("kalinga", Font.PLAIN, 12);
     private Font headerFont = new Font("kalinga", Font.PLAIN, 18);
     private Color textColor = new Color(32, 87, 0);
-    private String backgroundImage = "images\\innlogging1.jpg";
+    private String backgroundImage = "images/innlogging1.jpg";
 
     public AboutFrame() {
 
