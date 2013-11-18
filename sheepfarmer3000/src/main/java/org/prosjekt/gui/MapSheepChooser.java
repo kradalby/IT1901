@@ -35,16 +35,17 @@ public class MapSheepChooser extends JFrame implements ActionListener {
         setLayout(new FlowLayout());
         this.user = user;
 
-        JLabel header = new JLabel("Choose sheep to view in map");
+        JLabel header = new JLabel("");
+        header.setPreferredSize(new Dimension(10,60));
         header.setFont(headerFont);
         header.setForeground(textColor);
-        //add(header, BorderLayout.PAGE_START);
+        add(header, BorderLayout.PAGE_START);
         createContentPanel();
         pack();
 
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 150);	//y var opprinnelig 250
+        setSize(400, 100);	//y var opprinnelig 250
         setVisible(true);
     }
 
