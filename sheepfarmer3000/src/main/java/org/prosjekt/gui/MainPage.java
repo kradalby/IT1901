@@ -10,6 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import java.net.URI;
 import org.prosjekt.dynamicmaps.CustomMapViewer;
 import org.prosjekt.helperclasses.Farmer;
 
@@ -17,6 +18,7 @@ public class MainPage extends JFrame implements ActionListener{
 	private String backgroundImage = "images/innlogging1.jpg";
 	private JMenuBar menuBar;
         public static CustomMapViewer kart;
+        private URI userManual;
 	//private static Map map;
 	
 	
@@ -27,6 +29,13 @@ public class MainPage extends JFrame implements ActionListener{
                 s1.start();
 		setContentPane(new BackgroundPanel(backgroundImage));
                 setLayout(new BorderLayout());
+                try{
+                    userManual = new java.net.URI("https","//kradalby.no/sheepfarmer3000brukermanual.pdf", null );
+                }
+                catch(Exception e){
+                    System.out.println(e.getStackTrace());
+                }
+                
                 
 		createMain();
 		pack();
@@ -245,7 +254,13 @@ public class MainPage extends JFrame implements ActionListener{
 			new AboutFrame();
 		}
 		else if (command == "userManual"){
-			//open user manual
+                    try{
+                        java.awt.Desktop.getDesktop().browse(userManual);
+                    }
+                    catch(Exception exception){
+                        System.out.println(exception.getStackTrace());
+                    }
+			
 		}
                 else if (command == "refresh"){
                     Farmer newFarmer = Main.getFarmerById(Main.getCurrentUser().getId());
