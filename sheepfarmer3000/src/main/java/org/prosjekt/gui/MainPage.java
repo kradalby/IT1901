@@ -242,7 +242,7 @@ public class MainPage extends JFrame implements ActionListener{
                         MainPage.kart.refreshMap();
 		}
 		else if (command == "about"){
-			//new AboutWindow();
+			new AboutFrame();
 		}
 		else if (command == "userManual"){
 			//open user manual
