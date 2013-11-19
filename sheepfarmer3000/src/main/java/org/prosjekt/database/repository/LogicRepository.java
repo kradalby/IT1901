@@ -105,7 +105,7 @@ public class LogicRepository implements LogicService{
          String updateSheepLastCoordinate = "update sheep set alive=? where id=?";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(updateSheepLastCoordinate);) {
             ps.setBoolean(1, s.getAlive());
-            ps.setString(1, sheepid);
+            ps.setString(2, sheepid);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
