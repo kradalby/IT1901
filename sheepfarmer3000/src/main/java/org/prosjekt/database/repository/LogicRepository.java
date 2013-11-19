@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -181,23 +182,24 @@ public class LogicRepository implements LogicService{
     @Override
     public void addSheepMovements(List<Sheep> sheeps) {
         Map<String, UUID> coordids = Maps.newHashMap();
-        for (Sheep s: sheeps){
+        Iterator<Sheep> itr = sheeps.iterator();
+        while (itr.hasNext()){
+            Sheep s  = itr.next();
+            if (!s.getAlive()) itr.remove();
             coordids.put(s.getId(), UUID.randomUUID());
+            
         }
         
         String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             for (Sheep s : sheeps){
-                if (s.getAlive()){
-                    ps.setString(1, coordids.get(s.getId()).toString());
-                    ps.setDouble(2, s.getCurrentCordinate().getLat());
-                    ps.setDouble(3, s.getCurrentCordinate().getLon());
-                    ps.setTimestamp(4, new java.sql.Timestamp(s.getCurrentCordinate().getDate().getMillis()));
-                    ps.addBatch();
-                }
-                
+                ps.setString(1, coordids.get(s.getId()).toString());
+                ps.setDouble(2, s.getCurrentCordinate().getLat());
+                ps.setDouble(3, s.getCurrentCordinate().getLon());
+                ps.setTimestamp(4, new java.sql.Timestamp(s.getCurrentCordinate().getDate().getMillis()));
+                ps.addBatch();
             }
-            ps.executeUpdate();
+            ps.executeBatch();
         } catch (SQLException ex) {
             Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -205,13 +207,11 @@ public class LogicRepository implements LogicService{
         String insertSheepCoordinate = "insert into sheepcoordinate (id, coordinate_id, sheep_id) values (?,?,?)";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(insertSheepCoordinate);) {
             for (Sheep s : sheeps){
-                if (s.getAlive()){
                     String cid = coordids.get(s.getId()).toString();
                     ps.setString(1, cid);
                     ps.setString(2, cid);
                     ps.setString(3, s.getId());
                     ps.addBatch();
-                }
             }
             ps.executeBatch();
         } catch (SQLException ex) {
@@ -221,13 +221,11 @@ public class LogicRepository implements LogicService{
          String updateSheepLastCoordinate = "update sheep set lastcoordinateid=? where id=?";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(updateSheepLastCoordinate);) {
             for (Sheep s : sheeps){
-                if (s.getAlive()){
                     String cid = coordids.get(s.getId()).toString();
                     ps.setString(1, cid);
                     ps.setString(2, s.getId());
                     ps.executeUpdate();
                     ps.addBatch();
-                }
             }
             ps.executeBatch();
         } catch (SQLException ex) {
