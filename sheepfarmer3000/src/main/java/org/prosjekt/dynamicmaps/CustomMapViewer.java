@@ -14,6 +14,7 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.prosjekt.gui.AddSheep;
+import org.prosjekt.gui.Main;
 import org.prosjekt.gui.RemoveSheep;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
