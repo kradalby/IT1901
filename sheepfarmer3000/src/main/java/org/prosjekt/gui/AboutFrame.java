@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.prosjekt.gui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,8 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Denne klassen lager et About-vinduet til GUI
  *
- * @author Martin_
+ * @author Martin H. Bårnes <martin.h.barnes@gmail.com>
  */
 public class AboutFrame extends JFrame {
 
@@ -25,15 +22,15 @@ public class AboutFrame extends JFrame {
     private Color textColor = new Color(32, 87, 0);
     private String backgroundImage = "images/innlogging1.jpg";
 
+    /**
+     * Konstruktør, åpner et nytt about-vindu
+     */
     public AboutFrame() {
-
         super.setContentPane(new BackgroundPanel(backgroundImage));
         setLayout(new BorderLayout());
-
         createContent();
 
         pack();
-
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(455, 475);
@@ -41,6 +38,10 @@ public class AboutFrame extends JFrame {
 
     }
 
+    /**
+     * Denne metoden fyller vinduet med innhold
+     *
+     */
     private void createContent() {
         JLabel emptyTop = new JLabel("");
         emptyTop.setPreferredSize(new Dimension(90, 155));
