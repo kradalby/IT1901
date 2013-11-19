@@ -76,6 +76,7 @@ public class LogicTest {
             
             Coordinate s2c = new Coordinate(1.2, 1.2, new DateTime());
             Sheep s2 = new Sheep("sheeptest98", new DateTime(), farmerid, s2c);
+            s2.setAlive(false);
             sr.addSheep(s2, s2c);
             
             RandomSheepGenerator rsg = new RandomSheepGenerator(farmer1area, new Farmer(farmerid));
@@ -96,8 +97,10 @@ public class LogicTest {
         }
         
         org.junit.Assert.assertEquals("sheeptest99", moved.get(0).getId()); 
+        org.junit.Assert.assertEquals("sheeptest98", moved.get(1).getId()); 
         org.junit.Assert.assertNotEquals(1.1, moved.get(0).getCurrentCordinate().getLat(), 0.01); 
         org.junit.Assert.assertEquals(1.1, moved.get(0).getCordinates().get(1).getLat(), 0.01); 
+        org.junit.Assert.assertEquals(1.2, moved.get(1).getCordinates().get(1).getLat(), 0.01); 
         
     }
     
