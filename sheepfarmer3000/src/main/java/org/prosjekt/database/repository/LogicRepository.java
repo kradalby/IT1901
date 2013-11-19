@@ -194,11 +194,11 @@ public class LogicRepository implements LogicService{
         String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
             for (Sheep s : sheeps){
-                    ps.setString(1, coordids.get(s.getId()).toString());
-                    ps.setDouble(2, s.getCurrentCordinate().getLat());
-                    ps.setDouble(3, s.getCurrentCordinate().getLon());
-                    ps.setTimestamp(4, new java.sql.Timestamp(s.getCurrentCordinate().getDate().getMillis()));
-                    ps.addBatch();
+                ps.setString(1, coordids.get(s.getId()).toString());
+                ps.setDouble(2, s.getCurrentCordinate().getLat());
+                ps.setDouble(3, s.getCurrentCordinate().getLon());
+                ps.setTimestamp(4, new java.sql.Timestamp(s.getCurrentCordinate().getDate().getMillis()));
+                ps.addBatch();
             }
             ps.executeBatch();
         } catch (SQLException ex) {
