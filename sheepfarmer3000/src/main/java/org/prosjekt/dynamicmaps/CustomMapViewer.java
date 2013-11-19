@@ -218,6 +218,7 @@ public class CustomMapViewer extends JMapViewer{
      */
     public final void refreshMap(){
         this.clearMap();
+        CustomMapViewer.farmer = Main.getCurrentUser();
         this.setArea((ArrayList<Coordinate>)farmer.getCoordinates());
         if (showAllAttacks)
             addAllAttacks();
