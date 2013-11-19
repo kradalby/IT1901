@@ -146,7 +146,7 @@ public class CustomMapViewer extends JMapViewer{
      */
     private void addSheep(Sheep sheep){
         SheepMarker sMarker = new SheepMarker(sheep, sheepimage);
-        customMapMarkerList.add(sMarker);
+        if (sheep.getAlive()) customMapMarkerList.add(sMarker);
         repaint();
     }     
     
@@ -225,7 +225,6 @@ public class CustomMapViewer extends JMapViewer{
             addPath(showSheepPath);
         if (showAllSheeps)
             addAllSheep();
-            
     }
     
     /**

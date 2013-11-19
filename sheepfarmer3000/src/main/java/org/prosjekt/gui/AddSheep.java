@@ -197,10 +197,7 @@ public class AddSheep extends JFrame implements ActionListener{
 		latitudeField.setFont(fontTextField);
 		latitudeField.setActionCommand(OK);
 		latitudeField.addActionListener(this);
-                RandomSheepGenerator rsg = new RandomSheepGenerator(user.getCoordinates(), user);
-                Coordinate newcoord = rsg.generateCoords(1).get(0);
-		longitudeField.setText(String.valueOf(newcoord.getLon()));
-		latitudeField.setText(String.valueOf(newcoord.getLat()));
+
                 
 		birthField = new JTextField("dd.mm.yyyy");
 		birthField.setOpaque(false);

@@ -19,10 +19,6 @@ public class Farmer implements Serializable {
     private String phone;
     //kontaktinfo til helper
     private List<Helper> helpers;
-    private String helperFirstname;
-    private String helperLastName;
-    private String helperPhone;
-    private String helperEmail;
     private List<Coordinate> coordinates; //koordinatene til gaaren/teigen
 
     /*
@@ -127,70 +123,6 @@ public class Farmer implements Serializable {
     }
 
   
-
-    public static class Builder {
-
-        public Builder(int id) {
-            this.item = new Farmer(id);
-        }
-        private Farmer item;
-
-        public Builder withFirstName(final String firstName) {
-            this.item.firstName = firstName;
-            return this;
-        }
-
-        public Builder withLastName(final String lastName) {
-            this.item.lastName = lastName;
-            return this;
-        }
-
-        public Builder withSheeps(final List<Sheep> sheeps) {
-            this.item.sheeps = sheeps;
-            return this;
-        }
-
-        public Builder withEmail(final String email) {
-            this.item.email = email;
-            return this;
-        }
-
-        public Builder withPhone(final String phone) {
-            this.item.phone = phone;
-            return this;
-        }
-
-        public Builder withHelperFirstname(final String helperFirstname) {
-            this.item.helperFirstname = helperFirstname;
-            return this;
-        }
-
-        public Builder withHelperLastName(final String helperLastName) {
-            this.item.helperLastName = helperLastName;
-            return this;
-        }
-
-        public Builder withHelperPhone(final String helperPhone) {
-            this.item.helperPhone = helperPhone;
-            return this;
-        }
-
-        public Builder withHelperEmail(final String helperEmail) {
-            this.item.helperEmail = helperEmail;
-            return this;
-        }
-
-        public Builder withCordinates(final List<Coordinate> cordinates) {
-            this.item.coordinates = cordinates;
-            return this;
-        }
-
-        public Farmer build() {
-            return this.item;
-        }
-    }
-    
-    
 
 }
 

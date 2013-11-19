@@ -32,8 +32,8 @@ import org.prosjekt.logic.WolfLogic;
  */
 public class ClientService {
 
-	static ClientConnection connection = new ClientConnection("129.241.210.105", 4455);
-//	static ClientConnection connection = new ClientConnection("localhost", 4455);
+//	static ClientConnection connection = new ClientConnection("129.241.210.105", 4455);
+	static ClientConnection connection = new ClientConnection("localhost", 4455);
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
@@ -130,7 +130,9 @@ public class ClientService {
 			request.addItem("farmerid", id);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
-			return response.getFarmer();
+                        Farmer farmer = response.getFarmer();
+                         System.out.println("sheeps: " + farmer.getSheeps().size());
+                        return farmer;
 		} else {
 			return null;
 		}
