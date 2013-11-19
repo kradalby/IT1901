@@ -24,6 +24,7 @@ public class Sheep implements Serializable {
     public Sheep(String id, DateTime birth, int farmerid, Coordinate currentCoordinate) {
         this.id = id;
         this.birth = birth;
+        this.alive = true;
         this.farmerid = farmerid;
         cordinates = new ArrayList<Coordinate>();
         attacks = new ArrayList<Coordinate>();

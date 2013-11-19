@@ -78,7 +78,8 @@ public class LogicRepository implements LogicService{
      * @return 
      */
     @Override
-    public String addAttack(String sheepid, Coordinate coordinate){
+    public String addAttack(Sheep s, Coordinate coordinate){
+        String sheepid = s.getId();
         String aid = UUID.randomUUID().toString();
         String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(sql);) {
@@ -101,8 +102,9 @@ public class LogicRepository implements LogicService{
             Logger.getLogger(LogicRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         //UPDATE IF SHEEP DIED.
-         String updateSheepLastCoordinate = "update sheep set alive=false where id=?";
+         String updateSheepLastCoordinate = "update sheep set alive=? where id=?";
         try (PreparedStatement ps = SheepFarmerConnection.getInstance().prepareStatement(updateSheepLastCoordinate);) {
+            ps.setBoolean(1, s.getAlive());
             ps.setString(1, sheepid);
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -184,10 +186,9 @@ public class LogicRepository implements LogicService{
         Map<String, UUID> coordids = Maps.newHashMap();
         Iterator<Sheep> itr = sheeps.iterator();
         while (itr.hasNext()){
-            Sheep s  = itr.next();
+            Sheep s = itr.next();
             if (!s.getAlive()) itr.remove();
-            coordids.put(s.getId(), UUID.randomUUID());
-            
+            else coordids.put(s.getId(), UUID.randomUUID());
         }
         
         String sql = "insert into coordinate (id, latitude, longitude, dateevent) values (?,?,?,?) ";
@@ -224,7 +225,6 @@ public class LogicRepository implements LogicService{
                     String cid = coordids.get(s.getId()).toString();
                     ps.setString(1, cid);
                     ps.setString(2, s.getId());
-                    ps.executeUpdate();
                     ps.addBatch();
             }
             ps.executeBatch();

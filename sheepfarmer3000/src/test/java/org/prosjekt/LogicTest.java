@@ -72,19 +72,27 @@ public class LogicTest {
             
             Coordinate s1c = new Coordinate(1.1, 1.1, new DateTime());
             Sheep s1 = new Sheep("sheeptest99", new DateTime(), farmerid, s1c);
+            s1.setAlive(true);
             sr.addSheep(s1, s1c);
             
             Coordinate s2c = new Coordinate(1.2, 1.2, new DateTime());
             Sheep s2 = new Sheep("sheeptest98", new DateTime(), farmerid, s2c);
-            s2.setAlive(false);
             sr.addSheep(s2, s2c);
             
+            List<Sheep> sheeps = Lists.newArrayList();
+            sheeps.add(s1);
+            s2.setAlive(false);
+            sheeps.add(s2);
             RandomSheepGenerator rsg = new RandomSheepGenerator(farmer1area, new Farmer(farmerid));
-            SheepLogic.moveSheep(rsg, s1, lr);
-            SheepLogic.moveSheep(rsg, s2, lr);
+            SheepLogic.moveSheeps(rsg, sheeps, lr);
+//            SheepLogic.moveSheep(rsg, s1, lr);
+            
             
             moved.add(sr.getSheepAllCordinates("sheeptest99"));
             moved.add(sr.getSheepAllCordinates("sheeptest98"));
+            
+            
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(FarmerServiceTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,11 +104,19 @@ public class LogicTest {
             
         }
         
+        for (Sheep s : moved) {
+            System.out.println("test: " + s.getId());
+            for (Coordinate c : s.getCordinates()){
+                System.out.println(c);
+            }
+        };
+        org.junit.Assert.assertEquals(2, moved.size()); 
         org.junit.Assert.assertEquals("sheeptest99", moved.get(0).getId()); 
         org.junit.Assert.assertEquals("sheeptest98", moved.get(1).getId()); 
         org.junit.Assert.assertNotEquals(1.1, moved.get(0).getCurrentCordinate().getLat(), 0.01); 
         org.junit.Assert.assertEquals(1.1, moved.get(0).getCordinates().get(1).getLat(), 0.01); 
-        org.junit.Assert.assertEquals(1.2, moved.get(1).getCordinates().get(1).getLat(), 0.01); 
+        org.junit.Assert.assertEquals(1, moved.get(1).getCordinates().size()); 
+        org.junit.Assert.assertEquals(1.2, moved.get(1).getCordinates().get(0).getLat(), 0.01); 
         
     }
     

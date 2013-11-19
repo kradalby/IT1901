@@ -54,6 +54,6 @@ public class WolfLogic {
                 //Alarm sendes ut uansett om sauen overlever eller ikke. 
                 Alert alert = new Alert(sheep);
                 alert.sendAttackAlarm(useSms);
-                new LogicRepository().addAttack(sheep.getId(), sheep.getCurrentCordinate());
+                new LogicRepository().addAttack(sheep, sheep.getCurrentCordinate());
 	}
 }
