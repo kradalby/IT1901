@@ -26,11 +26,18 @@ public class Request implements Serializable {
 	private HashMap<String, Object> items = new HashMap<String, Object>();
 	
 	
-	
+	/**
+         * 
+         * @param command RequestEnum 
+         */
 	public void setCommand(RequestEnum command) {
 		this.command = command;
 	}
 	
+        /**
+         * 
+         * @return RequestEnum.
+         */
 	public RequestEnum getCommand() {
 		return this.command;
 	}
@@ -46,6 +53,11 @@ public class Request implements Serializable {
 		this.items.put(key, object);
 	}
 	
+        /**
+         * 
+         * @param key er nøkkelen som blir brukt for å lagre og hente frem objektet.
+         * @return 
+         */
 	public Object getItem(String key) {
 		return this.items.get(key);
 	}

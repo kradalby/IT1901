@@ -20,32 +20,52 @@ public class Sms {
 	 */
 	private String apikey = "37cf0d73d079dca9780d7dd99f5f0b907a362237";
 	
-	public Sms(String to, String message) {
+	/**
+     *
+     * @param to tlf nr melding sendes til. 
+     * @param message melding i sms. 
+     */
+    public Sms(String to, String message) {
 		this.to = to;
 		this.message = message;
 	}
 	
 	
 	
-	public String getTo() {
+	/**
+     *
+     * @return tlf nummer. 
+     */
+    public String getTo() {
 		return to;
 	}
 
 
 
-	public void setTo(String to) {
+	/**
+     *
+     * @param to tlf nummer. 10 tall må inneholde landskode. 
+     */
+    public void setTo(String to) {
 		this.to = to;
 	}
 
 
-
-	public String getMessage() {
+    /**
+     *
+     * @return melding som vises i sms. 
+     */
+    public String getMessage() {
 		return message;
 	}
 
 
 
-	public void setMessage(String message) {
+	/**
+     *
+     * @param message melding som vises i sms. 
+     */
+    public void setMessage(String message) {
 		this.message = message;
 	}
 
@@ -53,7 +73,6 @@ public class Sms {
 	
 	/**
 	 * Denne funksjonen sender smsen som blir laget når objektet opprettes.
-	 * @param None
 	 */
 	public void sendSMS() {
 		try {
