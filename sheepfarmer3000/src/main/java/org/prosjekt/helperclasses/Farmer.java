@@ -8,6 +8,10 @@ import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Passhash;
 import org.prosjekt.helperclasses.Sheep;
 
+/**
+ *
+ * @author Kenneth
+ */
 public class Farmer implements Serializable {
     private final int id; //brukes som brukernavn
     private Passhash passhash;
@@ -17,26 +21,26 @@ public class Farmer implements Serializable {
    
     private String email;
     private String phone;
-    //kontaktinfo til helper
     private List<Helper> helpers;
-    private String helperFirstname;
-    private String helperLastName;
-    private String helperPhone;
-    private String helperEmail;
-    private List<Coordinate> coordinates; //koordinatene til gaaren/teigen
+    private List<Coordinate> coordinates; 
 
-    /*
-     *  Temporary constructor, used under db development. 
+    
+    /**
+     * Lager nytt Farmer objekt. 
+     * @param id
      */
     public Farmer(int id) {
         this.id = id;
-        
-        
-        
     }
     
-    
-    
+    /**
+     * Lager nytt Farmer objekt. 
+     * @param id 
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param phone
+     */
     public Farmer(int id, String firstName, String lastName, String email, String phone) {
         helpers = new ArrayList<Helper>();
         this.id = id;
@@ -44,79 +48,142 @@ public class Farmer implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.sheeps = Collections.unmodifiableList(new ArrayList<Sheep>());
+        this.sheeps = new ArrayList<Sheep>();
     }
     
-   public Passhash getPasshash(){
+    /**
+     *
+     * @return Passhash
+     */
+    public Passhash getPasshash(){
         return passhash;
      }
    
+    /**
+     *  
+     * @param passhash
+     */
     public void setPasshash(Passhash passhash){
         this.passhash = passhash;
     }
     
  
+    /**
+     *
+     * @return email
+     */
     public String getEmail() {
         return email;
     }
     
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
     
+    /**
+     *
+     * @return phone
+     */
     public String getPhone() {
         return phone;
     }
     
+    /**
+     * Må inneholde landsnummer og kun tall 10 siffer. e.g 4712345678
+     * @param phone
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     *
+     * @return id
+     */
     public int getId() {
         return id;
     }
     
+    /**
+     *
+     * @return firstname
+     */
     public String getFirstName() {
         return firstName;
     }
     
+    /**
+     *
+     * @return lastname
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     *
+     * @return liste med sauer. 
+     */
     public List<Sheep> getSheeps() {
         return sheeps;
     }
     
+    /**
+     *
+     * @return liste med koordinater
+     */
     public List<Coordinate> getCoordinates(){
         return coordinates;
     }
     
+    /**
+     *
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     *
+     * @param lastName
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     *
+     * @param sheeps
+     */
     public void setSheeps(List<Sheep> sheeps) {
         this.sheeps = sheeps;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Helper> getHelpers() {
         return helpers;
     }
 
+    /**
+     *
+     * @param helpers
+     */
     public void setHelpers(List<Helper> helpers) {
         this.helpers = helpers;
     }
 
-    
-
-
-    
-
+    /**
+     * 
+     * @param coordinates
+     */
     public void setCoordinates(List<Coordinate> coordinates) {
         this.coordinates = coordinates;
     }
@@ -127,70 +194,6 @@ public class Farmer implements Serializable {
     }
 
   
-
-    public static class Builder {
-
-        public Builder(int id) {
-            this.item = new Farmer(id);
-        }
-        private Farmer item;
-
-        public Builder withFirstName(final String firstName) {
-            this.item.firstName = firstName;
-            return this;
-        }
-
-        public Builder withLastName(final String lastName) {
-            this.item.lastName = lastName;
-            return this;
-        }
-
-        public Builder withSheeps(final List<Sheep> sheeps) {
-            this.item.sheeps = sheeps;
-            return this;
-        }
-
-        public Builder withEmail(final String email) {
-            this.item.email = email;
-            return this;
-        }
-
-        public Builder withPhone(final String phone) {
-            this.item.phone = phone;
-            return this;
-        }
-
-        public Builder withHelperFirstname(final String helperFirstname) {
-            this.item.helperFirstname = helperFirstname;
-            return this;
-        }
-
-        public Builder withHelperLastName(final String helperLastName) {
-            this.item.helperLastName = helperLastName;
-            return this;
-        }
-
-        public Builder withHelperPhone(final String helperPhone) {
-            this.item.helperPhone = helperPhone;
-            return this;
-        }
-
-        public Builder withHelperEmail(final String helperEmail) {
-            this.item.helperEmail = helperEmail;
-            return this;
-        }
-
-        public Builder withCordinates(final List<Coordinate> cordinates) {
-            this.item.coordinates = cordinates;
-            return this;
-        }
-
-        public Farmer build() {
-            return this.item;
-        }
-    }
-    
-    
 
 }
 

@@ -16,7 +16,7 @@ import org.prosjekt.helperclasses.Sheep;
 public interface LogicService {
 
     public String addSheepMovement(Sheep sheep,Coordinate coordiante);
-    public String addAttack(String sheepid, Coordinate coordiante);
+    public String addAttack(Sheep sheep, Coordinate coordiante);
     public List<Farmer> getAllFarmers();
     public Sheep[] getAllSheeps();
     public List<Integer> getFarmerids();

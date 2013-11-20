@@ -2,6 +2,7 @@ package org.prosjekt.server;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.prosjekt.database.LogicService;
@@ -9,6 +10,7 @@ import org.prosjekt.database.SheepService;
 import org.prosjekt.database.repository.LogicRepository;
 import org.prosjekt.database.repository.SheepRepository;
 import org.prosjekt.helperclasses.Farmer;
+import org.prosjekt.logic.RandomSheepGenerator;
 import org.prosjekt.logic.SheepLogic;
 import org.prosjekt.logic.WolfLogic;
 
@@ -43,11 +45,20 @@ public class Simulator extends Thread {
 	 *
 	 */
 	public class Move extends Thread {
-		
+		LogicService ls = new LogicRepository();
+                
+                
 		public void run() {
 			while (running) {
 				try {
-					SheepLogic.moveSheeps();
+                                        List<Farmer> farmers = ls.getAllFarmers();
+                                        for (Farmer f : farmers){
+                                            RandomSheepGenerator rsg = new RandomSheepGenerator(f.getCoordinates(), f);
+                                            if (f.getCoordinates().size() == 0) continue;
+                                            SheepLogic.moveSheeps(rsg, f.getSheeps(), ls);
+                                            
+                                        }
+
 					Thread.sleep(timeBetweenMoves);
 				} catch (InterruptedException e) {
 					e.printStackTrace();

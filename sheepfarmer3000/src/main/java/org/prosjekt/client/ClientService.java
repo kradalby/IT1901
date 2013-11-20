@@ -22,6 +22,8 @@ import org.prosjekt.database.repository.LogicRepository;
 import org.prosjekt.gui.LoginBox;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Helper;
+import org.prosjekt.logic.RandomSheepGenerator;
+import org.prosjekt.logic.SheepLogic;
 import org.prosjekt.logic.WolfLogic;
 
 /**
@@ -37,6 +39,13 @@ public class ClientService {
 	static boolean connected = connection.openServerConnection();
 	
 	public static void main(String[] args) {
+              List<Farmer> farmers = new LogicRepository().getAllFarmers();
+              for (Farmer farmer : farmers){
+                  RandomSheepGenerator rsg = new RandomSheepGenerator(farmer.getCoordinates(), farmer);
+                  SheepLogic.moveSheeps(rsg, farmer.getSheeps(), new LogicRepository());
+              }
+              
+            
 //            updateFarmerArea(Admin.farmerOppdal());
 //            updateFarmerArea(Admin.farmerMeldal());
 //            getFarmer(1005);
@@ -130,7 +139,9 @@ public class ClientService {
 			request.addItem("farmerid", id);
 			connection.sendPackage(request);
 			Response response = (Response) connection.receivePackage();
-			return response.getFarmer();
+                        Farmer farmer = response.getFarmer();
+                         System.out.println("sheeps: " + farmer.getSheeps().size());
+                        return farmer;
 		} else {
 			return null;
 		}

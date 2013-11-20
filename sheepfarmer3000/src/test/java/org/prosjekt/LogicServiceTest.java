@@ -145,7 +145,7 @@ public class LogicServiceTest  {
         List<Coordinate> getAttack = Lists.newArrayList();
         try{
             ss.addSheep(sheep, sheep.getCurrentCordinate());
-            attackid = ls.addAttack(sheep.getId(), attack);
+            attackid = ls.addAttack(sheep, attack);
 
              getAttack = ss.getSheepAllCordinates(sheep.getId()).getAttacks();
         

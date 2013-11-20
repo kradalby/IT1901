@@ -14,6 +14,7 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.prosjekt.gui.AddSheep;
+import org.prosjekt.gui.Main;
 import org.prosjekt.gui.RemoveSheep;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
@@ -129,7 +130,7 @@ public class CustomMapViewer extends JMapViewer{
      *
      * 
      * @param p
-     * @return
+     * @return returns null if there is no marker in point p, returns the marker otherwise.
      */
     public CustomMapMarker getClickedMarker(Point p){
         for (CustomMapMarker mapMarker : customMapMarkerList){
@@ -146,7 +147,7 @@ public class CustomMapViewer extends JMapViewer{
      */
     private void addSheep(Sheep sheep){
         SheepMarker sMarker = new SheepMarker(sheep, sheepimage);
-        customMapMarkerList.add(sMarker);
+        if (sheep.getAlive()) customMapMarkerList.add(sMarker);
         repaint();
     }     
     
@@ -218,6 +219,7 @@ public class CustomMapViewer extends JMapViewer{
      */
     public final void refreshMap(){
         this.clearMap();
+        CustomMapViewer.farmer = Main.getCurrentUser();
         this.setArea((ArrayList<Coordinate>)farmer.getCoordinates());
         if (showAllAttacks)
             addAllAttacks();
@@ -225,7 +227,6 @@ public class CustomMapViewer extends JMapViewer{
             addPath(showSheepPath);
         if (showAllSheeps)
             addAllSheep();
-            
     }
     
     /**

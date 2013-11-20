@@ -25,24 +25,48 @@ public class Response implements Serializable {
 	private HashMap<String,Object> items = new HashMap<String,Object>();
 	
 	
-	public Sheep getSheep() {
+	/**
+     *
+     * @return Sheep objekt. 
+     */
+    public Sheep getSheep() {
 		return sheep;
 	}
-	public void setSheep(Sheep sheep) {
+	/**
+     *
+     * @param sheep
+     */
+    public void setSheep(Sheep sheep) {
 		this.sheep = sheep;
 	}
-	public Sheep[] getSheeps() {
+	/**
+     *
+     * @return array med Sheep objekter. 
+     */
+    public Sheep[] getSheeps() {
 		return sheeps;
 	}
-	public void addSheeps(Sheep[] sheeps) {
+	/**
+     *
+     * @param sheeps
+     */
+    public void addSheeps(Sheep[] sheeps) {
 		this.sheeps = sheeps;
 	}
 	
-	public void setFarmer(Farmer farmer) {
+	/**
+     *
+     * @param farmer
+     */
+    public void setFarmer(Farmer farmer) {
 		this.farmer = farmer;
 	}
 	
-	public Farmer getFarmer() {
+	/**
+     *
+     * @return Farmer
+     */
+    public Farmer getFarmer() {
 		return this.farmer;
 	}
 	
@@ -57,7 +81,12 @@ public class Response implements Serializable {
 		this.items.put(key, object);
 	}
 	
-	public Object getItem(String key) {
+	/**
+     *
+     * @param key
+     * @return objekt som sendes. 
+     */
+    public Object getItem(String key) {
 		return this.items.get(key);
 	}
 	

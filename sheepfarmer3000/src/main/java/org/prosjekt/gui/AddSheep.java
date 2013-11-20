@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import org.joda.time.DateTime;
 import org.prosjekt.client.ClientService;
 import org.prosjekt.helperclasses.Coordinate;
@@ -26,11 +27,12 @@ import org.prosjekt.logic.RandomSheepGenerator;
  *
  * @author Martin H. Bårnes <martin.h.barnes@gmail.com>
  */
-public class AddSheep extends JFrame implements ActionListener {
 
+public class AddSheep extends JFrame implements ActionListener {
     private static String OK = "ok";
     private static String CANCEL = "cancel";
     private Farmer user;
+
     private Font headerFont = new Font("kalinga", Font.PLAIN, 24);
     private Font smallHeaderFont = new Font("kalinga", Font.PLAIN, 22);
     private Font font = new Font("kalinga", Font.PLAIN, 17);
@@ -73,10 +75,10 @@ public class AddSheep extends JFrame implements ActionListener {
      * Konstruktør 2, åpner et add sheep vindu, denne kalles fra kartet
      *
      * @param user brukeren som skal legge til en sheep i sin liste
-     * @param lat latitude koordinat som add sheep vinduet skal initialiseres
-     * med
-     * @param lon longitude koordinat som add sheep vinduet skal initialiseres
-     * med
+     * @param lat  latitude koordinat som add sheep vinduet skal initialiseres
+     *             med
+     * @param lon  longitude koordinat som add sheep vinduet skal initialiseres
+     *             med
      */
     public AddSheep(Farmer user, double lat, double lon) {
         super("Add new sheep");
@@ -106,6 +108,7 @@ public class AddSheep extends JFrame implements ActionListener {
         contentPanel.setLayout(new BorderLayout());
         Dimension emptyBorders = new Dimension(40, 30);
 
+
         JLabel emptyTop = new JLabel("");
         emptyTop.setOpaque(false);
         emptyTop.setPreferredSize(emptyBorders);
@@ -132,6 +135,7 @@ public class AddSheep extends JFrame implements ActionListener {
         add(contentPanel);
     }
 
+
     /**
      * Metode som lager et JPanel som inkluderer alle GUI-elementene til dette
      * vinduet
@@ -147,15 +151,17 @@ public class AddSheep extends JFrame implements ActionListener {
         content.add(createRightSide(), BorderLayout.LINE_END);
         content.add(createButtons(), BorderLayout.PAGE_END);
 
+
         return content;
     }
+
 
     /**
      * Metode som lager et JPanel som inkluderer GUI-elementene på venstre side
      * i dette vinduet
      *
      * @return JPanel som inkluderer GUI-elementene på venstre side i dette
-     * vinduet
+     *         vinduet
      */
     private JPanel createLeftSide() {
         JPanel leftSide = new JPanel();
@@ -191,15 +197,17 @@ public class AddSheep extends JFrame implements ActionListener {
         birthLabel.setAlignmentY(LEFT_ALIGNMENT);
         leftSide.add(birthLabel);
 
+
         return leftSide;
     }
+
 
     /**
      * Metode som lager et JPanel som inkluderer GUI-elementene på høyre side i
      * dette vinduet
      *
      * @return JPanel som inkluderer GUI-elementene på høyre side i dette
-     * vinduet
+     *         vinduet
      */
     private JPanel createRightSide() {
         JPanel rightSide = new JPanel();
@@ -214,6 +222,7 @@ public class AddSheep extends JFrame implements ActionListener {
         idField.setActionCommand(OK);
         idField.addActionListener(this);
 
+
         longitudeField = new JTextField(lon);
         longitudeField.setOpaque(false);
         longitudeField.setForeground(textColor);
@@ -227,10 +236,7 @@ public class AddSheep extends JFrame implements ActionListener {
         latitudeField.setFont(fontTextField);
         latitudeField.setActionCommand(OK);
         latitudeField.addActionListener(this);
-        RandomSheepGenerator rsg = new RandomSheepGenerator(user.getCoordinates(), user);
-        Coordinate newcoord = rsg.generateCoords(1).get(0);
-        longitudeField.setText(String.valueOf(newcoord.getLon()));
-        latitudeField.setText(String.valueOf(newcoord.getLat()));
+
 
         birthField = new JTextField("dd.mm.yyyy");
         birthField.setOpaque(false);
@@ -251,6 +257,7 @@ public class AddSheep extends JFrame implements ActionListener {
         birthField.setAlignmentY(LEFT_ALIGNMENT);
         rightSide.add(birthField);
 
+
         return rightSide;
     }
 
@@ -267,6 +274,7 @@ public class AddSheep extends JFrame implements ActionListener {
 
         JLabel emptyLeft = new JLabel("");
         emptyLeft.setPreferredSize(new Dimension(130, 10));
+
 
         buttons.add(emptyLeft, BorderLayout.LINE_START);
 
@@ -302,11 +310,12 @@ public class AddSheep extends JFrame implements ActionListener {
      * utfører en handling basert på hva slags info ActionEventen har
      *
      * @param e ActionEvent som inneholder informasjon om hvilken knapp som er
-     * trykket
+     *          trykket
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
+
         if (OK.equals(cmd)) {
             DateTime dt = null;
             try {
@@ -316,14 +325,19 @@ public class AddSheep extends JFrame implements ActionListener {
                         "", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (!saveChanges(dt)) {
+
+            if (!saveChanges(dt)) {    //husk at dataTime antagelig m� legges til her her
+
                 JOptionPane.showMessageDialog(this, "Changes were not saved! Please try again.",
                         "", JOptionPane.ERROR_MESSAGE);
+
             } else {
+                //SheepListFrame.updateData();
                 Main.updateMainUser(user);
                 MainPage.kart.refreshMap();
                 this.dispose();
             }
+
         } else if (CANCEL.equals(cmd)) {
             this.dispose();
         }
@@ -337,32 +351,46 @@ public class AddSheep extends JFrame implements ActionListener {
      * @param dt DateTime, fødselsdagen til sauen, skrevet inn av brukeren i GUI
      * @return boolean som beskriver om lagringen ble utført
      */
-    private boolean saveChanges(DateTime dt) {
-        if (testIfValidId()) {
+    private boolean saveChanges(DateTime dt){        //date må byttes ut med datetime
+
+
+
+
+
+        if (testIfValidId()){
             Coordinate c = null;
-            try {
+            try{
                 c = new Coordinate(Double.parseDouble(latitudeField.getText()),
                         Double.parseDouble(longitudeField.getText()));
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e){
                 return false;
             }
 
-            Sheep newSheep = new Sheep(idField.getText(), dt, user.getId(), c);
+            Sheep newSheep = new Sheep(idField.getText(),dt,user.getId(), c);
             newSheep.setAlive(true);
+//                        List<Sheep> newSheeps = user.getSheeps();
+//                        newSheeps.add(newSheep);
+//
+//                        Farmer tempFarmer = user;
+//                        tempFarmer.setSheeps(newSheeps);
 
-            if (ClientService.addSheep(newSheep)) {
+            if(ClientService.addSheep(newSheep)){
                 user.getSheeps().add(newSheep);
                 MainPage.kart.refreshMap();
                 dispose();
                 return true;
-            } else {
+            }
+            else{
                 return false;
             }
 
-        } else {
+        }
+        else{
             return false;
         }
     }
+
 
     /**
      * Metode som sjekker om id som brukeren har valgt til sin nye sau ikke
@@ -371,10 +399,11 @@ public class AddSheep extends JFrame implements ActionListener {
      *
      * @return boolean som beskriver om id eksisterer fra før eller ikke
      */
-    private boolean testIfValidId() {
+
+    private boolean testIfValidId(){
         boolean tester = true;
-        for (Sheep s : user.getSheeps()) {
-            if (s.getId().equals(idField.getText())) {
+        for (Sheep s:user.getSheeps()){
+            if(s.getId().equals(idField.getText())){
                 tester = false;
             }
         }
