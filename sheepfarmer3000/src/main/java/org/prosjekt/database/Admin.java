@@ -13,8 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.prosjekt.client.ClientService;
 import static org.prosjekt.database.Admin.addSheep;
-import org.prosjekt.database.repository.AbstractProperties;
-import org.prosjekt.database.repository.FarmerRepository;
 import org.prosjekt.helperclasses.Coordinate;
 import org.prosjekt.helperclasses.Farmer;
 import org.prosjekt.helperclasses.Sheep;
@@ -24,10 +22,7 @@ import org.prosjekt.logic.RandomSheepGenerator;
  * Klassen forenkler vedlikehold og generering av databasen. 
  * @author Christoffer <christofferbuvik@gmail.com>
  */
-public class Admin extends AbstractProperties{
-     //1005 = 50k
-     //1004 = 1k
-     //1003 = 10k
+public class Admin {
     
     private static void sendAttack(){
         Sheep s = ClientService.getSheepById("1004_sheep3");
