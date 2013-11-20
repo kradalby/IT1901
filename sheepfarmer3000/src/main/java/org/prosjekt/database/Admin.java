@@ -25,39 +25,33 @@ import org.prosjekt.logic.RandomSheepGenerator;
  * @author Christoffer <christofferbuvik@gmail.com>
  */
 public class Admin extends AbstractProperties{
-    private int farmerid = 1005;
      //1005 = 50k
      //1004 = 1k
      //1003 = 10k
     
     private static void sendAttack(){
-        Sheep s = ClientService.getSheepById("sau5");
-        ClientService.attack(s, false);
+        Sheep s = ClientService.getSheepById("1004_sheep3");
+        ClientService.attack(s, true);
     }
     
     public static void main(String args[]){
         sendAttack();
         System.exit(0);
-//        Farmer f = farmerFinnmark(farmerid);
+        int farmerid = 1004;
+//        Farmer f = farmerOppdal(farmerid);
 //        ClientService.updateFarmerArea(f);
 //        System.exit(0);
         
         
-//        Farmer f = ClientService.getFarmer(farmerid);
-//        addSheep(f, f.getCoordinates(), 0, 20000, farmerid);
-//        for (Sheep s : f.getSheeps()){
-//            ClientService.addSheep(s);
+        Farmer f = ClientService.getFarmer(farmerid);
+        addSheep(f, f.getCoordinates(), 0, 5, farmerid);
+        for (Sheep s : f.getSheeps()){
+            ClientService.addSheep(s);
+        }
 //            ClientService.removeSheep(s);
         
     }
     
-    private static void updateFarmerCoordinates(int farmerid){
-        Farmer f = farmerOppdal(farmerid);
-        System.out.println(f.getCoordinates());
-        ClientService.updateFarmerArea(f);
-        
-        
-    }
 
     /**
      * Legger inn ny farmer i LOKAL database. 
@@ -157,7 +151,7 @@ public class Admin extends AbstractProperties{
         farmer.setSheeps(sheeps);
     }
     
-
+    
     private static void sleep(){
         try {
             Thread.sleep(2);

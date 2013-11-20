@@ -44,29 +44,15 @@ public class ClientService {
                   RandomSheepGenerator rsg = new RandomSheepGenerator(farmer.getCoordinates(), farmer);
                   SheepLogic.moveSheeps(rsg, farmer.getSheeps(), new LogicRepository());
               }
-              
-            
-//            updateFarmerArea(Admin.farmerOppdal());
-//            updateFarmerArea(Admin.farmerMeldal());
-//            getFarmer(1005);
 	}
             
-//		Mail mail = new Mail("kradalby@kradalby.no", "test", "dette er en test lol");
-//		mail.sendMail();
-//		
-//		Sms sms = new Sms("4745673429", "Dette er en sauetest!");
-//		sms.sendSMS();
-//
         public static String getPathToResources(String file){
             file = "images/" +file;
             return file;
-//             URL resourceUrl = ClientService.class.getResource( file);
-//             return resourceUrl.getPath();
         }
         
         public static String pathToBackGround(){
             return "images/bakgrunn 450x450.jpg";
-//            return getPathToResources("bakgrunn 450x450.jpg");
         }
 	
         //SheepService
@@ -184,7 +170,12 @@ public class ClientService {
 //                return false;
 	}
         
-        
+
+        /**
+         * Oppdaterer Helper på server. 
+         * @param helper
+         * @return 
+         */
 	public static boolean updateHelper(Helper helper) {
 		if (connected) {
 			Request request = new Request();
@@ -198,6 +189,11 @@ public class ClientService {
 		}
 	}
         
+        /**
+         * Sletter helper på server. 
+         * @param helper
+         * @return 
+         */
 	public static boolean removeHelper(Helper helper) {
 		if (connected) {
 			Request request = new Request();
@@ -211,6 +207,11 @@ public class ClientService {
 		}
 	}
         
+        /**
+         * Legger til Helper på server. 
+         * @param helper
+         * @return 
+         */
 	public static boolean addHelper(Helper helper) {
 		if (connected) {
 			Request request = new Request();
@@ -264,7 +265,9 @@ public class ClientService {
 
         
         
-        //LogicService
+        /**
+         * @return liste med farmerids fra server.
+         */
         public static List<Integer> getFarmerIds() {
         if (connected) {
             Request request = new Request();
@@ -279,7 +282,13 @@ public class ClientService {
         }
     }
         
-        
+ 
+        /**
+         * 
+         * @param sheep som skal bli angrepet. 
+         * @param useSms 
+         * @return 
+         */
         public static boolean attack(Sheep sheep, boolean useSms) {
 		if (connected) {
 			Request request = new Request();
