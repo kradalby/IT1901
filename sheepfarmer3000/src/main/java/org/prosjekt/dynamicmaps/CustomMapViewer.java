@@ -130,7 +130,7 @@ public class CustomMapViewer extends JMapViewer{
      *
      * 
      * @param p
-     * @return
+     * @return returns null if there is no marker in point p, returns the marker otherwise.
      */
     public CustomMapMarker getClickedMarker(Point p){
         for (CustomMapMarker mapMarker : customMapMarkerList){
