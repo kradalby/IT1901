@@ -79,24 +79,51 @@
     </dependencies>
   
     <build>
-
-       <plugins>
-           <plugin>
-               <artifactId>maven-assembly-plugin</artifactId>
-               <configuration>
-                   <archive>
-                       <manifest>
-                           <mainClass>org.prosjekt.gui.Main</mainClass>
-                       </manifest>
-                   </archive>
-                   <descriptorRefs>
-                       <descriptorRef>jar-with-dependencies</descriptorRef>
-                   </descriptorRefs>
-                     
-               </configuration>
-           </plugin>
-             
-            
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-gui</id>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <archive>
+                                <manifest>
+                                    <mainClass>org.prosjekt.gui.Main</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>${project.artifactId}</finalName>
+                        </configuration>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>build-server</id>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <archive>
+                                <manifest>
+                                    <mainClass>org.prosjekt.server.Server</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>${project.artifactId}-SERVER</finalName>
+                        </configuration>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
             
             <plugin>
                 <inherited>true</inherited>
