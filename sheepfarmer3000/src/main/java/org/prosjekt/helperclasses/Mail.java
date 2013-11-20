@@ -30,7 +30,13 @@ public class Mail {
 	private String subject;
 	private String message;
 	
-	public Mail(String to, String subject, String message) {
+	/**
+     *
+     * @param to
+     * @param subject
+     * @param message
+     */
+    public Mail(String to, String subject, String message) {
 		this.to = to;
 		this.subject = subject;
 		this.message = message;
@@ -38,7 +44,6 @@ public class Mail {
 	
 	/**
 	 * Denne funksjonen sender eposten som blir laget når objektet opprettes.
-	 * @param None
 	 */
 	public void sendMail() {
 		
@@ -77,27 +82,51 @@ public class Mail {
 	
 
     
-	public String getTo() {
+	/**
+     *
+     * @return
+     */
+    public String getTo() {
 		return to;
 	}
 
-	public void setTo(String to) {
+	/**
+     *
+     * @param to
+     */
+    public void setTo(String to) {
 		this.to = to;
 	}
 
-	public String getSubject() {
+	/**
+     *
+     * @return
+     */
+    public String getSubject() {
 		return subject;
 	}
 
-	public void setSubject(String subject) {
+	/**
+     *
+     * @param subject
+     */
+    public void setSubject(String subject) {
 		this.subject = subject;
 	}
 
-	public String getMessage() {
+     /**
+     *
+     * @return email melding. 
+     */
+    public String getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
+     /**
+     * Setter emailmelding. 
+     * @param message
+     */
+    public void setMessage(String message) {
 		this.message = message;
 	}
 	

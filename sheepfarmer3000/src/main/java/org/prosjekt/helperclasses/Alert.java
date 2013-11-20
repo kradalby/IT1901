@@ -91,7 +91,11 @@ public class Alert {
 		}
 
 	}
-        
+
+        /**
+         * Generer tekst i email. 
+         * @return message  
+         */
         private String message(){
             StringBuilder sb = new StringBuilder();
             
@@ -109,6 +113,10 @@ public class Alert {
             return sb.toString();
         }
 
+        /**
+         * Tekst i sms. 
+         * @return String
+         */
         private String smsMessage(){
             StringBuilder sb = new StringBuilder();
 
