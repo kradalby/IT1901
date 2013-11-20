@@ -85,7 +85,6 @@ public class LogicTest {
             sheeps.add(s2);
             RandomSheepGenerator rsg = new RandomSheepGenerator(farmer1area, new Farmer(farmerid));
             SheepLogic.moveSheeps(rsg, sheeps, lr);
-//            SheepLogic.moveSheep(rsg, s1, lr);
             
             
             moved.add(sr.getSheepAllCordinates("sheeptest99"));
