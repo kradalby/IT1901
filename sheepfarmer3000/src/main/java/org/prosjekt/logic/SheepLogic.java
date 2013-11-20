@@ -37,13 +37,4 @@ public class SheepLogic {
             
 	}
         
-        /*
-         *  Flytter en sau. 
-         */
-        public static void moveSheep(RandomSheepGenerator rsg, Sheep s, LogicService ls){
-            Coordinate newcoord = rsg.generateCoords(1).get(0);
-            ls.addSheepMovement(s, newcoord);
-        }
-
-   
 }
